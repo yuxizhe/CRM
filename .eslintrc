@@ -1,0 +1,22 @@
+{
+  "parser": "babel-eslint",
+  "extends": [
+    "standard",
+    "standard-react"
+  ],
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "rules": {
+    "semi": [
+      "error",
+      "always"
+    ],
+    "react/prop-types": "off"
+  },
+  "globals": {
+    "Toast": true,
+    "Raven": true
+  }
+}

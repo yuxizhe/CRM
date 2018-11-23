@@ -1,0 +1,7 @@
+.DS_Store
+public
+server.js
+dist
+public
+*.log
+node_modules
