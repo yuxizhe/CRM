@@ -1,22 +1,18 @@
 {
+  "extends": "airbnb",
   "parser": "babel-eslint",
-  "extends": [
-    "standard",
-    "standard-react"
-  ],
+  "rules": {
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [".js", ".jsx"]
+      }
+    ],
+    "class-methods-use-this": "off",
+    "react/button-has-type": "off"
+  },
   "env": {
     "browser": true,
     "node": true
-  },
-  "rules": {
-    "semi": [
-      "error",
-      "always"
-    ],
-    "react/prop-types": "off"
-  },
-  "globals": {
-    "Toast": true,
-    "Raven": true
   }
 }

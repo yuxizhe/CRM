@@ -14,12 +14,6 @@ clientCompiler.run((err, stats) => {
     console.error(err)
     return
   }
-  // serverCompiler.run((err, stats) => {
-  //   if (err) {
-  //     console.error(err)
-  //     return
-  //   }
-  // })
 })
 
 // Webpack compile in a try-catch

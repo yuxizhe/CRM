@@ -1,11 +1,11 @@
 {
   "name": "xq-crm",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "dev": "NODE_ENV=client-dev node script/dev",
     "build": "node script/prod-build",
-    "start": "node index.js",
+    "start": "node app.js",
     "visu": "NODE_ENV=visu node script/prod-build"
   },
   "author": "",

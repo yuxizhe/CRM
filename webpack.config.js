@@ -8,15 +8,12 @@ const WebpackBar = require('webpackbar')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 var browserConfig = {
-  entry: [
-    'webpack-hot-middleware/client?path=http://localhost:3001/__webpack_hmr',
-    './src/browser/index.js'
-  ],
+  entry: ['webpack-hot-middleware/client', './src/browser/index.js'],
   output: {
     path: path.resolve(__dirname, 'public'),
     filename: 'vender.js',
     chunkFilename: '[name].js',
-    publicPath: 'http://localhost:3001/'
+    publicPath: '/'
   },
   externals: {
     react: 'React',

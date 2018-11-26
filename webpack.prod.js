@@ -2,8 +2,8 @@ const path = require('path')
 const webpack = require('webpack')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-// const WebpackBar = require('webpackbar')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const WebpackBar = require('webpackbar')
 
 var browserConfig = {
   entry: ['./src/browser/index.js'],
@@ -49,17 +49,16 @@ var browserConfig = {
     new webpack.DefinePlugin({
       __isBrowser__: 'true'
     }),
-    new HtmlWebpackPlugin({ template: './index.html' }),
+    new HtmlWebpackPlugin({ template: './index.prod.html' }),
     // HMR
     new CleanWebpackPlugin(['public']),
     new MiniCssExtractPlugin({
       filename: 'vender.[chunkhash].css',
       chunkFilename: '[name].[chunkhash].css'
+    }),
+    new WebpackBar({
+      color: '#f56be2'
     })
-    // new WebpackBar({
-    //   color: '#f56be2',
-    //   name: 'client'
-    // })
   ]
 }
 

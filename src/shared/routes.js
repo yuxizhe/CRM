@@ -1,5 +1,3 @@
-// import Home from './Home'
-// import Grid from './Grid'
 import Loadable from 'react-loadable'
 import { fetchPopularRepos } from './api'
 

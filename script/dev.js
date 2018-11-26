@@ -5,19 +5,15 @@ const webpackHotMiddleware = require('webpack-hot-middleware')
 const express = require('express')
 const cors = require('cors')
 const devConfig = require('../webpack.config')[0]
-// const path = require('path')
-// const devServer = require('webpack-dev-server-speedy')
-
-const isClientDev = process.env.NODE_ENV === 'client-dev'
-
+const middleware = require('../src/middleware')
 const app = express()
 
 // 解决HMR 3000端口请求 3001 端口 跨域问题
 app.use(cors())
 app.use(express.static(__dirname + '../public'))
 
-// 代理
-require('../middleware/proxy')(app)
+// 中间件
+middleware(app)
 
 // Webpack compile in a try-catch
 function compile(config) {
@@ -39,6 +35,7 @@ app.use(
 
 app.use(webpackHotMiddleware(devCompiled))
 
+// react 路由
 app.get('*', function(request, response) {
   response.sendFile(path.resolve(__dirname, '../public', 'index.html'))
 })
