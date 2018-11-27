@@ -49,6 +49,12 @@ react16 + react-router4 + webpack4 + mobx + HMR 热更新 + 代码分割
 
 ### UI： antd
 
+antd 3.9 版本以后会把所有的图标文件打包到 js 里 导致包很大（超过 700k）,暂时使用 3.8.2 版本
+
+> https://github.com/ant-design/ant-design/issues/12011#issuecomment-420038579
+
+> https://github.com/ant-design/ant-design/issues/10353
+
 ### 图表： highchart
 
 ### 路由：`react router`

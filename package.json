@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "NODE_ENV=client-dev MOCK_ENV=mock node script/dev",
     "build": "webpack --config webpack.prod.js",
-    "start": "node app.js",
+    "start": "MOCK_ENV=mock node app.js",
     "visu": "NODE_ENV=visu node script/prod-build"
   },
   "author": "",
@@ -48,6 +48,7 @@
     "node-sass": "^4.10.0",
     "react-hot-loader": "^4.3.12",
     "sass-loader": "^7.1.0",
+    "url-loader": "^1.1.2",
     "webpack": "^4.25.1",
     "webpack-bundle-analyzer": "^3.0.3",
     "webpack-dev-middleware": "^3.4.0",
@@ -56,7 +57,7 @@
     "webpackbar": "^3.1.3"
   },
   "dependencies": {
-    "antd": "^3.10.8",
+    "antd": "3.8.2",
     "cors": "^2.8.4",
     "css-loader": "^1.0.1",
     "express": "^4.16.2",

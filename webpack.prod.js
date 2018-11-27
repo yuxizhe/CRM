@@ -5,8 +5,12 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const WebpackBar = require('webpackbar')
 
+function resolve(dir) {
+  return path.join(__dirname, dir)
+}
+
 var browserConfig = {
-  entry: ['./src/browser/index.js'],
+  entry: ['./src/index.js'],
   output: {
     path: path.resolve(__dirname, 'public'),
     filename: 'vender.[chunkhash].js',
@@ -49,6 +53,14 @@ var browserConfig = {
           },
           'sass-loader'
         ]
+      },
+      {
+        test: /\.(png|jpg|jpeg|gif|svg)$/,
+        loader: 'url-loader',
+        options: {
+          limit: 10,
+          name: 'images/[hash].[ext]'
+        }
       }
     ]
   },
