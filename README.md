@@ -1,4 +1,4 @@
-# CRM后台框架
+# CRM 后台框架
 
 react16 + react-router4 + webpack4 + mobx + HMR 热更新 + 代码分割
 
@@ -12,38 +12,48 @@ react16 + react-router4 + webpack4 + mobx + HMR 热更新 + 代码分割
 
 ## develop scripts
 
-
 - `npm run dev`
 
+开发入口 http://localhost:3001/
 
-  开发入口 http://localhost:3001/
-
-  已支持 hot reload 改动即时生效
+已支持 hot reload 改动即时生效
 
 ## start script 部署脚本
 
 - `npm run build`
 - `node index.js` 或者 `pm2`
 
+## 数据 store 配置
+
+分为`全局store` 和 `局部store`
+
+- 全局 store
+
+  在 src 目录下 存储些全局公用的数据状态 由 mobx provider 实现
+
+- 局部 store
+
+  在页面目录下 存储局部数据状态。 在路由列表上添加 store 即可。 能通过路由区分的 store 均可采用局部 store。 由 react 基础 props 实现
+
 ## 需求
 
+- 开发热更新
+- 接口 mock
+- 接口代理
 - 登录管理
 - 页面权限管理
 - 用户权限分组
 - 基本统计绘图
-- 接口代理
 
 ## 选型
 
-### UI： antd 
+### UI： antd
 
 ### 图表： highchart
 
 ### 路由：`react router`
 
 ### 按需加载 `react-loadable`
-
-> 服务端渲染配置 https://github.com/jamiebuilds/react-loadable
 
 ### hot reload
 

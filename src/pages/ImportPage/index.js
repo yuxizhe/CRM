@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import './style.less'
+import './style.scss'
 
 import { observer, inject } from 'mobx-react'
 import { Button, Row, Col } from 'antd'
-import WebSelect from '../../components/webSelect'
+import WebSelect from 'components/webSelect'
 
 class ImportPage extends Component {
   constructor(props) {

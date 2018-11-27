@@ -2,8 +2,8 @@
     ** 全局Store **
    ====================================================== */
 import { observable, action } from 'mobx'
-
-class Store {
+import sideBar from './sideBar'
+class gStore {
   @observable userInfo = {
     name: 'admin'
   }
@@ -16,4 +16,7 @@ class Store {
   }
 }
 
-export default new Store()
+export default {
+  gStore: new gStore(),
+  sideBar: new sideBar()
+}

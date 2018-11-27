@@ -22,6 +22,13 @@ var browserConfig = {
     axios: 'axios'
     // mint: 'mint-ui'
   },
+  resolve: {
+    alias: {
+      src: resolve('src'),
+      assets: resolve('src/assets'),
+      components: resolve('src/components')
+    }
+  },
   module: {
     rules: [
       {
@@ -30,7 +37,7 @@ var browserConfig = {
         use: 'babel-loader'
       },
       {
-        test: /\.(less|css)$/,
+        test: /\.(scss|css)$/,
         // exclude: /(node_modules|bower_components)/,
         use: [
           MiniCssExtractPlugin.loader,
@@ -40,25 +47,41 @@ var browserConfig = {
               importLoaders: 1
             }
           },
-          'less-loader'
+          'sass-loader'
         ]
       }
     ]
   },
   plugins: [
     new webpack.DefinePlugin({
-      __isBrowser__: 'true'
+      'process.env.NODE_ENV': '"production"'
     }),
-    new HtmlWebpackPlugin({ template: './index.prod.html' }),
+    new HtmlWebpackPlugin({
+      inject: true,
+      // favicon: './src/favicon.ico',
+      template: './index.prod.html',
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeRedundantAttributes: true,
+        useShortDoctype: true,
+        removeEmptyAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        keepClosingSlash: true,
+        minifyJS: true,
+        minifyCSS: true,
+        minifyURLs: true
+      }
+    }),
     // HMR
     new CleanWebpackPlugin(['public']),
     new MiniCssExtractPlugin({
       filename: 'vender.[chunkhash].css',
       chunkFilename: '[name].[chunkhash].css'
-    }),
-    new WebpackBar({
-      color: '#f56be2'
     })
+    // new WebpackBar({
+    //   color: '#f56be2'
+    // })
   ]
 }
 

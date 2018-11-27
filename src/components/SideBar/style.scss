@@ -1,0 +1,38 @@
+@import 'src/static/style/var';
+
+#Layout {
+  height: 100vh;
+}
+
+.container {
+  padding: 20px;
+  min-height: $content_height;
+}
+
+.header {
+  background: #fff !important;
+  .user {
+    float: right;
+  }
+  .logout {
+    margin-left: 40px;
+    cursor: pointer;
+  }
+}
+
+.logo {
+  height: 64px;
+  text-align: center;
+  padding: 15px;
+  color: #fff;
+  font-size: 25px;
+  img {
+    max-width: 100%;
+  }
+  background: $blue;
+}
+
+.logout-button {
+  float: right;
+  margin-top: 16px;
+}

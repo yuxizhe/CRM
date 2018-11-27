@@ -1,0 +1,28 @@
+@import '~style/var';
+.login-page {
+  margin: 15vh auto 0;
+  border: 1px solid #ebeef5;
+  background-color: #fff;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  width: 400px;
+  .box-card {
+    width: 100%;
+  }
+  .image-wrapper {
+    text-align: center;
+    background: $blue;
+    padding: 15px 0;
+    img {
+      width: 50%;
+      vertical-align: middle;
+    }
+  }
+  form {
+    padding: 20px 20px 0;
+    background: #fff;
+  }
+  button {
+    width: 100%;
+  }
+}

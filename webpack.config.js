@@ -7,10 +7,14 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const WebpackBar = require('webpackbar')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
+function resolve(dir) {
+  return path.join(__dirname, dir)
+}
+
 var browserConfig = {
-  entry: ['webpack-hot-middleware/client', './src/browser/index.js'],
+  entry: ['webpack-hot-middleware/client', 'src/index.js'],
   output: {
-    path: path.resolve(__dirname, 'public'),
+    path: resolve('public'),
     filename: 'vender.js',
     chunkFilename: '[name].js',
     publicPath: '/'
@@ -23,6 +27,15 @@ var browserConfig = {
     axios: 'axios'
     // mint: 'mint-ui'
   },
+  resolve: {
+    extensions: ['.js'],
+    alias: {
+      src: resolve('src'),
+      assets: resolve('src/assets'),
+      components: resolve('src/components'),
+      style: resolve('src/static/style')
+    }
+  },
   mode: 'development',
   devtool: 'inline-source-map',
   module: {
@@ -33,7 +46,7 @@ var browserConfig = {
         use: 'babel-loader'
       },
       {
-        test: /\.(less|css)$/,
+        test: /\.(scss|css)$/,
         // exclude: /(node_modules|bower_components)/,
         use: [
           'css-hot-loader',
@@ -44,7 +57,7 @@ var browserConfig = {
               importLoaders: 1
             }
           },
-          'less-loader'
+          'sass-loader'
         ]
       }
     ]
