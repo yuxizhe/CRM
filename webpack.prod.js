@@ -90,10 +90,10 @@ var browserConfig = {
     new MiniCssExtractPlugin({
       filename: 'vender.[chunkhash].css',
       chunkFilename: '[name].[chunkhash].css'
+    }),
+    new WebpackBar({
+      color: '#f56be2'
     })
-    // new WebpackBar({
-    //   color: '#f56be2'
-    // })
   ]
 }
 
