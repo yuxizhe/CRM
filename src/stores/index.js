@@ -3,6 +3,7 @@
    ====================================================== */
 import { observable, action } from 'mobx'
 import sideBar from './sideBar'
+import loginStore from './login'
 class gStore {
   @observable userInfo = {
     name: 'admin'
@@ -18,5 +19,6 @@ class gStore {
 
 export default {
   gStore: new gStore(),
-  sideBar: new sideBar()
+  sideBar: new sideBar(),
+  loginStore: new loginStore()
 }

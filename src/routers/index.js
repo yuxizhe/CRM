@@ -5,7 +5,11 @@ const Home = Loadable({
   loading: () => null
 })
 const ImportPage = Loadable({
-  loader: () => import(/* webpackChunkName: "grid" */ 'src/pages/ImportPage'),
+  loader: () => import(/* webpackChunkName: "import" */ 'src/pages/ImportPage'),
+  loading: () => null
+})
+const loginPage = Loadable({
+  loader: () => import(/* webpackChunkName: "login" */ 'src/pages/Login'),
   loading: () => null
 })
 
@@ -23,6 +27,11 @@ const routes = [
     path: '/import',
     exact: true,
     component: ImportPage
+  },
+  {
+    path: '/login',
+    exact: true,
+    component: loginPage
   }
 ]
 

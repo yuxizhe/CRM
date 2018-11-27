@@ -8,19 +8,17 @@ import './style.scss'
 const { Header, Sider } = Layout
 const SubMenu = Menu.SubMenu
 
-@inject('sideBar')
+@inject('sideBar', 'loginStore')
 @observer
 class SideBar extends Component {
   sideBar = this.props.sideBar
-  loginStore = {
-    isLogged: true
-  }
+  loginStore = this.props.loginStore
 
   componentDidMount() {
-    // if (!this.loginStore.isLogged && window.location.pathname !== '/login') {
-    //   window.location.href = '/login'
-    //   return
-    // }
+    if (!this.loginStore.isLogged && window.location.pathname !== '/login') {
+      window.location.href = '/login'
+      return
+    }
     if (window.location.pathname !== '/login') {
       this.sideBar.getUserResource()
     }

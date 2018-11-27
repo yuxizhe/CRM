@@ -4,6 +4,8 @@ const webpackDevMiddleware = require('webpack-dev-middleware')
 const webpackHotMiddleware = require('webpack-hot-middleware')
 const express = require('express')
 const cors = require('cors')
+const bodyParser = require('body-parser')
+const morgan = require('morgan')
 const devConfig = require('../webpack.config')[0]
 const middleware = require('../src/middleware')
 const app = express()
@@ -11,7 +13,9 @@ const app = express()
 // 解决HMR 3000端口请求 3001 端口 跨域问题
 app.use(cors())
 app.use(express.static(__dirname + '../public'))
-
+app.use(bodyParser.json()) // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+app.use(morgan('tiny'))
 // 中间件
 middleware(app)
 

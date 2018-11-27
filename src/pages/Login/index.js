@@ -30,10 +30,7 @@ class HorizontalLoginForm extends Component {
     return (
       <div className="login-page">
         <div className="image-wrapper">
-          <img
-            src="https://assets.imedao.com/broker-us/static/images/index/v2/logo_white.41e2a4ec.png"
-            alt=""
-          />
+          <img src="" alt="" />
         </div>
         <div className="box-card">
           <Form onSubmit={this.handleSubmit} className="login-form">

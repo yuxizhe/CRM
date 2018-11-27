@@ -88,5 +88,28 @@ module.exports = function(app) {
         success: true
       })
     })
+
+    // 用户登录接口
+    app.post('/xq/report/auth/login.json', (req, res) => {
+      const token = `${req.body.username}-${req.body.password}`
+      res.json({
+        result_data: {
+          xq_crm_token: token
+        },
+        msg: null,
+        result_code: '60000',
+        success: true
+      })
+    })
+
+    // 用户注销接口
+    app.post('/xq/report/auth/logout.json', (req, res) => {
+      res.json({
+        result_data: '',
+        msg: null,
+        result_code: '60000',
+        success: true
+      })
+    })
   }
 }

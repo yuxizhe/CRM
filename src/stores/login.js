@@ -16,12 +16,12 @@ export default class LoginStore {
       password: form.password
     }).then(res => {
       if (res) {
-        let token = res.result_data.snowx_crm_token
+        let token = res.result_data.xq_crm_token
 
         window.localStorage.setItem('is_login', '1')
         window.localStorage.setItem('userName', form.username)
         if (process.env.NODE_ENV === 'development') {
-          Cookie.set('snowx_crm_token', token)
+          Cookie.set('xq_crm_token', token)
         }
         window.location.href = '/'
       }

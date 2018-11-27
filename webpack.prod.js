@@ -30,7 +30,8 @@ var browserConfig = {
     alias: {
       src: resolve('src'),
       assets: resolve('src/assets'),
-      components: resolve('src/components')
+      components: resolve('src/components'),
+      style: resolve('src/static/style')
     }
   },
   module: {
