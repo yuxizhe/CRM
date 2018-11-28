@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
-import { Button, Card, Divider, Input, Modal, Form, Table } from 'antd'
+import { Button, Card, Divider, Input, Modal, Form, Table, Tree } from 'antd'
 import autobind from 'autobind-decorator'
 import store from './store'
-
+const TreeNode = Tree.TreeNode
 const FormItem = Form.Item
 const formItemLayout = {
   labelCol: {
@@ -18,22 +18,17 @@ const formItemLayout = {
 const confirm = Modal.confirm
 
 @observer
-export default class UserManage extends Component {
+export default class RolesManage extends Component {
   columns = [
     {
-      title: '用户ID',
-      dataIndex: 'user_id',
-      key: 'user_id'
+      title: '角色ID',
+      dataIndex: 'role_id',
+      key: 'role_id'
     },
     {
-      title: '姓名',
+      title: '角色名',
       dataIndex: 'name',
       key: 'name'
-    },
-    {
-      title: '角色',
-      dataIndex: 'roles',
-      key: 'roles'
     },
     {
       title: '更新时间',
@@ -53,7 +48,7 @@ export default class UserManage extends Component {
       render: (text, record) => {
         return (
           <span>
-            <a onClick={() => this.showDistributeDialog(record)}>分配角色</a>
+            <a onClick={() => this.showDistributeDialog(record)}>分配资源</a>
             <Divider type="vertical" />
             <a onClick={() => this.handleDelete(record)}>删除</a>
           </span>
@@ -63,28 +58,40 @@ export default class UserManage extends Component {
   ]
   rowColumns = [
     {
-      title: '角色名',
+      title: '资源ID',
+      dataIndex: 'resource_id',
+      key: 'resource_id'
+    },
+    {
+      title: '资源名',
       dataIndex: 'name',
       key: 'name'
     },
     {
-      title: '角色ID',
-      dataIndex: 'role_id',
-      key: 'role_id'
+      title: '父级资源ID',
+      dataIndex: 'resource_pid',
+      key: 'resource_pid'
+    },
+    {
+      title: '访问地址',
+      dataIndex: 'location',
+      key: 'location'
     }
   ]
+
   constructor(props) {
     super(props)
     this.store = store
   }
+
   componentDidMount() {
-    this.store.getAllUsers()
     this.store.getAllRoles()
+    this.store.getAllResources()
   }
 
   @autobind
-  showDistributeDialog(user) {
-    this.store.showDistributeDialog(user)
+  showDistributeDialog(role) {
+    this.store.showDistributeDialog(role)
   }
 
   @autobind
@@ -94,14 +101,14 @@ export default class UserManage extends Component {
 
   @autobind
   handleCreate() {
-    this.store.createUser()
+    this.store.createRole()
   }
 
-  handleDelete(user) {
+  handleDelete(role) {
     confirm({
-      title: `删除前请清空用户所拥有的角色，确认删除 "${user.name}"?`,
+      title: `删除前请清空用户所拥有的资源，确认删除 "${role.name}"?`,
       onOk: () => {
-        this.store.deleteUser(user)
+        this.store.deleteRole(role)
       },
       okText: '确认',
       cancelText: '取消'
@@ -110,17 +117,12 @@ export default class UserManage extends Component {
 
   @autobind
   handleDistributeSave() {
-    this.store.distributeRoles()
+    this.store.distributeResource()
   }
 
   @autobind
   hideDistributeDialog() {
     this.store.hideDistributeDialog()
-  }
-
-  @autobind
-  handleCurrentUserRolesChange(roles) {
-    this.store.changeCurrentUserRoles(roles)
   }
 
   @autobind
@@ -133,54 +135,87 @@ export default class UserManage extends Component {
     this.store.setName(e.target.value)
   }
 
+  @autobind
+  onExpand(expandedKeys) {
+    this.store.expandNode(expandedKeys)
+  }
+
+  renderTreeNodes(data) {
+    return data.map(item => {
+      if (item.children && item.children.length) {
+        return (
+          <TreeNode
+            key={item.resource_id + '-' + item.resource_pid}
+            title={item.name}
+            dataRef={item}
+          >
+            {this.renderTreeNodes(item.children)}
+          </TreeNode>
+        )
+      }
+      return (
+        <TreeNode
+          key={item.resource_id + '-' + item.resource_pid}
+          title={item.name}
+          dataRef={item}
+        />
+      )
+    })
+  }
+
+  @autobind
+  onCheck(checkedKeys) {
+    this.store.setCheckedKeys(checkedKeys)
+  }
+
   render() {
     return (
       <div>
         <Card
-          title="用户管理"
+          title="角色管理"
           bordered={false}
           extra={
             <Button type="primary" onClick={this.showCreateDialog}>
-              创建用户
+              创建角色
             </Button>
           }
         >
           <Table
             pagination={false}
-            rowKey="user_id"
-            dataSource={this.store.filteredUsers}
+            rowKey="role_id"
+            dataSource={this.store.filteredRoles}
             columns={this.columns}
           />
         </Card>
         <Modal
-          title="分配角色"
+          title="分配资源"
           visible={this.store.distributeDialogVisible}
           okText="保存"
           cancelText="取消"
           onOk={this.handleDistributeSave}
           onCancel={this.hideDistributeDialog}
         >
-          <div>用户：{this.store.currentSelectUser.name}</div>
-          <Table
-            rowKey="role_id"
-            pagination={false}
-            rowSelection={{
-              selectedRowKeys: this.store.currentUserRoles,
-              onChange: this.handleCurrentUserRolesChange
-            }}
-            columns={this.rowColumns}
-            dataSource={this.store.roles}
-          />
+          <div>角色：{this.store.currentSelectRole.name}</div>
+          <Tree
+            checkable
+            onCheck={this.onCheck}
+            checkedKeys={this.store.checkedKeys}
+            onExpand={this.onExpand}
+            expandedKeys={this.store.expandedKeys}
+            autoExpandParent={this.store.autoExpandParent}
+          >
+            {this.renderTreeNodes(this.store.resourcesTree)}
+          </Tree>
         </Modal>
         <Modal
-          title="创建用户"
+          title="创建角色"
           visible={this.store.createDialogVisible}
           okText="保存"
           cancelText="取消"
           onOk={this.handleCreate}
           onCancel={this.hideSaveDialog}
         >
-          <FormItem {...formItemLayout} label="用户姓名">
+          <FormItem {...formItemLayout} label="角色名">
             <Input
               placeholder="必填"
               value={this.store.form.name}

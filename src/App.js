@@ -8,9 +8,8 @@ import routes from 'src/routers'
 import SideBar from 'components/SideBar'
 import NoMatch from 'src/pages/NoMatch'
 
-import { Layout, Menu, Icon } from 'antd'
-const { Header, Content, Footer, Sider } = Layout
-const { SubMenu } = Menu
+import { Layout } from 'antd'
+const { Content } = Layout
 
 class App extends Component {
   render() {

@@ -86,7 +86,6 @@ var browserConfig = {
         minifyURLs: true
       }
     }),
-    // HMR
     new CleanWebpackPlugin(['public']),
     new MiniCssExtractPlugin({
       filename: 'vender.[chunkhash].css',

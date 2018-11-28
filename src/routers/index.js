@@ -14,7 +14,17 @@ const loginPage = Loadable({
 })
 const userManage = Loadable({
   loader: () =>
-    import(/* webpackChunkName: "usermanage" */ 'src/pages/UserManage'),
+    import(/* webpackChunkName: "user-manage" */ 'src/pages/UserManage'),
+  loading: () => null
+})
+const RolesManage = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: "role-manage" */ 'src/pages/RolesManage'),
+  loading: () => null
+})
+const ResourceManage = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: "resource-manage" */ 'src/pages/ResourceManage'),
   loading: () => null
 })
 
@@ -42,6 +52,16 @@ const routes = [
     path: '/user-manage',
     exact: true,
     component: userManage
+  },
+  {
+    path: '/role-manage',
+    exact: true,
+    component: RolesManage
+  },
+  {
+    path: '/resource-manage',
+    exact: true,
+    component: ResourceManage
   }
 ]
 

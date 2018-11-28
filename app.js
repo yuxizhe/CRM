@@ -2,20 +2,11 @@ const express = require('express')
 const path = require('path')
 const bodyParser = require('body-parser')
 const middleware = require('./src/middleware')
+const compression = require('compression')
 const app = express()
 
-// compression-webpack-plugin  代码压缩
-// app.get('*.js', function(req, res, next) {
-//   req.url = req.url + '.gz'
-//   res.set('Content-Encoding', 'gzip')
-//   next()
-// })
-// app.get('*.css', function(req, res, next) {
-//   req.url = req.url + '.gz'
-//   res.set('Content-Encoding', 'gzip')
-//   res.set('Content-Type', 'text/css')
-//   next()
-// })
+// compress all responses
+app.use(compression())
 
 app.use(express.static('public'))
 app.use(bodyParser.json()) // for parsing application/json

@@ -102,16 +102,6 @@ module.exports = function(app) {
       })
     })
 
-    // 用户注销接口
-    app.post('/xq/report/auth/logout.json', (req, res) => {
-      res.json({
-        result_data: '',
-        msg: null,
-        result_code: '60000',
-        success: true
-      })
-    })
-
     // 用户查询接口
     app.get('/xq/report/permission/user/get/all.json', (req, res) => {
       res.json({
@@ -199,6 +189,38 @@ module.exports = function(app) {
             create_time: 1527059218231,
             update_time: 1527059218231,
             resources: null
+          }
+        ],
+        msg: null,
+        result_code: '60000',
+        success: true
+      })
+    })
+
+    // 用户角色查询接口
+    app.get('/xq/report/permission/role/get/all.json', (req, res) => {
+      res.json({
+        result_data: [
+          {
+            role_id: 1,
+            name: 'admin',
+            create_time: 1522754186000,
+            update_time: 1522754186000,
+            resources: null
+          },
+          {
+            role_id: 2,
+            name: '运营',
+            create_time: 1524028250463,
+            update_time: 1524028250463,
+            resources: null
+          },
+          {
+            role_id: 3,
+            name: '客服',
+            create_time: 1527059218231,
+            update_time: 1527059218231,
+            resources: null
           },
           {
             role_id: 4,
@@ -235,10 +257,142 @@ module.exports = function(app) {
       })
     })
 
-    // 新建用户接口
-    app.get('/xq/report/permission/user/save.json', (req, res) => {
+    // 获取角色权限
+    app.get('/xq/report/permission/role/get/resources.json', (req, res) => {
       res.json({
-        result_data: '',
+        result_data: [
+          {
+            resource_id: 1,
+            resource_pid: 0,
+            name: '权限管理',
+            path: '/internal/snowx/report/permission/.*',
+            location: '',
+            icon: 'cog',
+            locked: true,
+            create_time: 1522754186000,
+            update_time: 1523257425826,
+            resource_type: ''
+          },
+          {
+            resource_id: 2,
+            resource_pid: 1,
+            name: '用户管理',
+            path: '',
+            location: '/user-manage',
+            icon: '',
+            locked: false,
+            create_time: 1522754186000,
+            update_time: 1522754186000,
+            resource_type: ''
+          },
+          {
+            resource_id: 3,
+            resource_pid: 1,
+            name: '角色管理',
+            path: '',
+            location: '/role-manage',
+            icon: '',
+            locked: false,
+            create_time: 1522754186000,
+            update_time: 1523257496999,
+            resource_type: ''
+          },
+          {
+            resource_id: 4,
+            resource_pid: 1,
+            name: '资源管理',
+            path: '',
+            location: '/resource-manage',
+            icon: '',
+            locked: false,
+            create_time: 1522754186000,
+            update_time: 1523257506011,
+            resource_type: ''
+          },
+          {
+            resource_id: 5,
+            resource_pid: 0,
+            name: '概览',
+            path: '',
+            location: '/',
+            icon: 'tachometer-alt',
+            locked: false,
+            create_time: 1523257349592,
+            update_time: 1539595755019,
+            resource_type: ''
+          }
+        ],
+        msg: null,
+        result_code: '60000',
+        success: true
+      })
+    })
+
+    // 获取所有模块
+    app.get('/xq/report/permission/resource/get/all.json', (req, res) => {
+      res.json({
+        result_data: [
+          {
+            resource_id: 1,
+            resource_pid: 0,
+            name: '权限管理',
+            path: '/internal/snowx/report/permission/.*',
+            location: '',
+            icon: 'cog',
+            locked: true,
+            create_time: 1522754186000,
+            update_time: 1523257425826,
+            resource_type: ''
+          },
+          {
+            resource_id: 2,
+            resource_pid: 1,
+            name: '用户管理',
+            path: '',
+            location: '/user-manage',
+            icon: '',
+            locked: false,
+            create_time: 1522754186000,
+            update_time: 1522754186000,
+            resource_type: ''
+          },
+          {
+            resource_id: 3,
+            resource_pid: 1,
+            name: '角色管理',
+            path: '',
+            location: '/role-manage',
+            icon: '',
+            locked: false,
+            create_time: 1522754186000,
+            update_time: 1523257496999,
+            resource_type: ''
+          },
+          {
+            resource_id: 4,
+            resource_pid: 1,
+            name: '资源管理',
+            path: '',
+            location: '/resource-manage',
+            icon: '',
+            locked: false,
+            create_time: 1522754186000,
+            update_time: 1523257506011,
+            resource_type: ''
+          },
+          {
+            resource_id: 5,
+            resource_pid: 0,
+            name: '概览',
+            path: '',
+            location: '/',
+            icon: 'tachometer-alt',
+            locked: false,
+            create_time: 1523257349592,
+            update_time: 1539595755019,
+            resource_type: ''
+          }
+        ],
         msg: null,
         result_code: '60000',
         success: true

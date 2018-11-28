@@ -1,6 +1,6 @@
 # CRM 后台框架
 
-react16 + react-router4 + webpack4 + mobx + HMR 热更新 + 代码分割
+react16 + react-router4 + webpack4 + mobx + HMR 热更新 + 代码分割 + 分级权限管理
 
 ---
 
@@ -41,8 +41,8 @@ react16 + react-router4 + webpack4 + mobx + HMR 热更新 + 代码分割
 - [x] 接口 mock
 - [x] 接口代理
 - [x] 登录管理
-- [x] 用户权限分配
-- [ ] 页面权限管理分组
+- [x] 用户权限分配 （用户管理 新建用户 修改权限） 接口 mock
+- [x] 页面权限管理分组 （新建分组 修改分组权限）接口 mock
 - [ ] 基本统计绘图
 
 ## 选型
@@ -54,6 +54,33 @@ antd 3.9 版本以后会把所有的图标文件打包到 js 里 导致包很大
 > https://github.com/ant-design/ant-design/issues/12011#issuecomment-420038579
 
 > https://github.com/ant-design/ant-design/issues/10353
+
+### 中间件
+
+统一放在`src/middleware`
+开发模式 和 生产 可以直接使用同样的配置，不用分别配置
+
+目前包括 mock 假数据 和 接口代理
+
+### 接口代理 `http-proxy-middleware`
+
+涉及到的代理添加在 `src/middleware/proxy` 中
+
+```js
+const proxyTable = {
+  '/xq': {
+    target: 'https://api.xueqiu.com/',
+    changeOrigin: true,
+    pathRewrite: (path, req) => path.replace('/xq', '')
+  }
+}
+```
+
+### mock 接口假数据
+
+暂时直接采用 res.json() node 直接返回数据
+
+涉及到的 mock 添加在 `src/middleware/proxy` 中
 
 ### 图表： highchart
 
