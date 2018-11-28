@@ -1,94 +1,94 @@
-const path = require('path')
-const webpack = require('webpack')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
-const { ReactLoadablePlugin } = require('react-loadable/webpack')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const WebpackBar = require('webpackbar')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const path = require("path");
+const webpack = require("webpack");
+const CleanWebpackPlugin = require("clean-webpack-plugin");
+const { ReactLoadablePlugin } = require("react-loadable/webpack");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const WebpackBar = require("webpackbar");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 function resolve(dir) {
-  return path.join(__dirname, dir)
+  return path.join(__dirname, dir);
 }
 
 var browserConfig = {
-  entry: ['webpack-hot-middleware/client', 'src/index.js'],
+  entry: ["webpack-hot-middleware/client", "src/index.js"],
   output: {
-    path: resolve('public'),
-    filename: 'vender.js',
-    chunkFilename: '[name].js',
-    publicPath: '/'
+    path: resolve("public"),
+    filename: "vender.js",
+    chunkFilename: "[name].js",
+    publicPath: "/"
   },
   externals: {
-    react: 'React',
-    'react-dom': 'ReactDOM',
-    mobx: 'mobx',
-    'mobx-react': 'mobxReact',
-    axios: 'axios'
+    react: "React",
+    "react-dom": "ReactDOM",
+    mobx: "mobx",
+    "mobx-react": "mobxReact",
+    axios: "axios"
   },
   resolve: {
-    extensions: ['.js'],
+    extensions: [".js"],
     alias: {
-      src: resolve('src'),
-      assets: resolve('src/assets'),
-      components: resolve('src/components'),
-      style: resolve('src/static/style')
+      src: resolve("src"),
+      assets: resolve("src/assets"),
+      components: resolve("src/components"),
+      style: resolve("src/static/style")
     }
   },
-  mode: 'development',
-  devtool: 'inline-source-map',
+  mode: "development",
+  devtool: "inline-source-map",
   module: {
     rules: [
       {
         test: /\.(js)$/,
         exclude: /(node_modules|bower_components)/,
-        use: 'babel-loader'
+        use: "babel-loader"
       },
       {
         test: /\.(scss|css)$/,
         // exclude: /(node_modules|bower_components)/,
         use: [
-          'css-hot-loader',
+          "css-hot-loader",
           MiniCssExtractPlugin.loader,
           {
-            loader: 'css-loader',
+            loader: "css-loader",
             options: {
               importLoaders: 1
             }
           },
-          'sass-loader'
+          "sass-loader"
         ]
       },
       {
         test: /\.(png|jpg|jpeg|gif|svg)$/,
-        loader: 'url-loader',
+        loader: "url-loader",
         options: {
           limit: 10,
-          name: 'images/[hash].[ext]'
+          name: "images/[hash].[ext]"
         }
       }
     ]
   },
   plugins: [
     new webpack.DefinePlugin({
-      __isBrowser__: 'true'
+      __isBrowser__: "true"
     }),
-    new HtmlWebpackPlugin({ template: './index.html' }),
+    new HtmlWebpackPlugin({ template: "./index.html" }),
     // HMR
     new webpack.HotModuleReplacementPlugin(),
-    new CleanWebpackPlugin(['public']),
+    new CleanWebpackPlugin(["public"]),
     new ReactLoadablePlugin({
-      filename: './public/react-loadable.json'
+      filename: "./public/react-loadable.json"
     }),
     new MiniCssExtractPlugin({
-      filename: 'vender.css',
-      chunkFilename: '[name].css'
+      filename: "vender.css",
+      chunkFilename: "[name].css"
     }),
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /zh-cn/),
     new WebpackBar({
-      color: '#f56be2',
-      name: 'client'
+      color: "#f56be2",
+      name: "client"
     })
   ]
-}
+};
 
-module.exports = [browserConfig]
+module.exports = [browserConfig];

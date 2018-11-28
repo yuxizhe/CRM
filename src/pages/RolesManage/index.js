@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
-import { observer, inject } from 'mobx-react'
-import { Button, Card, Divider, Input, Modal, Form, Table, Tree } from 'antd'
-import autobind from 'autobind-decorator'
-import store from './store'
-const TreeNode = Tree.TreeNode
-const FormItem = Form.Item
+import React, { Component } from "react";
+import { observer, inject } from "mobx-react";
+import { Button, Card, Divider, Input, Modal, Form, Table, Tree } from "antd";
+import autobind from "autobind-decorator";
+import store from "./store";
+const TreeNode = Tree.TreeNode;
+const FormItem = Form.Item;
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
@@ -14,36 +14,36 @@ const formItemLayout = {
     xs: { span: 24 },
     sm: { span: 16 }
   }
-}
-const confirm = Modal.confirm
+};
+const confirm = Modal.confirm;
 
 @observer
 export default class RolesManage extends Component {
   columns = [
     {
-      title: '角色ID',
-      dataIndex: 'role_id',
-      key: 'role_id'
+      title: "角色ID",
+      dataIndex: "role_id",
+      key: "role_id"
     },
     {
-      title: '角色名',
-      dataIndex: 'name',
-      key: 'name'
+      title: "角色名",
+      dataIndex: "name",
+      key: "name"
     },
     {
-      title: '更新时间',
-      dataIndex: 'update_time',
-      key: 'update_time'
+      title: "更新时间",
+      dataIndex: "update_time",
+      key: "update_time"
     },
     {
-      title: '创建时间',
-      dataIndex: 'create_time',
-      key: 'create_time'
+      title: "创建时间",
+      dataIndex: "create_time",
+      key: "create_time"
     },
     {
-      title: '操作',
-      key: 'operation',
-      fixed: 'right',
+      title: "操作",
+      key: "operation",
+      fixed: "right",
       width: 150,
       render: (text, record) => {
         return (
@@ -52,92 +52,92 @@ export default class RolesManage extends Component {
             <Divider type="vertical" />
             <a onClick={() => this.handleDelete(record)}>删除</a>
           </span>
-        )
+        );
       }
     }
-  ]
+  ];
   rowColumns = [
     {
-      title: '资源ID',
-      dataIndex: 'resource_id',
-      key: 'resource_id'
+      title: "资源ID",
+      dataIndex: "resource_id",
+      key: "resource_id"
     },
     {
-      title: '资源名',
-      dataIndex: 'name',
-      key: 'name'
+      title: "资源名",
+      dataIndex: "name",
+      key: "name"
     },
     {
-      title: '父级资源ID',
-      dataIndex: 'resource_pid',
-      key: 'resource_pid'
+      title: "父级资源ID",
+      dataIndex: "resource_pid",
+      key: "resource_pid"
     },
     {
-      title: '访问地址',
-      dataIndex: 'location',
-      key: 'location'
+      title: "访问地址",
+      dataIndex: "location",
+      key: "location"
     }
-  ]
+  ];
 
   constructor(props) {
-    super(props)
-    this.store = store
+    super(props);
+    this.store = store;
   }
 
   componentDidMount() {
-    this.store.getAllRoles()
-    this.store.getAllResources()
+    this.store.getAllRoles();
+    this.store.getAllResources();
   }
 
   @autobind
   showDistributeDialog(role) {
-    this.store.showDistributeDialog(role)
+    this.store.showDistributeDialog(role);
   }
 
   @autobind
   showCreateDialog() {
-    this.store.showCreateDialog()
+    this.store.showCreateDialog();
   }
 
   @autobind
   handleCreate() {
-    this.store.createRole()
+    this.store.createRole();
   }
 
   handleDelete(role) {
     confirm({
       title: `删除前请清空用户所拥有的资源，确认删除 "${role.name}"?`,
       onOk: () => {
-        this.store.deleteRole(role)
+        this.store.deleteRole(role);
       },
-      okText: '确认',
-      cancelText: '取消'
-    })
+      okText: "确认",
+      cancelText: "取消"
+    });
   }
 
   @autobind
   handleDistributeSave() {
-    this.store.distributeResource()
+    this.store.distributeResource();
   }
 
   @autobind
   hideDistributeDialog() {
-    this.store.hideDistributeDialog()
+    this.store.hideDistributeDialog();
   }
 
   @autobind
   hideSaveDialog() {
-    this.store.hideCreateDialog()
+    this.store.hideCreateDialog();
   }
 
   @autobind
   handleNameChange(e) {
-    this.store.setName(e.target.value)
+    this.store.setName(e.target.value);
   }
 
   @autobind
   onExpand(expandedKeys) {
-    this.store.expandNode(expandedKeys)
+    this.store.expandNode(expandedKeys);
   }
 
   renderTreeNodes(data) {
@@ -145,27 +145,27 @@ export default class RolesManage extends Component {
       if (item.children && item.children.length) {
         return (
           <TreeNode
-            key={item.resource_id + '-' + item.resource_pid}
+            key={item.resource_id + "-" + item.resource_pid}
             title={item.name}
             dataRef={item}
           >
             {this.renderTreeNodes(item.children)}
           </TreeNode>
-        )
+        );
       }
       return (
         <TreeNode
-          key={item.resource_id + '-' + item.resource_pid}
+          key={item.resource_id + "-" + item.resource_pid}
           title={item.name}
           dataRef={item}
         />
-      )
-    })
+      );
+    });
   }
 
   @autobind
   onCheck(checkedKeys) {
-    this.store.setCheckedKeys(checkedKeys)
+    this.store.setCheckedKeys(checkedKeys);
   }
 
   render() {
@@ -224,6 +224,6 @@ export default class RolesManage extends Component {
           </FormItem>
         </Modal>
       </div>
-    )
+    );
   }
 }

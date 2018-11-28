@@ -9,8 +9,24 @@
       }
     ],
     "class-methods-use-this": "off",
-    "react/button-has-type": "off"
+    "react/button-has-type": "off",
+    "react/prop-types": [
+      2,
+      {
+        "ignore": ["store"]
+      }
+    ],
+    "react/destructuring-assignment": [
+      1,
+      "always",
+      {
+        "ignoreClassFields": true
+      }
+    ],
+    "click-events-have-key-events": "off",
+    "global-require": "off"
   },
+  "plugins": ["jsdoc"],
   "env": {
     "browser": true,
     "node": true

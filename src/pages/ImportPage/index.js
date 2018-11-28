@@ -1,18 +1,18 @@
-import React, { Component } from 'react'
-import './style.scss'
+import React, { Component } from "react";
+import "./style.scss";
 
-import { observer, inject } from 'mobx-react'
-import { Button, Row, Col } from 'antd'
-import WebSelect from 'components/webSelect'
+import { observer, inject } from "mobx-react";
+import { Button, Row, Col } from "antd";
+import WebSelect from "components/webSelect";
 
 class ImportPage extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       firstValue: null,
       secondValue: null,
       thirdValue: null
-    }
+    };
   }
   render() {
     return (
@@ -25,7 +25,7 @@ class ImportPage extends Component {
 
         <Button type="primary">Button</Button>
       </div>
-    )
+    );
   }
 }
-export default ImportPage
+export default ImportPage;

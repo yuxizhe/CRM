@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
-import { observer, inject } from 'mobx-react'
-import { Button, Card, Divider, Input, Modal, Form, Table } from 'antd'
-import autobind from 'autobind-decorator'
-import store from './store'
+import React, { Component } from "react";
+import { observer, inject } from "mobx-react";
+import { Button, Card, Divider, Input, Modal, Form, Table } from "antd";
+import autobind from "autobind-decorator";
+import store from "./store";
 
-const FormItem = Form.Item
+const FormItem = Form.Item;
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
@@ -14,41 +14,41 @@ const formItemLayout = {
     xs: { span: 24 },
     sm: { span: 16 }
   }
-}
-const confirm = Modal.confirm
+};
+const confirm = Modal.confirm;
 
 @observer
 export default class UserManage extends Component {
   columns = [
     {
-      title: '用户ID',
-      dataIndex: 'user_id',
-      key: 'user_id'
+      title: "用户ID",
+      dataIndex: "user_id",
+      key: "user_id"
     },
     {
-      title: '姓名',
-      dataIndex: 'name',
-      key: 'name'
+      title: "姓名",
+      dataIndex: "name",
+      key: "name"
     },
     {
-      title: '角色',
-      dataIndex: 'roles',
-      key: 'roles'
+      title: "角色",
+      dataIndex: "roles",
+      key: "roles"
     },
     {
-      title: '更新时间',
-      dataIndex: 'update_time',
-      key: 'update_time'
+      title: "更新时间",
+      dataIndex: "update_time",
+      key: "update_time"
     },
     {
-      title: '创建时间',
-      dataIndex: 'create_time',
-      key: 'create_time'
+      title: "创建时间",
+      dataIndex: "create_time",
+      key: "create_time"
     },
     {
-      title: '操作',
-      key: 'operation',
-      fixed: 'right',
+      title: "操作",
+      key: "operation",
+      fixed: "right",
       width: 150,
       render: (text, record) => {
         return (
@@ -57,80 +57,80 @@ export default class UserManage extends Component {
             <Divider type="vertical" />
             <a onClick={() => this.handleDelete(record)}>删除</a>
           </span>
-        )
+        );
       }
     }
-  ]
+  ];
   rowColumns = [
     {
-      title: '角色名',
-      dataIndex: 'name',
-      key: 'name'
+      title: "角色名",
+      dataIndex: "name",
+      key: "name"
     },
     {
-      title: '角色ID',
-      dataIndex: 'role_id',
-      key: 'role_id'
+      title: "角色ID",
+      dataIndex: "role_id",
+      key: "role_id"
     }
-  ]
+  ];
   constructor(props) {
-    super(props)
-    this.store = store
+    super(props);
+    this.store = store;
   }
   componentDidMount() {
-    this.store.getAllUsers()
-    this.store.getAllRoles()
+    this.store.getAllUsers();
+    this.store.getAllRoles();
   }
 
   @autobind
   showDistributeDialog(user) {
-    this.store.showDistributeDialog(user)
+    this.store.showDistributeDialog(user);
   }
 
   @autobind
   showCreateDialog() {
-    this.store.showCreateDialog()
+    this.store.showCreateDialog();
   }
 
   @autobind
   handleCreate() {
-    this.store.createUser()
+    this.store.createUser();
   }
 
   handleDelete(user) {
     confirm({
       title: `删除前请清空用户所拥有的角色，确认删除 "${user.name}"?`,
       onOk: () => {
-        this.store.deleteUser(user)
+        this.store.deleteUser(user);
       },
-      okText: '确认',
-      cancelText: '取消'
-    })
+      okText: "确认",
+      cancelText: "取消"
+    });
   }
 
   @autobind
   handleDistributeSave() {
-    this.store.distributeRoles()
+    this.store.distributeRoles();
   }
 
   @autobind
   hideDistributeDialog() {
-    this.store.hideDistributeDialog()
+    this.store.hideDistributeDialog();
   }
 
   @autobind
   handleCurrentUserRolesChange(roles) {
-    this.store.changeCurrentUserRoles(roles)
+    this.store.changeCurrentUserRoles(roles);
   }
 
   @autobind
   hideSaveDialog() {
-    this.store.hideCreateDialog()
+    this.store.hideCreateDialog();
   }
 
   @autobind
   handleNameChange(e) {
-    this.store.setName(e.target.value)
+    this.store.setName(e.target.value);
   }
 
   render() {
@@ -189,6 +189,6 @@ export default class UserManage extends Component {
           </FormItem>
         </Modal>
       </div>
-    )
+    );
   }
 }

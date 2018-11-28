@@ -1,32 +1,32 @@
-import React, { Component } from 'react'
-import autobind from 'autobind-decorator'
-import { Layout, Menu, Icon } from 'antd'
-import { inject, observer } from 'mobx-react'
-import { Link } from 'react-router-dom'
-import './style.scss'
+import React, { Component } from "react";
+import autobind from "autobind-decorator";
+import { Layout, Menu, Icon } from "antd";
+import { inject, observer } from "mobx-react";
+import { Link } from "react-router-dom";
+import "./style.scss";
 
-const { Header, Sider } = Layout
-const SubMenu = Menu.SubMenu
+const { Header, Sider } = Layout;
+const SubMenu = Menu.SubMenu;
 
-@inject('sideBar', 'loginStore')
+@inject("sideBar", "loginStore")
 @observer
 class SideBar extends Component {
-  sideBar = this.props.sideBar
-  loginStore = this.props.loginStore
+  sideBar = this.props.sideBar;
+  loginStore = this.props.loginStore;
 
   componentDidMount() {
-    if (!this.loginStore.isLogged && window.location.pathname !== '/login') {
-      window.location.href = '/login'
-      return
+    if (!this.loginStore.isLogged && window.location.pathname !== "/login") {
+      window.location.href = "/login";
+      return;
     }
-    if (window.location.pathname !== '/login') {
-      this.sideBar.getUserResource()
+    if (window.location.pathname !== "/login") {
+      this.sideBar.getUserResource();
     }
   }
 
   @autobind
   handleLogout() {
-    this.sideBar.logout()
+    this.sideBar.logout();
   }
 
   _formatMenuTree(resources) {
@@ -34,7 +34,7 @@ class SideBar extends Component {
       if (item.children && item.children.length) {
         return (
           <SubMenu
-            key={item.resource_id + '-' + item.resource_pid}
+            key={item.resource_id + "-" + item.resource_pid}
             title={
               <span>
                 <span>{item.name}</span>
@@ -43,27 +43,27 @@ class SideBar extends Component {
           >
             {this._formatMenuTree(item.children)}
           </SubMenu>
-        )
+        );
       } else {
         return (
           <Menu.Item
             key={
-              item.location || '#' + item.resource_id + '-' + item.resource_pid
+              item.location || "#" + item.resource_id + "-" + item.resource_pid
             }
           >
             <Link to={item.location}>
               <span>{item.name}</span>
             </Link>
           </Menu.Item>
-        )
+        );
       }
-    })
+    });
   }
 
   render() {
-    let $navSider = null
+    let $navSider = null;
     if (this.loginStore.isLogged) {
-      const $tree = this._formatMenuTree(this.sideBar.resourcesTree)
+      const $tree = this._formatMenuTree(this.sideBar.resourcesTree);
       $navSider = (
         <Sider theme="light" breakpoint="lg" collapsedWidth="0">
           <div className="logo">雪球CRM</div>
@@ -71,7 +71,7 @@ class SideBar extends Component {
             {$tree}
           </Menu>
         </Sider>
-      )
+      );
     }
     return (
       <Layout id="Layout">
@@ -88,8 +88,8 @@ class SideBar extends Component {
           <div className="container">{this.props.children}</div>
         </Layout>
       </Layout>
-    )
+    );
   }
 }
 
-export default SideBar
+export default SideBar;

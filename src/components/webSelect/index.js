@@ -1,22 +1,22 @@
-import { Component } from 'react'
-import { Select } from 'antd'
+import { Component } from "react";
+import { Select } from "antd";
 
-const Option = Select.Option
+const Option = Select.Option;
 
 class webSelect extends Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
   componentDidMount() {}
   handleChange = name => {
-    console.log(`selected ${name}`)
-    this.props.onChange(name)
-  }
+    console.log(`selected ${name}`);
+    this.props.onChange(name);
+  };
   render() {
     return (
       <Select
         showSearch
-        style={{ width: 200, margin: ' 0.5rem 1rem' }}
+        style={{ width: 200, margin: " 0.5rem 1rem" }}
         placeholder="请选择"
         optionFilterProp="children"
         onChange={this.handleChange}
@@ -28,8 +28,8 @@ class webSelect extends Component {
         <Option value="lucy">Lucy</Option>
         <Option value="tom">Tom</Option>
       </Select>
-    )
+    );
   }
 }
 
-export default webSelect
+export default webSelect;

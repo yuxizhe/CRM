@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
-import { observer, inject } from 'mobx-react'
-import autobind from 'autobind-decorator'
-import { Button, Card, Divider, Form, Input, Modal, Popover, Tree } from 'antd'
-import store from './store'
+import React, { Component } from "react";
+import { observer, inject } from "mobx-react";
+import autobind from "autobind-decorator";
+import { Button, Card, Divider, Form, Input, Modal, Popover, Tree } from "antd";
+import store from "./store";
 
-const TreeNode = Tree.TreeNode
-const FormItem = Form.Item
+const TreeNode = Tree.TreeNode;
+const FormItem = Form.Item;
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
@@ -15,25 +15,25 @@ const formItemLayout = {
     xs: { span: 24 },
     sm: { span: 16 }
   }
-}
-const confirm = Modal.confirm
+};
+const confirm = Modal.confirm;
 
 @observer
 export default class ResourceManage extends Component {
-  store = this.props.resourceManageStore
+  store = this.props.resourceManageStore;
 
   constructor(props) {
-    super(props)
-    this.store = store
+    super(props);
+    this.store = store;
   }
 
   componentDidMount() {
-    this.store.getAllResources()
+    this.store.getAllResources();
   }
 
   @autobind
   onExpand(expandedKeys) {
-    this.store.expandNode(expandedKeys)
+    this.store.expandNode(expandedKeys);
   }
 
   // 删除节点
@@ -42,62 +42,62 @@ export default class ResourceManage extends Component {
     confirm({
       title: `确认删除 "${node.name}"?`,
       onOk: () => {
-        this.store.deleteResource(node)
+        this.store.deleteResource(node);
       },
-      okText: '确认',
-      cancelText: '取消'
-    })
+      okText: "确认",
+      cancelText: "取消"
+    });
   }
 
   // 添加节点
 
   @autobind
   handleAddChildNode(node) {
-    this.store.showCreateDialog(node)
+    this.store.showCreateDialog(node);
   }
 
   @autobind
   hideCreateDialog() {
-    this.store.hideCreateDialog()
+    this.store.hideCreateDialog();
   }
 
   @autobind
   handleCreateResource() {
-    this.store.createResource()
+    this.store.createResource();
   }
 
   // 编辑节点
 
   @autobind
   handleEditNode(node) {
-    this.store.showEditDialog(node)
+    this.store.showEditDialog(node);
   }
 
   @autobind
   hideEditDialog() {
-    this.store.hideEditDialog()
+    this.store.hideEditDialog();
   }
 
   @autobind
   handleEditResource() {
-    this.store.editResource()
+    this.store.editResource();
   }
 
   @autobind
   handleValueChange(field, e) {
-    this.store.handleValueChange(field, e.target.value)
+    this.store.handleValueChange(field, e.target.value);
   }
 
   renderTreeNodes(data) {
     const $popTitle = item => (
       <Popover
-        key={item.resource_id + '-' + item.resource_pid}
+        key={item.resource_id + "-" + item.resource_pid}
         placement="rightTop"
         content={
           <div>
             <Button
               onClick={() => {
-                this.handleEditNode(item)
+                this.handleEditNode(item);
               }}
             >
               修改节点
@@ -105,7 +105,7 @@ export default class ResourceManage extends Component {
             <Divider type="vertical" />
             <Button
               onClick={() => {
-                this.handleDeleteNode(item)
+                this.handleDeleteNode(item);
               }}
             >
               删除节点
@@ -113,7 +113,7 @@ export default class ResourceManage extends Component {
             <Divider type="vertical" />
             <Button
               onClick={() => {
-                this.handleAddChildNode(item)
+                this.handleAddChildNode(item);
               }}
             >
               添加子节点
@@ -124,27 +124,27 @@ export default class ResourceManage extends Component {
       >
         {item.name}
       </Popover>
-    )
+    );
     return data.map(item => {
       if (item.children && item.children.length) {
         return (
           <TreeNode
-            key={item.resource_id + '-' + item.resource_pid}
+            key={item.resource_id + "-" + item.resource_pid}
             title={$popTitle(item)}
             dataRef={item}
           >
             {this.renderTreeNodes(item.children)}
           </TreeNode>
-        )
+        );
       }
       return (
         <TreeNode
-          key={item.resource_id + '-' + item.resource_pid}
+          key={item.resource_id + "-" + item.resource_pid}
           title={$popTitle(item)}
           dataRef={item}
         />
-      )
-    })
+      );
+    });
   }
 
   render() {
@@ -173,7 +173,7 @@ export default class ResourceManage extends Component {
             <Input
               value={this.store.form.name}
               onChange={e => {
-                this.handleValueChange('name', e)
+                this.handleValueChange("name", e);
               }}
             />
           </FormItem>
@@ -181,7 +181,7 @@ export default class ResourceManage extends Component {
             <Input
               value={this.store.form.location}
               onChange={e => {
-                this.handleValueChange('location', e)
+                this.handleValueChange("location", e);
               }}
             />
           </FormItem>
@@ -189,7 +189,7 @@ export default class ResourceManage extends Component {
             <Input
               value={this.store.form.path}
               onChange={e => {
-                this.handleValueChange('path', e)
+                this.handleValueChange("path", e);
               }}
             />
           </FormItem>
@@ -197,7 +197,7 @@ export default class ResourceManage extends Component {
             <Input
               value={this.store.form.icon}
               onChange={e => {
-                this.handleValueChange('icon', e)
+                this.handleValueChange("icon", e);
               }}
             />
           </FormItem>
@@ -216,7 +216,7 @@ export default class ResourceManage extends Component {
             <Input
               value={this.store.form.name}
               onChange={e => {
-                this.handleValueChange('name', e)
+                this.handleValueChange("name", e);
               }}
             />
           </FormItem>
@@ -224,7 +224,7 @@ export default class ResourceManage extends Component {
             <Input
               value={this.store.form.location}
               onChange={e => {
-                this.handleValueChange('location', e)
+                this.handleValueChange("location", e);
               }}
             />
           </FormItem>
@@ -232,7 +232,7 @@ export default class ResourceManage extends Component {
             <Input
               value={this.store.form.path}
               onChange={e => {
-                this.handleValueChange('path', e)
+                this.handleValueChange("path", e);
               }}
             />
           </FormItem>
@@ -240,12 +240,12 @@ export default class ResourceManage extends Component {
             <Input
               value={this.store.form.icon}
               onChange={e => {
-                this.handleValueChange('icon', e)
+                this.handleValueChange("icon", e);
               }}
             />
           </FormItem>
         </Modal>
       </div>
-    )
+    );
   }
 }

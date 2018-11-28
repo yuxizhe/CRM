@@ -1,20 +1,20 @@
-import React, { Component } from 'react'
-import './style.scss'
+import React, { Component } from "react";
+import "./style.scss";
 
-import { observer, inject } from 'mobx-react'
-import { Button } from 'antd'
+import { observer, inject } from "mobx-react";
+import { Button } from "antd";
 
-@inject('gStore')
+@inject("gStore")
 @observer
 class Home extends Component {
   constructor(props) {
-    super(props)
-    let { updateName } = props.gStore
-    updateName('xueqiu')
+    super(props);
+    let { updateName } = props.gStore;
+    updateName("xueqiu");
   }
   render() {
-    const gName = this.props.gStore.userInfo.name
-    const lName = this.props.store.userInfo.name
+    const gName = this.props.gStore.userInfo.name;
+    const lName = this.props.store.userInfo.name;
     return (
       <div className="home">
         雪球
@@ -26,7 +26,7 @@ class Home extends Component {
         </p>
         <Button type="primary">Button</Button>
       </div>
-    )
+    );
   }
 }
-export default Home
+export default Home;
