@@ -111,5 +111,148 @@ module.exports = function(app) {
         success: true
       })
     })
+
+    // 用户查询接口
+    app.get('/xq/report/permission/user/get/all.json', (req, res) => {
+      res.json({
+        result_data: [
+          {
+            user_id: 1,
+            name: 'aaa',
+            create_time: 1522754186000,
+            update_time: 1522754186000,
+            roles: [
+              {
+                role_id: 1,
+                name: 'admin',
+                create_time: 1522754186000,
+                update_time: 1522754186000,
+                resources: null
+              },
+              {
+                role_id: 2,
+                name: '运营',
+                create_time: 1524028250463,
+                update_time: 1524028250463,
+                resources: null
+              }
+            ]
+          },
+          {
+            user_id: 2,
+            name: 'bbb',
+            create_time: 1522754186000,
+            update_time: 1522754186000,
+            roles: [
+              {
+                role_id: 1,
+                name: 'admin',
+                create_time: 1522754186000,
+                update_time: 1522754186000,
+                resources: null
+              }
+            ]
+          },
+          {
+            user_id: 3,
+            name: 'ccc',
+            create_time: 1522754186000,
+            update_time: 1522754186000,
+            roles: [
+              {
+                role_id: 1,
+                name: 'admin',
+                create_time: 1522754186000,
+                update_time: 1522754186000,
+                resources: null
+              }
+            ]
+          }
+        ],
+        msg: null,
+        result_code: '60000',
+        success: true
+      })
+    })
+
+    // 权限分类接口
+    app.get('/xq/report/permission/role/get/all.json', (req, res) => {
+      res.json({
+        result_data: [
+          {
+            role_id: 1,
+            name: 'admin',
+            create_time: 1522754186000,
+            update_time: 1522754186000,
+            resources: null
+          },
+          {
+            role_id: 2,
+            name: '运营',
+            create_time: 1524028250463,
+            update_time: 1524028250463,
+            resources: null
+          },
+          {
+            role_id: 3,
+            name: '客服',
+            create_time: 1527059218231,
+            update_time: 1527059218231,
+            resources: null
+          },
+          {
+            role_id: 4,
+            name: '消息推送者',
+            create_time: 1534766600670,
+            update_time: 1534766600670,
+            resources: null
+          },
+          {
+            role_id: 7,
+            name: '测试',
+            create_time: 1542258805745,
+            update_time: 1542258805745,
+            resources: null
+          },
+          {
+            role_id: 8,
+            name: '境外卡办理',
+            create_time: 1542959222507,
+            update_time: 1542959222507,
+            resources: null
+          },
+          {
+            role_id: 9,
+            name: '开发',
+            create_time: 1543287488559,
+            update_time: 1543287488559,
+            resources: null
+          }
+        ],
+        msg: null,
+        result_code: '60000',
+        success: true
+      })
+    })
+
+    // 新建用户接口
+    app.get('/xq/report/permission/user/save.json', (req, res) => {
+      res.json({
+        result_data: '',
+        msg: null,
+        result_code: '60000',
+        success: true
+      })
+    })
+
+    // 剩余接口统一返回成功
+    app.all('/xq/*', (req, res) => {
+      res.json({
+        result_data: '',
+        msg: null,
+        result_code: '60000',
+        success: true
+      })
+    })
   }
 }

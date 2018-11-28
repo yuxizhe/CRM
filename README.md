@@ -33,7 +33,7 @@ react16 + react-router4 + webpack4 + mobx + HMR 热更新 + 代码分割
 
 - 局部 store
 
-  在页面目录下 存储局部数据状态。 在路由列表上添加 store 即可。 能通过路由区分的 store 均可采用局部 store。 由 react 基础 props 实现
+  在页面目录下 存储局部数据状态。 可通过直接 import 引入 或者在路由列表上添加 store 即可。 能通过路由区分的 store 均可采用局部 store。 由 react 基础 props 实现
 
 ## 需求
 
@@ -41,9 +41,9 @@ react16 + react-router4 + webpack4 + mobx + HMR 热更新 + 代码分割
 - [x] 接口 mock
 - [x] 接口代理
 - [x] 登录管理
-- 页面权限管理
-- 用户权限分组
-- 基本统计绘图
+- [x] 用户权限分配
+- [ ] 页面权限管理分组
+- [ ] 基本统计绘图
 
 ## 选型
 

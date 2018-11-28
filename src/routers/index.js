@@ -12,6 +12,11 @@ const loginPage = Loadable({
   loader: () => import(/* webpackChunkName: "login" */ 'src/pages/Login'),
   loading: () => null
 })
+const userManage = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: "usermanage" */ 'src/pages/UserManage'),
+  loading: () => null
+})
 
 import store from 'src/pages/Home/store.js'
 
@@ -32,6 +37,11 @@ const routes = [
     path: '/login',
     exact: true,
     component: loginPage
+  },
+  {
+    path: '/user-manage',
+    exact: true,
+    component: userManage
   }
 ]
 
