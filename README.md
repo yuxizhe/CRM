@@ -16,6 +16,53 @@ react16 + react-router4 + webpack4 + mobx + HMR 热更新 + 代码分割
 - [x] 页面权限管理分组 （新建分组 修改分组权限）接口 mock
 - [ ] 基本统计绘图
 
+## 目录结构
+
+```
+├── Dockerfile
+├── README.md
+├── app.js                node 启动入口
+├── index.html            开发html模板
+├── index.prod.html       生产html模板
+├── package.json          包管理
+├── public                打包生成目录
+├── script                开发&生产 脚本
+│   ├── dev.js
+│   └── prod-build.js
+├── src                   主源码
+│   ├── App.js            react App
+│   ├── index.js          webpack 打包入口
+│   ├── components        通用模块
+│   │   ├── SideBar
+│   │   │   ├── index.js
+│   │   │   └── style.scss
+│   │   └── webSelect
+│   │       └── index.js
+│   ├── middleware        中间件
+│   │   ├── index.js
+│   │   ├── mock.js       mock接口数据
+│   │   └── proxy.js      接口代理
+│   ├── pages             页面组件
+│   │   ├── Home          代码&store&样式都放在一个目录下
+│   │   │   ├── index.js
+│   │   │   ├── store.js
+│   │   │   └── style.scss
+│   ├── routers           路由
+│   │   └── index.js
+│   ├── static            通用资源
+│   │   └── style
+│   │       └── var.scss
+│   ├── stores            全局store
+│   │   ├── index.js
+│   │   ├── login.js
+│   │   └── sideBar.js
+│   └── utils             通用库
+│       ├── cookie.js
+│       └── httpclient.js
+├── webpack.config.js     webpack 开发配置
+├── webpack.prod.js       webpack 生产配置
+```
+
 ## install script
 
 - `yarn`
@@ -52,6 +99,20 @@ react16 + react-router4 + webpack4 + mobx + HMR 热更新 + 代码分割
 - 局部 store
 
   在页面目录下 存储局部数据状态。 可通过直接 import 引入 或者在路由列表上添加 store 即可。 能通过路由区分的 store 均可采用局部 store。 由 react 基础 props 实现
+
+## 外部引用
+
+ 通用资源直接引用 cdn，避免开发  中无用重复打包，提高打包速度
+
+```js
+externals: {
+  react: 'React',
+  'react-dom': 'ReactDOM',
+  mobx: 'mobx',
+  'mobx-react': 'mobxReact',
+  axios: 'axios'
+}
+```
 
 ## 引用路径 alias
 
@@ -109,7 +170,7 @@ const proxyTable = {
 
 ### 路由：`react router`
 
-### 按需加载 `react-loadable`
+### 按需加载： `react-loadable`
 
 ### hot reload
 
@@ -120,3 +181,5 @@ const proxyTable = {
 ### 美化
 
 - webpackbar https://www.npmjs.com/package/webpackbar
+
+![](https://ws1.sinaimg.cn/mw690/6b201a41gy1fxnuw4fe2ng20eq05m0w9.gif)
