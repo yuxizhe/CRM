@@ -24,7 +24,6 @@ var browserConfig = {
     mobx: 'mobx',
     'mobx-react': 'mobxReact',
     axios: 'axios'
-    // mint: 'mint-ui'
   },
   resolve: {
     extensions: ['.js'],
@@ -84,6 +83,7 @@ var browserConfig = {
       filename: 'vender.css',
       chunkFilename: '[name].css'
     }),
+    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /zh-cn/),
     new WebpackBar({
       color: '#f56be2',
       name: 'client'

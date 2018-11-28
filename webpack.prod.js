@@ -91,6 +91,8 @@ var browserConfig = {
       filename: 'vender.[chunkhash].css',
       chunkFilename: '[name].[chunkhash].css'
     }),
+    // moment 只打包 cn locale
+    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /zh-cn/),
     new WebpackBar({
       color: '#f56be2'
     })
