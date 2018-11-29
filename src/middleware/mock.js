@@ -61,9 +61,9 @@ module.exports = function(app) {
           {
             resource_id: 5,
             resource_pid: 0,
-            name: "概览",
+            name: "测试页面",
             path: "",
-            location: "/",
+            location: "/example",
             icon: "tachometer-alt",
             locked: false,
             create_time: 1523257349592,

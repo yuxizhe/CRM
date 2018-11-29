@@ -66,7 +66,9 @@ class SideBar extends Component {
       const $tree = this._formatMenuTree(this.sideBar.resourcesTree);
       $navSider = (
         <Sider theme="light" breakpoint="lg" collapsedWidth="0">
-          <div className="logo">雪球CRM</div>
+          <div className="logo">
+            <Link to='/'>雪球CRM</Link>
+          </div>
           <Menu mode="inline" theme="light">
             {$tree}
           </Menu>

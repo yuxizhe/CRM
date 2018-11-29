@@ -20,8 +20,6 @@ const confirm = Modal.confirm;
 
 @observer
 export default class ResourceManage extends Component {
-  store = this.props.resourceManageStore;
-
   constructor(props) {
     super(props);
     this.store = store;
@@ -37,7 +35,6 @@ export default class ResourceManage extends Component {
   }
 
   // 删除节点
-
   handleDeleteNode(node) {
     confirm({
       title: `确认删除 "${node.name}"?`,

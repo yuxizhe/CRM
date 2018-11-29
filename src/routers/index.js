@@ -1,7 +1,7 @@
 import Loadable from "react-loadable";
 
-const Home = Loadable({
-  loader: () => import(/* webpackChunkName: "home" */ "src/pages/Home"),
+const Example = Loadable({
+  loader: () => import(/* webpackChunkName: "example" */ "src/pages/Example"),
   loading: () => null
 });
 const ImportPage = Loadable({
@@ -28,13 +28,13 @@ const ResourceManage = Loadable({
   loading: () => null
 });
 
-import store from "src/pages/Home/store.js";
+import store from "src/pages/Example/store.js";
 
 const routes = [
   {
-    path: "/",
+    path: "/example",
     exact: true,
-    component: Home,
+    component: Example,
     // 局部数据store
     store: store
   },
