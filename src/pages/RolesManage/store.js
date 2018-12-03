@@ -32,7 +32,7 @@ class RolesManageStore {
       load_resource: 0
     }).then(
       action(res => {
-        this.roles = res.result_data;
+        this.roles = res.data;
       })
     );
   }
@@ -40,14 +40,14 @@ class RolesManageStore {
   getAllResources() {
     HttpClient.get("/xq/report/permission/resource/get/all.json").then(
       action(res => {
-        this.resources = res.result_data;
+        this.resources = res.data;
         this.resourcesTree = [
           {
             resource_id: 0,
             resource_pid: 0,
             location: "/",
             name: "所有权限",
-            children: this._toTreeData(res.result_data)
+            children: this._toTreeData(res.data)
           }
         ];
       })
@@ -103,7 +103,7 @@ class RolesManageStore {
       role_id: role.role_id
     }).then(
       action(res => {
-        this.checkedKeys = res.result_data.map(
+        this.checkedKeys = res.data.map(
           item => item.resource_id + "-" + item.resource_pid
         );
         this.currentSelectRole = role;

@@ -30,9 +30,9 @@ class HttpClient {
 
   handleSuccessResponse(res) {
     res = res.data;
-    if (res && res.result_code === "60000") {
+    if (res && res.error_code === 0) {
       return res;
-    } else if (res.result_code === "790002" || res.result_code === "79003") {
+    } else if (res.error_code === "400016" || res.error_code === "79003") {
       if (process.env.NODE_ENV === "development") {
         Cookie.clear("xq_crm_token");
       }

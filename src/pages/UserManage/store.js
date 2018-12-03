@@ -34,7 +34,7 @@ class UserManageStore {
       load_role: 1
     }).then(
       action(res => {
-        this.users = res.result_data;
+        this.users = res.data;
       })
     );
   }
@@ -44,7 +44,7 @@ class UserManageStore {
       load_resource: 0
     }).then(
       action(res => {
-        this.roles = res.result_data;
+        this.roles = res.data;
       })
     );
   }

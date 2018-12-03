@@ -9,7 +9,7 @@ module.exports = function(app) {
     // 用户侧边栏权限获取接口
     app.get("/xq/report/auth/query.json", (req, res) => {
       res.json({
-        result_data: [
+        data: [
           {
             resource_id: 1,
             resource_pid: 0,
@@ -83,8 +83,8 @@ module.exports = function(app) {
             resource_type: ""
           }
         ],
-        msg: null,
-        result_code: "60000",
+        error_description: null,
+        error_code: 0,
         success: true
       });
     });
@@ -93,11 +93,11 @@ module.exports = function(app) {
     app.post("/xq/report/auth/login.json", (req, res) => {
       const token = `${req.body.username}-${req.body.password}`;
       res.json({
-        result_data: {
+        data: {
           xq_crm_token: token
         },
-        msg: null,
-        result_code: "60000",
+        error_description: null,
+        error_code: 0,
         success: true
       });
     });
@@ -105,7 +105,7 @@ module.exports = function(app) {
     // 用户查询接口
     app.get("/xq/report/permission/user/get/all.json", (req, res) => {
       res.json({
-        result_data: [
+        data: [
           {
             user_id: 1,
             name: "aaa",
@@ -159,8 +159,8 @@ module.exports = function(app) {
             ]
           }
         ],
-        msg: null,
-        result_code: "60000",
+        error_description: null,
+        error_code: 0,
         success: true
       });
     });
@@ -168,7 +168,7 @@ module.exports = function(app) {
     // 权限分类接口
     app.get("/xq/report/permission/role/get/all.json", (req, res) => {
       res.json({
-        result_data: [
+        data: [
           {
             role_id: 1,
             name: "admin",
@@ -191,8 +191,8 @@ module.exports = function(app) {
             resources: null
           }
         ],
-        msg: null,
-        result_code: "60000",
+        error_description: null,
+        error_code: 0,
         success: true
       });
     });
@@ -200,7 +200,7 @@ module.exports = function(app) {
     // 用户角色查询接口
     app.get("/xq/report/permission/role/get/all.json", (req, res) => {
       res.json({
-        result_data: [
+        data: [
           {
             role_id: 1,
             name: "admin",
@@ -251,8 +251,8 @@ module.exports = function(app) {
             resources: null
           }
         ],
-        msg: null,
-        result_code: "60000",
+        error_description: null,
+        error_code: 0,
         success: true
       });
     });
@@ -260,7 +260,7 @@ module.exports = function(app) {
     // 获取角色权限
     app.get("/xq/report/permission/role/get/resources.json", (req, res) => {
       res.json({
-        result_data: [
+        data: [
           {
             resource_id: 1,
             resource_pid: 0,
@@ -322,8 +322,8 @@ module.exports = function(app) {
             resource_type: ""
           }
         ],
-        msg: null,
-        result_code: "60000",
+        error_description: null,
+        error_code: 0,
         success: true
       });
     });
@@ -331,7 +331,7 @@ module.exports = function(app) {
     // 获取所有模块
     app.get("/xq/report/permission/resource/get/all.json", (req, res) => {
       res.json({
-        result_data: [
+        data: [
           {
             resource_id: 1,
             resource_pid: 0,
@@ -393,8 +393,8 @@ module.exports = function(app) {
             resource_type: ""
           }
         ],
-        msg: null,
-        result_code: "60000",
+        error_description: null,
+        error_code: 0,
         success: true
       });
     });
@@ -402,9 +402,9 @@ module.exports = function(app) {
     // 剩余接口统一返回成功
     app.all("/xq/*", (req, res) => {
       res.json({
-        result_data: "",
-        msg: null,
-        result_code: "60000",
+        data: "",
+        error_description: null,
+        error_code: 0,
         success: true
       });
     });

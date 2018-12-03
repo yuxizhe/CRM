@@ -14,6 +14,8 @@ react16 + react-router4 + webpack4 + mobx + HMR 热更新 + 代码分割
 - [x] 登录管理
 - [x] 用户权限分配 （用户管理 新建用户 修改权限） 接口 mock
 - [x] 页面权限管理分组 （新建分组 修改分组权限）接口 mock
+- [x] 规范接口 规范数据格式
+- [ ] 通用组件需求收集并给出例子
 - [ ] 基本统计绘图
 
 ## 目录结构
@@ -88,6 +90,10 @@ react16 + react-router4 + webpack4 + mobx + HMR 热更新 + 代码分割
 - `npm run build`
 - `npm run start` 或者 `pm2`
 
+## CRM 后台接口规范
+
+> http://docs.snowballfinance.com/pages/viewpage.action?pageId=38803598
+
 ## 数据 store 配置
 
 分为`全局store` 和 `局部store`
@@ -150,12 +156,12 @@ antd 3.9 版本以后会把所有的图标文件打包到 js 里 导致包很大
 
 ```js
 const proxyTable = {
-  '/xq': {
-    target: 'https://api.xueqiu.com/',
+  "/xq": {
+    target: "https://api.xueqiu.com/",
     changeOrigin: true,
-    pathRewrite: (path, req) => path.replace('/xq', '')
+    pathRewrite: (path, req) => path.replace("/xq", "")
   }
-}
+};
 ```
 
 请求接口封装放在 `src/utils/httpclient` 中

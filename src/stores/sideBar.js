@@ -9,7 +9,7 @@ export default class NavStore {
     HttpClient.get("/xq/report/auth/query.json").then(
       action(res => {
         if (res) {
-          this.resourcesTree = this._toTreeData(res.result_data);
+          this.resourcesTree = this._toTreeData(res.data);
         }
       })
     );
