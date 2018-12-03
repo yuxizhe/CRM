@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./style.scss";
-import Chart from "snb-crm-chart";
+// import Chart from "snb-crm-chart";
 import { observer, inject } from "mobx-react";
 import { Button } from "antd";
 
@@ -18,7 +18,7 @@ class Home extends Component {
     return (
       <div className="home">
         雪球
-        <Chart />
+        {/* <Chart /> */}
         <p>
           全局mobx: <strong className="name"> {gName}</strong>
         </p>
