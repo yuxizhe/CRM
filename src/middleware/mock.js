@@ -71,6 +71,54 @@ module.exports = function(app) {
             resource_type: ""
           },
           {
+            resource_id: 51,
+            resource_pid: 5,
+            name: "列表查询页",
+            path: "",
+            location: "/example/list",
+            icon: "tachometer-alt",
+            locked: false,
+            create_time: 1523257349592,
+            update_time: 1539595755019,
+            resource_type: ""
+          },
+          {
+            resource_id: 52,
+            resource_pid: 5,
+            name: "信息展示页",
+            path: "",
+            location: "/example/info",
+            icon: "tachometer-alt",
+            locked: false,
+            create_time: 1523257349592,
+            update_time: 1539595755019,
+            resource_type: ""
+          },
+          {
+            resource_id: 53,
+            resource_pid: 5,
+            name: "图表页",
+            path: "",
+            location: "/example/chart",
+            icon: "tachometer-alt",
+            locked: false,
+            create_time: 1523257349592,
+            update_time: 1539595755019,
+            resource_type: ""
+          },
+          {
+            resource_id: 54,
+            resource_pid: 5,
+            name: "Dashboard",
+            path: "",
+            location: "/example/dashboard",
+            icon: "tachometer-alt",
+            locked: false,
+            create_time: 1523257349592,
+            update_time: 1539595755019,
+            resource_type: ""
+          },
+          {
             resource_id: 6,
             resource_pid: 0,
             name: "数据导入",

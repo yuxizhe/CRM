@@ -27,6 +27,11 @@ const ResourceManage = Loadable({
     import(/* webpackChunkName: "resource-manage" */ "src/pages/ResourceManage"),
   loading: () => null
 });
+const ExampleUserList = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: "example" */ "src/pages/Example/List"),
+  loading: () => null
+});
 
 import store from "src/pages/Example/store.js";
 
@@ -37,6 +42,10 @@ const routes = [
     component: Example,
     // 局部数据store
     store: store
+  },
+  {
+    path: "/example/list",
+    component: ExampleUserList
   },
   {
     path: "/import",
