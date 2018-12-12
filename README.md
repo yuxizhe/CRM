@@ -15,7 +15,7 @@ react16 + react-router4 + webpack4 + mobx + HMR 热更新 + 代码分割
 - [x] 用户权限分配 （用户管理 新建用户 修改权限） 接口 mock
 - [x] 页面权限管理分组 （新建分组 修改分组权限）接口 mock
 - [x] 规范接口 规范数据格式
-- [ ] 通用组件需求收集并给出例子
+- [x] 通用组件需求收集并给出例子
 - [ ] 基本统计绘图
 
 ## 目录结构
@@ -96,19 +96,21 @@ react16 + react-router4 + webpack4 + mobx + HMR 热更新 + 代码分割
 
 > https://ant.design/docs/react/introduce-cn
 
+## 页面 UI
 
-## 页面UI 
-
-UI风格参考 AntDesignPro
+UI 风格参考 AntDesignPro
 
 > 文档 https://pro.ant.design/index-cn
 
 > 示例 https://preview.pro.ant.design/dashboard/analysis
 
+## 页面编写参考
+
+参考 pages 中的 manage 和 example 目录。react+mobx 的形式。
 
 ## 左边栏增加
 
-采用读后端接口，有权限的才显示，所以开发阶段新增页面时，想在左边栏可以在mock.js 接口中新增数据。
+采用读后端接口，有权限的才显示，所以开发阶段新增页面时，想在左边栏可以在 mock.js 接口中新增数据。
 
 ## CRM 后台接口规范
 
