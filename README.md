@@ -90,6 +90,26 @@ react16 + react-router4 + webpack4 + mobx + HMR 热更新 + 代码分割
 - `npm run build`
 - `npm run start` 或者 `pm2`
 
+## 组件
+
+采用 ant design 组件
+
+> https://ant.design/docs/react/introduce-cn
+
+
+## 页面UI 
+
+UI风格参考 AntDesignPro
+
+> 文档 https://pro.ant.design/index-cn
+
+> 示例 https://preview.pro.ant.design/dashboard/analysis
+
+
+## 左边栏增加
+
+采用读后端接口，有权限的才显示，所以开发阶段新增页面时，想在左边栏可以在mock.js 接口中新增数据。
+
 ## CRM 后台接口规范
 
 > http://docs.snowballfinance.com/pages/viewpage.action?pageId=38803598
