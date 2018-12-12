@@ -448,7 +448,7 @@ module.exports = function(app) {
     });
 
     // 剩余接口统一返回成功
-    app.all("/xq/*", (req, res) => {
+    app.all("/xq/report/*", (req, res) => {
       res.json({
         data: "",
         error_description: null,
