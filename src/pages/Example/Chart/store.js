@@ -14,7 +14,6 @@ class Store {
   @action
   changeChart(value) {
     message.success("图表更新");
-    this.options.title.text = value;
     this.options.series[0].data = this.options.series[0].data.slice().reverse();
   }
 }
