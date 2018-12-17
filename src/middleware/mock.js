@@ -1,7 +1,7 @@
 /**
  * 本地接口mock
  */
-module.exports = function(app) {
+module.exports = function (app) {
   const isMock = process.env.MOCK_ENV === "mock";
   if (isMock) {
     console.log("  ✈️   mocking now ! \n");
@@ -16,7 +16,7 @@ module.exports = function(app) {
             name: "权限管理",
             path: "/internal/snowx/report/permission/.*",
             location: "",
-            icon: "cog",
+            icon: "team",
             locked: true,
             create_time: 1522754186000,
             update_time: 1523257425826,
@@ -28,7 +28,7 @@ module.exports = function(app) {
             name: "用户管理",
             path: "",
             location: "/user-manage",
-            icon: "",
+            icon: "user-add",
             locked: false,
             create_time: 1522754186000,
             update_time: 1522754186000,
@@ -40,7 +40,7 @@ module.exports = function(app) {
             name: "角色管理",
             path: "",
             location: "/role-manage",
-            icon: "",
+            icon: "usergroup-add",
             locked: false,
             create_time: 1522754186000,
             update_time: 1523257496999,
@@ -52,7 +52,7 @@ module.exports = function(app) {
             name: "资源管理",
             path: "",
             location: "/resource-manage",
-            icon: "",
+            icon: "folder-add",
             locked: false,
             create_time: 1522754186000,
             update_time: 1523257506011,
@@ -64,7 +64,7 @@ module.exports = function(app) {
             name: "测试页面",
             path: "",
             location: "/example",
-            icon: "tachometer-alt",
+            icon: "appstore",
             locked: false,
             create_time: 1523257349592,
             update_time: 1539595755019,
@@ -76,7 +76,7 @@ module.exports = function(app) {
             name: "列表查询页",
             path: "",
             location: "/example/list",
-            icon: "tachometer-alt",
+            icon: "bars",
             locked: false,
             create_time: 1523257349592,
             update_time: 1539595755019,
@@ -88,7 +88,7 @@ module.exports = function(app) {
             name: "信息展示页",
             path: "",
             location: "/example/info",
-            icon: "tachometer-alt",
+            icon: "file-ppt",
             locked: false,
             create_time: 1523257349592,
             update_time: 1539595755019,
@@ -100,7 +100,7 @@ module.exports = function(app) {
             name: "图表页",
             path: "",
             location: "/example/chart",
-            icon: "tachometer-alt",
+            icon: "line-chart",
             locked: false,
             create_time: 1523257349592,
             update_time: 1539595755019,
@@ -112,22 +112,22 @@ module.exports = function(app) {
             name: "Dashboard",
             path: "",
             location: "/example/dashboard",
-            icon: "tachometer-alt",
+            icon: "dashboard",
             locked: false,
             create_time: 1523257349592,
             update_time: 1539595755019,
             resource_type: ""
           },
           {
-            resource_id: 6,
-            resource_pid: 0,
-            name: "数据导入",
+            resource_id: 55,
+            resource_pid: 5,
+            name: "信息输入弹窗",
             path: "",
-            location: "/import",
-            icon: "chart-line",
+            location: "/example/modal",
+            icon: "form",
             locked: false,
-            create_time: 1523257401487,
-            update_time: 1523257401487,
+            create_time: 1523257349592,
+            update_time: 1539595755019,
             resource_type: ""
           }
         ],

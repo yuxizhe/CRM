@@ -37,6 +37,7 @@ class SideBar extends Component {
             key={item.resource_id + "-" + item.resource_pid}
             title={
               <span>
+                <Icon type={item.icon ? item.icon : "file"} />
                 <span>{item.name}</span>
               </span>
             }
@@ -52,6 +53,7 @@ class SideBar extends Component {
             }
           >
             <Link to={item.location}>
+              <Icon type={item.icon ? item.icon : "file"} />
               <span>{item.name}</span>
             </Link>
           </Menu.Item>
@@ -65,11 +67,11 @@ class SideBar extends Component {
     if (this.loginStore.isLogged) {
       const $tree = this._formatMenuTree(this.sideBar.resourcesTree);
       $navSider = (
-        <Sider theme="light" breakpoint="lg" collapsedWidth="0">
+        <Sider theme="dark" breakpoint="lg" collapsedWidth="0">
           <div className="logo">
             <Link to='/'>雪球CRM</Link>
           </div>
-          <Menu mode="inline" theme="light">
+          <Menu mode="inline" theme="dark" defaultOpenKeys={['5-0']}>
             {$tree}
           </Menu>
         </Sider>
