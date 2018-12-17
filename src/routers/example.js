@@ -9,6 +9,11 @@ const ExampleInfo = Loadable({
     import(/* webpackChunkName: "example" */ "src/pages/Example/Info"),
   loading: () => null
 });
+const ExampleChart = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: "example" */ "src/pages/Example/Chart"),
+  loading: () => null
+});
 
 const exampleRoutes = [
   {
@@ -18,7 +23,11 @@ const exampleRoutes = [
   {
     path: "/example/info",
     component: ExampleInfo
-  }
+  },
+  {
+    path: "/example/chart",
+    component: ExampleChart
+  },
 ];
 
 export default exampleRoutes;
