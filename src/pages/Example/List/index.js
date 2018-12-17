@@ -1,51 +1,14 @@
 import { Table, Icon, Select, Button, Input, Form, Divider, Card } from "antd";
-import { observer, inject } from "mobx-react";
+import { observer } from "mobx-react";
 import store from "./store";
 
 const Search = Input.Search;
-const FormItem = Form.Item;
-
-const columns = [
-  {
-    title: "姓名",
-    dataIndex: "name",
-    key: "name",
-    width: 150,
-    render: text => <a href="javascript:;">{text}</a>
-  },
-  {
-    title: "年龄",
-    dataIndex: "age",
-    key: "age",
-    width: 70
-  },
-  {
-    title: "地址",
-    dataIndex: "address",
-    key: "address"
-  },
-  {
-    title: "操作",
-    key: "action",
-    width: 360,
-    render: (text, record) => (
-      <span>
-        <a href="javascript:;">操作1</a>
-        <Divider type="vertical" />
-        <a href="javascript:;">操作2</a>
-        <Divider type="vertical" />
-        <a href="javascript:;" className="ant-dropdown-link">
-          更多 <Icon type="down" />
-        </a>
-      </span>
-    )
-  }
-];
 
 const expandedRowRender = record => <p>{record.description}</p>;
 const pagination = { position: "bottom" };
 @observer
 class UserList extends React.Component {
+  store = store;
   state = {
     bordered: false,
     loading: false,
@@ -57,8 +20,42 @@ class UserList extends React.Component {
     scroll: undefined,
     hasData: true
   };
-  store = store;
-
+  columns = [
+    {
+      title: "姓名",
+      dataIndex: "name",
+      key: "name",
+      width: 150,
+      render: text => <a href="javascript:;">{text}</a>
+    },
+    {
+      title: "年龄",
+      dataIndex: "age",
+      key: "age",
+      width: 70
+    },
+    {
+      title: "地址",
+      dataIndex: "address",
+      key: "address"
+    },
+    {
+      title: "操作",
+      key: "action",
+      width: 360,
+      render: (text, record) => (
+        <span>
+          <a href="javascript:;">操作1</a>
+          <Divider type="vertical" />
+          <a href="javascript:;">操作2</a>
+          <Divider type="vertical" />
+          <a href="javascript:;" className="ant-dropdown-link">
+            更多 <Icon type="down" />
+          </a>
+        </span>
+      )
+    }
+  ];
   componentDidMount() {
     this.store.getList();
   }
@@ -70,7 +67,6 @@ class UserList extends React.Component {
     this.store.clickButton(value);
   };
   render() {
-    const state = this.state;
     return (
       <div>
         <Card title="列表示例">
@@ -78,7 +74,7 @@ class UserList extends React.Component {
             <Form layout="inline">
               <Search
                 placeholder="请输入ID"
-                onSearch={value => this.onStatusSelectChange(value)}
+                onSearch={this.onStatusSelectChange}
                 enterButton="搜索"
                 style={{ width: 200 }}
               />
@@ -109,7 +105,7 @@ class UserList extends React.Component {
           <Divider />
           <Table
             {...this.state}
-            columns={columns}
+            columns={this.columns}
             dataSource={this.store.data}
           />
         </Card>
