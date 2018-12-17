@@ -26,6 +26,8 @@ class Chart extends React.Component {
           <Divider />
           <HighchartsReact
             highcharts={Highcharts}
+            allowChartUpdate
+            updateArgs={[true, true, true]}
             options={this.store.options} />
           <p>数据：{JSON.stringify(this.store.options)}</p>
         </Card>
