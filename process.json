@@ -1,0 +1,14 @@
+{
+  "apps": [
+    {
+      "name": "crm",
+      "script": "app.js",
+      "error_file": "./logs/err.log",
+      "out_file": "./logs/out.log",
+      "pid_file": "./logs/app.pid",
+      "instances": "1",
+      "merge_logs": true,
+      "log_date_format": "YYYY-MM-DD HH:mm"
+    }
+  ]
+}

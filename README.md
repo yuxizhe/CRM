@@ -211,3 +211,19 @@ const proxyTable = {
 - webpackbar https://www.npmjs.com/package/webpackbar
 
 ![](https://ws1.sinaimg.cn/mw690/6b201a41gy1fxnuw4fe2ng20eq05m0w9.gif)
+
+
+## For SRE
+
+``` bash
+# build
+npm install
+npm run build
+# start
+pm2 start process.json
+# stop
+pm2 stop process.json
+
+# restart 
+pm2 restart process.json
+```
