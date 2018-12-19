@@ -4,7 +4,7 @@
   "main": "app.js",
   "scripts": {
     "dev": "NODE_ENV=client-dev MOCK_ENV=mock node script/dev",
-    "build": "node script/prod-build",
+    "build": "node script/prod-build && node script/zip",
     "start": "MOCK_ENV=mock node app.js",
     "visu": "NODE_ENV=visu node script/prod-build"
   },
@@ -32,6 +32,7 @@
     ]
   },
   "devDependencies": {
+    "archiver": "^3.0.0",
     "autobind-decorator": "^2.3.1",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.5",

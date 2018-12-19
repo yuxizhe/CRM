@@ -7,3 +7,4 @@ public
 *.log
 yarn.lock
 logs
+target
