@@ -43,6 +43,7 @@ archive.pipe(output);
 // 添加文件
 archive.file((Dir + 'process.json'), { name: 'process.json' });
 archive.file((Dir + 'app.js'), { name: 'app.js' });
+archive.file((Dir + 'package.json'), { name: 'package.json' });
 archive.directory(Dir + '/public', 'public');
 archive.directory(Dir + '/src', 'src');
 archive.directory(Dir + '/node_modules', 'node_modules');
