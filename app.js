@@ -13,7 +13,7 @@ app.use(express.static('public'));
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 // 中间件
-middleware.middleware(app);
+middleware(app);
 
 // react 路由
 app.get('*', (request, response) => {
