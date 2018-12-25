@@ -1,7 +1,9 @@
-import exampleRoutes from "./example";
-import loginRoutes from "./login";
-import manageRoutes from "./manage";
+import exampleRoutes from './example';
+import loginRoutes from './login';
+import manageRoutes from './manage';
 
-let routes = [];
-routes = routes.concat(exampleRoutes, loginRoutes, manageRoutes);
+let route = [];
+route = route.concat(exampleRoutes, loginRoutes, manageRoutes);
+
+const routes = route;
 export default routes;

@@ -1,19 +1,19 @@
-import { observable, computed, action } from "mobx";
-import { message } from "antd";
+import { observable, action } from 'mobx';
+import { message } from 'antd';
 
 class Store {
   @observable options = {
     title: {
-      text: 'My chart'
+      text: 'My chart',
     },
     series: [{
-      data: [1, 2, 3]
-    }]
+      data: [1, 2, 3],
+    }],
   }
 
   @action
-  changeChart(value) {
-    message.success("图表更新");
+  changeChart() {
+    message.success('图表更新');
     this.options.series[0].data = this.options.series[0].data.slice().reverse();
   }
 }

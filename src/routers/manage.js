@@ -1,36 +1,34 @@
-import Loadable from "react-loadable";
+import Loadable from 'react-loadable';
+
 const userManage = Loadable({
-  loader: () =>
-    import(/* webpackChunkName: "manage" */ "src/pages/Manage/UserManage"),
-  loading: () => null
+  loader: () => import(/* webpackChunkName: "manage" */ 'src/pages/Manage/UserManage'),
+  loading: () => null,
 });
 const RolesManage = Loadable({
-  loader: () =>
-    import(/* webpackChunkName: "manage" */ "src/pages/Manage/RolesManage"),
-  loading: () => null
+  loader: () => import(/* webpackChunkName: "manage" */ 'src/pages/Manage/RolesManage'),
+  loading: () => null,
 });
 const ResourceManage = Loadable({
-  loader: () =>
-    import(/* webpackChunkName: "manage" */ "src/pages/Manage/ResourceManage"),
-  loading: () => null
+  loader: () => import(/* webpackChunkName: "manage" */ 'src/pages/Manage/ResourceManage'),
+  loading: () => null,
 });
 
 const manageRoutes = [
   {
-    path: "/user-manage",
+    path: '/user-manage',
     exact: true,
-    component: userManage
+    component: userManage,
   },
   {
-    path: "/role-manage",
+    path: '/role-manage',
     exact: true,
-    component: RolesManage
+    component: RolesManage,
   },
   {
-    path: "/resource-manage",
+    path: '/resource-manage',
     exact: true,
-    component: ResourceManage
-  }
+    component: ResourceManage,
+  },
 ];
 
 export default manageRoutes;

@@ -1,79 +1,86 @@
-import { observable, action } from "mobx";
-import HttpClient from "src/utils/httpclient";
-import { message } from "antd";
+import { observable, action } from 'mobx';
+import HttpClient from 'src/utils/httpclient';
+import { message } from 'antd';
 
 class ResourceManage {
   @observable resources = [];
+
   @observable dialogVisible = false;
+
   @observable editDialogVisible = false;
+
   @observable resourcesTree = [];
-  @observable expandedKeys = ["0-0"];
+
+  @observable expandedKeys = ['0-0'];
+
   @observable autoExpandParent = true;
+
   @observable form = {
     resource_id: 0,
-    name: "",
-    path: "",
-    location: "",
-    icon: ""
+    name: '',
+    path: '',
+    location: '',
+    icon: '',
   };
+
   @observable selectedNode = {};
 
   getAllResources() {
-    HttpClient.get("/xq/report/permission/resource/get/all.json").then(
-      action(res => {
+    HttpClient.get('/xq/report/permission/resource/get/all.json').then(
+      action((res) => {
         this.resources = res.data;
         this.resourcesTree = [
           {
             resource_id: 0,
             resource_pid: 0,
-            location: "/",
-            name: "所有权限",
-            children: this._toTreeData(res.data)
-          }
+            location: '/',
+            name: '所有权限',
+            children: this._toTreeData(res.data),
+          },
         ];
-      })
+      }),
     );
   }
 
   createResource() {
-    HttpClient.post("/xq/report/permission/resource/save.json", {
+    HttpClient.post('/xq/report/permission/resource/save.json', {
       resource_pid: this.selectedNode.resource_id,
       resource_id: this.form.resource_id,
       name: this.form.name,
       path: this.form.path,
       location: this.form.location,
-      icon: this.form.icon
+      icon: this.form.icon,
     }).then(
       action(() => {
-        message.success("创建成功");
+        message.success('创建成功');
         this.hideCreateDialog();
         this.getAllResources();
-      })
+      }),
     );
   }
 
   editResource() {
-    HttpClient.post("/xq/report/permission/resource/save.json", {
+    HttpClient.post('/xq/report/permission/resource/save.json', {
       resource_pid: this.form.resource_pid,
       resource_id: this.form.resource_id,
       name: this.form.name,
       path: this.form.path,
       location: this.form.location,
-      icon: this.form.icon
+      icon: this.form.icon,
     }).then(
       action(() => {
-        message.success("编辑成功");
+        message.success('编辑成功');
         this.hideEditDialog();
         this.getAllResources();
-      })
+      }),
     );
   }
 
   deleteResource(item) {
-    HttpClient.post("/xq/report/permission/resource/delete.json", {
-      resource_id: item.resource_id
+    HttpClient.post('/xq/report/permission/resource/delete.json', {
+      resource_id: item.resource_id,
     }).then(() => {
-      message.success("删除成功");
+      message.success('删除成功');
       this.getAllResources();
     });
   }
@@ -96,10 +103,10 @@ class ResourceManage {
     this.dialogVisible = false;
     this.form = {
       resource_id: 0,
-      name: "",
-      path: "",
-      location: "",
-      icon: ""
+      name: '',
+      path: '',
+      location: '',
+      icon: '',
     };
   }
 
@@ -114,10 +121,10 @@ class ResourceManage {
     this.editDialogVisible = false;
     this.form = {
       resource_id: 0,
-      name: "",
-      path: "",
-      location: "",
-      icon: ""
+      name: '',
+      path: '',
+      location: '',
+      icon: '',
     };
   }
 
@@ -127,8 +134,8 @@ class ResourceManage {
   }
 
   _toTreeData(data) {
-    let pos = {};
-    let tree = [];
+    const pos = {};
+    const tree = [];
     let i = 0;
     while (data.length !== 0) {
       if (!data[i].resource_pid) {
@@ -137,7 +144,7 @@ class ResourceManage {
         data.splice(i, 1);
         i--;
       } else {
-        let posArr = pos[data[i].resource_pid];
+        const posArr = pos[data[i].resource_pid];
         if (posArr !== undefined) {
           let obj = tree[posArr[0]];
           for (let j = 1; j < posArr.length; j++) {
