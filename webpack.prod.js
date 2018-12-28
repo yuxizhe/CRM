@@ -24,7 +24,7 @@ module.exports = {
     mobx: 'mobx',
     'mobx-react': 'mobxReact',
     axios: 'axios',
-    // mint: 'mint-ui'
+    wilddog: 'wilddog',
   },
   resolve: {
     alias: {

@@ -24,6 +24,7 @@ module.exports = {
     mobx: 'mobx',
     'mobx-react': 'mobxReact',
     axios: 'axios',
+    wilddog: 'wilddog',
   },
   resolve: {
     alias: {
