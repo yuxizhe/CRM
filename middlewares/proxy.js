@@ -1,4 +1,5 @@
 const proxyMiddleware = require('http-proxy-middleware');
+const k2c = require('koa2-connect');
 
 const proxyTable = {
   '/xq': {
@@ -13,8 +14,10 @@ module.exports = function proxy(app) {
   Object.keys(proxyTable).forEach((context) => {
     let options = proxyTable[context];
     if (typeof options === 'string') {
-      options = { target: options };
+      options = {
+        target: options,
+      };
     }
-    app.use(proxyMiddleware(options.filter || context, options));
+    app.use(k2c(proxyMiddleware(options.filter || context, options)));
   });
 };

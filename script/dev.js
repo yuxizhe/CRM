@@ -1,23 +1,30 @@
 const webpack = require('webpack');
 const path = require('path');
+const fs = require('fs');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
-const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
+
+const Koa = require('koa');
+const router = require('koa-router')();
+const bodyParse = require('koa-bodyparser');
+const staticCache = require('koa-static-cache');
+const k2c = require('koa2-connect');
 // const morgan = require('morgan')
 const devConfig = require('../webpack.config');
-const middleware = require('../src/middleware');
+const middleware = require('../middlewares');
 
-const app = express();
+const app = new Koa();
 
-// 解决HMR 3000端口请求 3001 端口 跨域问题
-app.use(cors());
-app.use(express.static(`${__dirname}../public`));
-app.use(bodyParser.json()); // for parsing application/json
-app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-// app.use(morgan('tiny'))
-// 中间件
+app.use(staticCache('public'), {
+  maxAge: 365 * 24 * 60 * 60,
+  dynamic: true,
+  gzip: false,
+});
+
+app.use(bodyParse({
+  formLimit: '50mb',
+}));
+
 middleware(app);
 
 // Webpack compile in a try-catch
@@ -34,15 +41,23 @@ function compile(config) {
 
 const devCompiled = compile(devConfig);
 
-app.use(
-  webpackDevMiddleware(devCompiled, { logLevel: 'error', writeToDisk: true }),
-);
+app.use(k2c(
+  webpackDevMiddleware(devCompiled, {
+    logLevel: 'error',
+    writeToDisk: true,
+  }),
+));
 
-app.use(webpackHotMiddleware(devCompiled));
+app.use(k2c(webpackHotMiddleware(devCompiled)));
 
 // react 路由
-app.get('*', (request, response) => {
-  response.sendFile(path.resolve(__dirname, '../public', 'index.html'));
+const reactHtml = fs.readFileSync(path.resolve(__dirname, '../public', 'index.html'));
+router.get('*', (ctx) => {
+  ctx.type = 'html';
+  ctx.body = reactHtml;
 });
 
-app.listen(3001, () => console.log('client listening on port 3001!'));
+// add router middleware:
+app.use(router.routes());
+
+app.listen(3001, () => console.log('server listening on port 3001!'));
