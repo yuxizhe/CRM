@@ -67,11 +67,11 @@ class SideBar extends Component {
     if (this.loginStore.isLogged) {
       const $tree = this._formatMenuTree(this.sideBar.resourcesTree);
       $navSider = (
-        <Sider theme="dark" breakpoint="lg" collapsedWidth="0">
+        <Sider theme="light" breakpoint="lg" collapsedWidth="0">
           <div className="logo">
             <Link to="/">雪球CRM</Link>
           </div>
-          <Menu mode="inline" theme="dark" defaultOpenKeys={['5-0']}>
+          <Menu mode="inline" theme="light" defaultOpenKeys={['5-0']}>
             {$tree}
           </Menu>
         </Sider>

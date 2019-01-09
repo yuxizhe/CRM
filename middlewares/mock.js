@@ -71,7 +71,7 @@ module.exports = (app) => {
           name: '测试页面',
           path: '',
           location: '/example',
-          icon: 'routerstore',
+          icon: 'appstore',
           locked: false,
           create_time: 1523257349592,
           update_time: 1539595755019,

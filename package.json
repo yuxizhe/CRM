@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "dev": "NODE_ENV=client-dev MOCK_ENV=mock node script/dev",
+    "dev": "NODE_ENV=development node script/webpack.js & NODE_ENV=development MOCK_ENV=mock nodemon script/dev",
     "build": "node script/prod-build && node script/zip",
     "start": "MOCK_ENV=mock node app.js",
     "visu": "NODE_ENV=visu node script/prod-build"
@@ -29,6 +29,12 @@
       "react-loadable/babel",
       "transform-object-rest-spread",
       "react-hot-loader/babel"
+    ]
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "src/*",
+      "public/*"
     ]
   },
   "devDependencies": {
@@ -75,6 +81,7 @@
     "mobx-react": "^5.4.3",
     "moment": "^2.22.2",
     "morgan": "^1.9.1",
+    "nodemon": "^1.18.9",
     "qs": "^6.6.0",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
