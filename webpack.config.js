@@ -11,7 +11,7 @@ function resolve(dir) {
 }
 
 module.exports = {
-  entry: ['webpack-hot-middleware/client', 'src/index.js'],
+  entry: ['src/index.js'],
   output: {
     path: resolve('public'),
     filename: 'vender.js',
@@ -88,4 +88,17 @@ module.exports = {
       name: 'client',
     }),
   ],
+  devServer: {
+    writeToDisk: true,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+    },
+    port: 4001,
+    hot: true,
+    contentBase: path.join(__dirname, 'public'),
+    publicPath: '/',
+    historyApiFallback: {
+      index: '/index.html',
+    },
+  },
 };
