@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "dev": "NODE_ENV=client-dev MOCK_ENV=mock node script/dev",
+    "dev": "NODE_ENV=development webpack-dev-server & NODE_ENV=development MOCK_ENV=mock nodemon script/dev",
     "build": "node script/prod-build && node script/zip",
     "start": "MOCK_ENV=mock node app.js",
     "visu": "NODE_ENV=visu node script/prod-build"
@@ -31,6 +31,12 @@
       "react-hot-loader/babel"
     ]
   },
+  "nodemonConfig": {
+    "ignore": [
+      "src/*",
+      "public/*"
+    ]
+  },
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-eslint": "^10.0.1",
@@ -50,7 +56,12 @@
     "eslint-plugin-react": "^7.11.1",
     "node-sass": "^4.10.0",
     "sass-loader": "^7.1.0",
-    "url-loader": "^1.1.2"
+    "url-loader": "^1.1.2",
+    "webpack": "^4.25.1",
+    "webpack-bundle-analyzer": "^3.0.3",
+    "webpack-dev-server": "^3.1.14",
+    "webpack-node-externals": "^1.6.0",
+    "webpackbar": "^3.1.3"
   },
   "dependencies": {
     "antd": "3.8.2",
@@ -74,18 +85,12 @@
     "mobx": "^5.8.0",
     "mobx-react": "^5.4.3",
     "moment": "^2.22.2",
-    "morgan": "^1.9.1",
+    "nodemon": "^1.18.9",
     "qs": "^6.6.0",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-hot-loader": "^4.3.12",
     "react-loadable": "^5.5.0",
-    "react-router-dom": "^4.2.2",
-    "webpack": "^4.25.1",
-    "webpack-bundle-analyzer": "^3.0.3",
-    "webpack-dev-middleware": "^3.4.0",
-    "webpack-hot-middleware": "^2.24.3",
-    "webpack-node-externals": "^1.6.0",
-    "webpackbar": "^3.1.3"
+    "react-router-dom": "^4.2.2"
   }
 }
