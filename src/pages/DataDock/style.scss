@@ -1,0 +1,26 @@
+
+:global {
+    .ant-form {
+        input:not([type=range]){
+            max-width: 50%;
+        }
+    }  
+    .ant-spin-container{
+        .ant-table{
+            max-width: 80%;
+        }
+    }
+    .ant-select-selection--single{
+        width: 100px;
+    }
+    .li{
+        input:not([type=range]){
+            width:100px
+        }
+    }
+    
+}
+
+
+    
+

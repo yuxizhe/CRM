@@ -1,7 +1,8 @@
-import exampleRoutes from "./example";
+
 import loginRoutes from "./login";
-import manageRoutes from "./manage";
+
+import dataDockRoutes from "./datadock";
 
 let routes = [];
-routes = routes.concat(exampleRoutes, loginRoutes, manageRoutes);
+routes = routes.concat(loginRoutes,dataDockRoutes);
 export default routes;

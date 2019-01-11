@@ -2,7 +2,7 @@ const proxyMiddleware = require("http-proxy-middleware");
 
 const proxyTable = {
   "/xq": {
-    target: "https://api.xueqiu.com/",
+    target: "http://10.10.51.13:8080",
     changeOrigin: true,
     pathRewrite: (path, req) => path.replace("/xq", "")
   }

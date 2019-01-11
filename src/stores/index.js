@@ -4,6 +4,8 @@
 import { observable, action } from "mobx";
 import sideBar from "./sideBar";
 import loginStore from "./login";
+import dataDockStore from "./dataDockStore";
+
 class gStore {
   @observable userInfo = {
     name: "admin"
@@ -20,5 +22,6 @@ class gStore {
 export default {
   gStore: new gStore(),
   sideBar: new sideBar(),
-  loginStore: new loginStore()
+  loginStore: new loginStore(),
+  dataDockStore: new dataDockStore()
 };
