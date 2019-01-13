@@ -1,8 +1,6 @@
-import { observable, action } from "mobx";
+import { observable, action, toJS } from "mobx";
 import { message } from "antd";
 import HttpClient from '../utils/httpclient';
-import { subnetMatch } from "ipaddr.js";
-import { changeConfirmLocale } from "antd/lib/modal/locale";
 
 export default class Store {
 
@@ -21,7 +19,7 @@ export default class Store {
     stepParameter: "",
     stepName: "",
     parsedColumns: [],
-    subParseSteps: [],
+    subParseSteps: {},
   }
 
   @observable kafkaRawData = ""
@@ -39,10 +37,6 @@ export default class Store {
   @observable visible = []
 
   testData = `2604340708|XueqiuiPhone11.13-WWANiPhone_6|1545991573361|1100|21|0|{\"url\":\"https://www.snowballsecurities.com/activity/deposit?r=30017006\",\"promotion_id\":\"3850\"}|545D15D2-9FA6-4A0A-8F45-7E0F5176425E.2604340708.1545991560609.1545991573362`;
-
-
-
-  ;
 
   //kafka数据接口
   @action
@@ -175,5 +169,11 @@ export default class Store {
         key: index,
       })
     })
+  }
+
+  @action
+  changeKafkaValueParseStep(stepData) {
+    this.kafkaValueParseStep = stepData;
+    console.log(toJS(this.kafkaValueParseStep));
   }
 }

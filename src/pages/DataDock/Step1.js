@@ -45,13 +45,6 @@ const Option = Select.Option;
 @inject('dataDockStore')
 @observer
 class Step1 extends Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-
-    }
-  }
   store = this.props.dataDockStore;
 
   /**
@@ -72,8 +65,6 @@ class Step1 extends Component {
           zookeeperServers: values.zookeeperServers
         }
         this.store.getKafkaMessage(source);
-        this.store.transformSpecs.source = source;
-        console.log("transformSpecs", transformSpecs)
       }
     });
 
@@ -119,14 +110,6 @@ class Step1 extends Component {
 
 
   //第二轮
-  handleParseColumnsNameChange(index, value) {
-    this.store.handleNameChange(index, value)
-  }
-
-  handleParseColumnsDefaultValueChange(index, value) {
-    this.store.handleDefaultValueChange(index, value)
-  }
-
   //button
   handleClick(index) {
     this.store.kafkaValueParseStep.subParseSteps[index] = {
@@ -538,10 +521,11 @@ class Step1 extends Component {
     return (
       <div className="App" >
         {$transformSpecs}
-        <ParseColumn kafkaRawData={this.store.kafkaRawData} kafkaValueParseStep={this.store.kafkaValueParseStep}/>
+        <ParseColumn
+          kafkaRawData={this.store.kafkaRawData}
+          kafkaValueParseStep={this.store.kafkaValueParseStep}/>
         {$destColumns()}
         {$finalDestColumns()}
-
       </div>
     );
   }
