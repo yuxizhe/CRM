@@ -70,6 +70,7 @@
     "autobind-decorator": "^2.3.1",
     "axios": "^0.18.0",
     "clean-webpack-plugin": "^1.0.0",
+    "copy-webpack-plugin": "^4.6.0",
     "cors": "^2.8.4",
     "css-loader": "^1.0.1",
     "eslint-import-resolver-webpack": "^0.10.1",
