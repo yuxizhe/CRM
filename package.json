@@ -4,7 +4,7 @@
   "main": "app.js",
   "scripts": {
     "dev": "NODE_ENV=development webpack-dev-server & NODE_ENV=development MOCK_ENV=mock nodemon script/dev",
-    "build": "node script/prod-build && node script/zip",
+    "build": "node script/prod-build",
     "start": "MOCK_ENV=mock node app.js",
     "visu": "NODE_ENV=visu node script/prod-build"
   },
