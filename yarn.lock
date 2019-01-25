@@ -7585,10 +7585,10 @@ snapdragon@^0.8.1:
     source-map-resolve "^0.5.0"
     use "^3.1.0"
 
-snb-lib-log@^1.0.0:
-  version "1.0.0"
-  resolved "http://npm.snowballfinance.com/snb-lib-log/-/snb-lib-log-1.0.0.tgz#cca08b66aa9804d6baf1828bff096007a0e1fd8c"
-  integrity sha1-zKCLZqqYBNa68YKL/wlgB6Dh/Yw=
+snb-lib-log@^1.0.5:
+  version "1.0.5"
+  resolved "http://npm.snowballfinance.com/snb-lib-log/-/snb-lib-log-1.0.5.tgz#8ea4c5c46e14eeee736a38a28e3b70b102f038a0"
+  integrity sha1-jqTFxG4U7u5zajiijjtwsQLwOKA=
   dependencies:
     log4js "^3.0.6"
 
