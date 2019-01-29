@@ -7,8 +7,11 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "启动dev调试",
-      "program": "${workspaceFolder}/script/dev.js"
+      "name": "启动prod调试",
+      "program": "${workspaceFolder}/app.js",
+      "env": {
+        "MOCK_ENV": "mock",
+      },
     }
   ]
 }

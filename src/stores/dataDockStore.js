@@ -30,6 +30,7 @@ export default class Store {
         // columnType: null,
         // maps: {},
       },
+      timeColumnFormatStr:"",
       maxOutOfOrders: 10000,
       maxErrorRowsLimitPerHour: 100,
       hourlyCounter: {

@@ -1,47 +1,27 @@
-const webpack = require("webpack");
-const path = require("path");
-const webpackDevMiddleware = require("webpack-dev-middleware");
-const webpackHotMiddleware = require("webpack-hot-middleware");
-const express = require("express");
-const cors = require("cors");
-const bodyParser = require("body-parser");
-// const morgan = require('morgan')
-const devConfig = require("../webpack.config")[0];
-const middleware = require("../src/middleware");
-const app = express();
+/**
+ * 启动在3001 只处理 node 接口 nodemon重启，避免引发webpack重新打包
+ */
+const Koa = require('koa');
 
-// 解决HMR 3000端口请求 3001 端口 跨域问题
-app.use(cors());
-app.use(express.static(__dirname + "../public"));
-app.use(bodyParser.json()); // for parsing application/json
-app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-// app.use(morgan('tiny'))
-// 中间件
+const bodyParse = require('koa-bodyparser');
+const proxyMiddleware = require('http-proxy-middleware');
+const k2c = require('koa2-connect');
+
+const middleware = require('../middlewares');
+
+const app = new Koa();
+
+
+app.use(bodyParse({
+  formLimit: '50mb',
+}));
+
 middleware(app);
 
-// Webpack compile in a try-catch
-function compile(config) {
-  let compiler;
-  try {
-    compiler = webpack(config);
-  } catch (e) {
-    console.log("error");
-    process.exit(1);
-  }
-  return compiler;
-}
+// nodemon 与 wepack-dev 结合。实现改动node只nodemon重启不重新打包，改动src能热更新
+app.use(k2c(proxyMiddleware('/', {
+  target: 'http://localhost:4001/',
+  changeOrigin: true,
+})));
 
-const devCompiled = compile(devConfig);
-
-app.use(
-  webpackDevMiddleware(devCompiled, { logLevel: "error", writeToDisk: true })
-);
-
-app.use(webpackHotMiddleware(devCompiled));
-
-// react 路由
-app.get("*", function(request, response) {
-  response.sendFile(path.resolve(__dirname, "../public", "index.html"));
-});
-
-app.listen(3001, () => console.log("client listening on port 3001!"));
+app.listen(3001, () => console.log('server listening on port 3001!'));

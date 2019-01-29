@@ -5,7 +5,10 @@
     "react/jsx-filename-extension": [
       1,
       {
-        "extensions": [".js", ".jsx"]
+        "extensions": [
+          ".js",
+          ".jsx"
+        ]
       }
     ],
     "class-methods-use-this": "off",
@@ -13,7 +16,9 @@
     "react/prop-types": [
       2,
       {
-        "ignore": ["store"]
+        "ignore": [
+          "store"
+        ]
       }
     ],
     "react/destructuring-assignment": [
@@ -23,12 +28,22 @@
         "ignoreClassFields": true
       }
     ],
-    "click-events-have-key-events": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
     "global-require": "off"
   },
-  "plugins": ["jsdoc"],
+  "plugins": [
+    "jsdoc"
+  ],
   "env": {
     "browser": true,
     "node": true
+  },
+  "settings": {
+    "import/resolver": {
+      "webpack": {
+        "config": "webpack.config.js"
+      }
+    }
   }
 }

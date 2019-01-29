@@ -1,28 +1,39 @@
-const express = require("express");
-const path = require("path");
-const bodyParser = require("body-parser");
-const middleware = require("./src/middleware");
-const compression = require("compression");
-const app = express();
+const Koa = require('koa');
+const router = require('koa-router')();
+const path = require('path');
+const fs = require('fs');
+const bodyParse = require('koa-bodyparser');
+const staticCache = require('koa-static-cache');
 
-// compress all responses
-app.use(compression());
+const middleware = require('./middlewares');
 
-app.use(express.static("public"));
-app.use(bodyParser.json()); // for parsing application/json
-app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-// 中间件
+const app = new Koa();
+
+app.use(staticCache('public'), {
+  maxAge: 365 * 24 * 60 * 60,
+  dynamic: false,
+  gzip: true,
+});
+
+app.use(bodyParse({
+  formLimit: '50mb',
+}));
+
 middleware(app);
 
 // react 路由
-app.get("*", function(request, response) {
-  response.sendFile(path.resolve(__dirname, "./public", "index.html"));
+const reactHtml = fs.readFileSync(path.resolve(__dirname, './public', 'index.html'));
+router.get('*', (ctx) => {
+  ctx.type = 'html';
+  ctx.body = reactHtml;
 });
 
-app.listen(process.env.PORT || 7878, function() {
+// add router middleware:
+app.use(router.routes());
+
+app.listen(process.env.PORT || 7878, () => {
   console.log(
-    "Express server listening on %d, in %s mode",
+    'Koa server listening on %d',
     process.env.PORT || 7878,
-    app.get("env")
   );
 });

@@ -6,6 +6,5 @@ server.js
 dist
 public
 *.log
-yarn.lock
 logs
 target

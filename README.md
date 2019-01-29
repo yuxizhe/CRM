@@ -28,6 +28,10 @@ react16 + react-router4 + webpack4 + mobx + HMR 热更新 + 代码分割
 ├── index.prod.html       生产html模板
 ├── package.json          包管理
 ├── public                打包生成目录
+├── middlewares           中间件,node服务端接口都写在这里
+│   ├── index.js
+│   ├── mock.js           mock接口数据
+│   └── proxy.js          接口代理
 ├── script                开发&生产 脚本
 │   ├── dev.js
 │   └── prod-build.js
@@ -40,10 +44,6 @@ react16 + react-router4 + webpack4 + mobx + HMR 热更新 + 代码分割
 │   │   │   └── style.scss
 │   │   └── webSelect
 │   │       └── index.js
-│   ├── middleware        中间件
-│   │   ├── index.js
-│   │   ├── mock.js       mock接口数据
-│   │   └── proxy.js      接口代理
 │   ├── pages             页面组件
 │   │   ├── Home          代码&store&样式都放在一个目录下
 │   │   │   ├── index.js
@@ -75,20 +75,38 @@ react16 + react-router4 + webpack4 + mobx + HMR 热更新 + 代码分割
 
 开发入口 http://localhost:3001/
 
-已支持 hot reload 改动即时生效
+webpack打包部分 已支持 hot reload 改动即时生效
+
+node 服务端部分 采用nodemon
 
 取消接口 mock 删除 MOCK_ENV=mock 即可
+
+### 进程
+
+开发模式会启动两个进程 4001 和 3001
+
+webpack打包部分  启动在4001
+node 服务端 启动在3001 代理4001内容
+
+实现改动服务端部分时 只nodemon重启,不重新打包; 改动web端部分能热更新
 
 - `npm run visu`
 
 可视化分析打包后的文件包含哪些内容, 帮助分析资源加载是否合理
 
-![](https://ws1.sinaimg.cn/mw690/6b201a41ly1fxntzvsutmj21hc0ow177.jpg)
 
 ## start script 部署脚本
 
 - `npm run build`
 - `npm run start` 或者 `pm2`
+
+## node 调试
+
+采用vscode debug模式
+选择“启动prod调试” 即可启动调试, 打断点等
+入口 http://localhost:7878/
+
+node服务部分采用require语法 也是为了方便debug调试
 
 ## 组件
 

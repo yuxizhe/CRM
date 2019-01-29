@@ -1,14 +1,15 @@
-import axios from "axios";
-import qs from "qs";
-import { message } from "antd";
-import Cookie from "src/utils/cookie";
+import axios from 'axios';
+import qs from 'qs';
+import { message } from 'antd';
+import Cookie from 'src/utils/cookie';
 
 class HttpClient {
-  baseUrl = "";
+  baseUrl = '';
+
   instance = axios.create({
     baseURL: this.baseUrl,
     timeout: 20000,
-    withCredentials: true
+    withCredentials: true,
   });
 
   get(url, params, header) {
@@ -32,23 +33,23 @@ class HttpClient {
     res = res.data;
     if (res) {
       return res;
-    } else if (res.error_code === "400016" || res.error_code === "79003") {
-      if (process.env.NODE_ENV === "development") {
-        Cookie.clear("xq_crm_token");
+    } if (res.error_code === '400016' || res.error_code === '79003') {
+      if (process.env.NODE_ENV === 'development') {
+        Cookie.clear('xq_crm_token');
       }
-      window.localStorage.removeItem("is_login");
-      window.location.href = "/login";
+      window.localStorage.removeItem('is_login');
+      window.location.href = '/login';
     } else {
       message.error(res.msg);
-      throw new Error("StopChain");
+      throw new Error('StopChain');
     }
   }
 
   handleErrorResponse(err) {
-    if (err && err.message !== "StopChain") {
-      message.error(err.message || "未知错误");
+    if (err && err.message !== 'StopChain') {
+      message.error(err.message || '未知错误');
     }
-    throw new Error("StopChain");
+    throw new Error('StopChain');
   }
 }
 

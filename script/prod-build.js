@@ -1,20 +1,10 @@
-const webpack = require("webpack");
-const browserConfig = require("../webpack.prod")[0];
-const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
-  .BundleAnalyzerPlugin;
+const webpack = require('webpack');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const browserConfig = require('../webpack.prod');
 
-if (process.env.NODE_ENV === "visu") {
+if (process.env.NODE_ENV === 'visu') {
   browserConfig.plugins.push(new BundleAnalyzerPlugin());
 }
-
-const clientCompiler = compile(browserConfig);
-
-clientCompiler.run((err, stats) => {
-  if (err) {
-    console.error(err);
-    return;
-  }
-});
 
 // Webpack compile in a try-catch
 function compile(config) {
@@ -22,8 +12,16 @@ function compile(config) {
   try {
     compiler = webpack(config);
   } catch (e) {
-    console.log("error");
+    console.log('error');
     process.exit(1);
   }
   return compiler;
 }
+
+const clientCompiler = compile(browserConfig);
+
+clientCompiler.run((err) => {
+  if (err) {
+    console.error(err);
+  }
+});

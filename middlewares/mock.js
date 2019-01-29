@@ -1,14 +1,22 @@
 /**
  * 本地接口mock
  */
-module.exports = function (app) {
-  const isMock = process.env.MOCK_ENV === "mock";
+const Router = require('koa-router');
+
+const router = new Router();
+const resjson = (ctx, data) => {
+  ctx.type = 'application/json';
+  ctx.body = data;
+};
+
+module.exports = (app) => {
+  const isMock = process.env.MOCK_ENV === 'mock';
   if (isMock) {
     console.log("  ✈️   mocking now ! \n");
 
     // 用户侧边栏权限获取接口
-    app.get("/xq/report/auth/query.json", (req, res) => {
-      res.json({
+    router.get("/xq/report/auth/query.json", (ctx) => {
+      resjson(ctx, {
         data: [
           {
             resource_id: 1,
@@ -126,9 +134,9 @@ module.exports = function (app) {
     });
 
     // 用户登录接口
-    app.post("/xq/report/auth/login.json", (req, res) => {
+    router.post("/xq/report/auth/login.json", (ctx) => {
       const token = `${req.body.username}-${req.body.password}`;
-      res.json({
+      resjson(ctx, {
         data: {
           xq_crm_token: token
         },
@@ -141,8 +149,8 @@ module.exports = function (app) {
     
 
     // 获取所有模块
-    app.get("/xq/report/permission/resource/get/all.json", (req, res) => {
-      res.json({
+    router.get("/xq/report/permission/resource/get/all.json", (ctx) => {
+      resjson(ctx, {
         data: [
           {
             resource_id: 1,
@@ -212,8 +220,8 @@ module.exports = function (app) {
     });
 
     // 剩余接口统一返回成功
-    app.all("/xq/report/*", (req, res) => {
-      res.json({
+    router.all("/xq/report/*", (ctx) => {
+      resjson(ctx, {
         data: "",
         error_description: null,
         error_code: 100000,
@@ -222,8 +230,8 @@ module.exports = function (app) {
     });
 
     // datadock的模拟接口
-    app.all("/xq/datadock", (req, res) => {
-      res.json({
+    router.all("/xq/datadock", (ctx) => {
+      resjson(ctx, {
         "debug": null,
         "data": [
             {
@@ -243,5 +251,7 @@ module.exports = function (app) {
         "error_description": ""
     });
     });
+
+    app.use(router.routes());
   }
 };

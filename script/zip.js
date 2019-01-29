@@ -3,7 +3,7 @@ const archiver = require('archiver');
 const path = require('path');
 
 const outputPath = path.join(__dirname, '../target');
-const outputFile = outputPath + '/snb-fe.zip';
+const outputFile = `${outputPath}/snb-fe.zip`;
 const Dir = path.join(__dirname, '../');
 
 if (!fs.existsSync(outputPath)) {
@@ -41,10 +41,10 @@ archive.on('error', (err) => {
 
 archive.pipe(output);
 // 添加文件
-archive.file((Dir + 'process.json'), { name: 'process.json' });
-archive.file((Dir + 'app.js'), { name: 'app.js' });
-archive.file((Dir + 'package.json'), { name: 'package.json' });
-archive.directory(Dir + '/public', 'public');
-archive.directory(Dir + '/src', 'src');
-archive.directory(Dir + '/node_modules', 'node_modules');
+archive.file((`${Dir}process.json`), { name: 'process.json' });
+archive.file((`${Dir}app.js`), { name: 'app.js' });
+archive.file((`${Dir}package.json`), { name: 'package.json' });
+archive.directory(`${Dir}/public`, 'public');
+archive.directory(`${Dir}/middlewares`, 'middlewares');
+archive.directory(`${Dir}/node_modules`, 'node_modules');
 archive.finalize();

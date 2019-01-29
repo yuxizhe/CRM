@@ -1,15 +1,16 @@
-import Loadable from "react-loadable";
+import Loadable from 'react-loadable';
+
 const loginPage = Loadable({
-  loader: () => import(/* webpackChunkName: "login" */ "src/pages/Login"),
-  loading: () => null
+  loader: () => import(/* webpackChunkName: "login" */ 'src/pages/Login'),
+  loading: () => null,
 });
 
 const loginRoutes = [
   {
-    path: "/login",
+    path: '/login',
     exact: true,
-    component: loginPage
-  }
+    component: loginPage,
+  },
 ];
 
 export default loginRoutes;

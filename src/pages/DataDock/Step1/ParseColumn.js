@@ -13,16 +13,16 @@ import { inject, observer } from 'mobx-react';
 import './style.scss';
 
 const ParseType = {
-  SplitParser: 'splitParser',
-  RegexParser: 'regexParser',
-  JsonParser: 'jsonParser',
-  UrlParser: 'urlParser'
+  SplitParser: 'SPLIT_PARSER',
+  RegexParser: 'REGEX_PARSER',
+  JsonParser: 'JSON_PARSER',
+  UrlParser: 'URL_PARSER'
 };
 
 const FaultBehavior = {
-    FILTER_ROW: '丢掉此条记录',
-    FILL_WITH_DEFAULT_VALUE: '填充默认值',
-    ERROR: '报错标记',
+    FILTER_ROW: 'FILTER_ROW',
+    FILL_WITH_DEFAULT_VALUE: 'FILL_WITH_DEFAULT_VALUE',
+    ERROR: 'ERROR',
   };
 
 const Option = Select.Option;
@@ -92,7 +92,7 @@ class ParseColumn extends Component {
         return;
       }
       parseType = steps.parseType;
-      if(parseType === 'splitParser'||parseType === 'regexParser'){
+      if(parseType === 'SPLIT_PARSER'||parseType === 'REGEX_PARSER'){
         steps.parsedColumns = this[parseType](kafkaRawData, steps.stepParameter);
       }else{
           steps.parsedColumns = this[parseType](kafkaRawData);
@@ -105,7 +105,7 @@ class ParseColumn extends Component {
         message.error('未填写步骤名称');
         return;
       }
-      if(parseType === 'splitParser'||parseType === 'regexParser'){
+      if(parseType === 'SPLIT_PARSER'||parseType === 'REGEX_PARSER'){
         kafkaValueParseStep.parsedColumns = this[parseType](kafkaRawData, stepParameter);
       }else{
       kafkaValueParseStep.parsedColumns = this[parseType](kafkaRawData);
@@ -194,17 +194,17 @@ class ParseColumn extends Component {
         steps = steps.subParseSteps[step];
       });
       steps.subParseSteps[key] = {
-        parseType: '',
-        stepParameter: '',
         stepName: '',
+        parseType: '',
+        stepParameter: '',        
         parsedColumns: [],
         subParseSteps: {}
       };
     } else {
       kafkaValueParseStep.subParseSteps[key] = {
-        parseType: '',
-        stepParameter: '',
         stepName: '',
+        parseType: '',
+        stepParameter: '',       
         parsedColumns: [],
         subParseSteps: {}
       };
@@ -387,7 +387,7 @@ class ParseColumn extends Component {
               {$parserOptions}
             </Select>
           </Col>
-          {(kafkaValueParseStep.parseType === 'splitParser' || kafkaValueParseStep.parseType === 'regexParser') ?
+          {(kafkaValueParseStep.parseType === 'SPLIT_PARSER' || kafkaValueParseStep.parseType === 'REGEX_PARSER') ?
             <Col span={6}>
               <div>
                 <Input

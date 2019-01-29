@@ -1,25 +1,26 @@
-import React, { Component } from "react";
-import autobind from "autobind-decorator";
-import { Layout, Menu, Icon } from "antd";
-import { inject, observer } from "mobx-react";
-import { Link } from "react-router-dom";
-import "./style.scss";
+import React, { Component } from 'react';
+import autobind from 'autobind-decorator';
+import { Layout, Menu, Icon } from 'antd';
+import { inject, observer } from 'mobx-react';
+import { Link } from 'react-router-dom';
+import './style.scss';
 
 const { Header, Sider } = Layout;
-const SubMenu = Menu.SubMenu;
+const { SubMenu } = Menu;
 
-@inject("sideBar", "loginStore")
+@inject('sideBar', 'loginStore')
 @observer
 class SideBar extends Component {
   sideBar = this.props.sideBar;
+
   loginStore = this.props.loginStore;
 
   componentDidMount() {
-    if (!this.loginStore.isLogged && window.location.pathname !== "/login") {
-      window.location.href = "/login";
+    if (!this.loginStore.isLogged && window.location.pathname !== '/login') {
+      window.location.href = '/login';
       return;
     }
-    if (window.location.pathname !== "/login") {
+    if (window.location.pathname !== '/login') {
       this.sideBar.getUserResource();
     }
   }
@@ -30,35 +31,34 @@ class SideBar extends Component {
   }
 
   _formatMenuTree(resources) {
-    return resources.map(item => {
+    return resources.map((item) => {
       if (item.children && item.children.length) {
         return (
           <SubMenu
-            key={item.resource_id + "-" + item.resource_pid}
-            title={
+            key={`${item.resource_id}-${item.resource_pid}`}
+            title={(
               <span>
-                <Icon type={item.icon ? item.icon : "file"} />
+                <Icon type={item.icon ? item.icon : 'file'} />
                 <span>{item.name}</span>
               </span>
-            }
+            )}
           >
             {this._formatMenuTree(item.children)}
           </SubMenu>
         );
-      } else {
-        return (
-          <Menu.Item
-            key={
-              item.location || "#" + item.resource_id + "-" + item.resource_pid
-            }
-          >
-            <Link to={item.location}>
-              <Icon type={item.icon ? item.icon : "file"} />
-              <span>{item.name}</span>
-            </Link>
-          </Menu.Item>
-        );
       }
+      return (
+        <Menu.Item
+          key={
+              item.location || `#${item.resource_id}-${item.resource_pid}`
+            }
+        >
+          <Link to={item.location}>
+            <Icon type={item.icon ? item.icon : 'file'} />
+            <span>{item.name}</span>
+          </Link>
+        </Menu.Item>
+      );
     });
   }
 
@@ -83,9 +83,12 @@ class SideBar extends Component {
         <Layout>
           <Header className="header" hidden={!this.loginStore.isLogged}>
             <div className="user">
-              <Icon type="user" /> {this.sideBar.userName}
+              <Icon type="user" />
+              {' '}
+              {this.sideBar.userName}
               <span className="logout" onClick={this.handleLogout}>
-                <Icon type="logout" /> 注销
+                <Icon type="logout" />
+                注销
               </span>
             </div>
           </Header>
