@@ -13,10 +13,10 @@ import { inject, observer } from 'mobx-react';
 import './style.scss';
 
 const ParseType = {
-  SplitParser: 'SPLIT_PARSER',
-  RegexParser: 'REGEX_PARSER',
-  JsonParser: 'JSON_PARSER',
-  UrlParser: 'URL_PARSER'
+  SplitParser: 'splitParser',
+  RegexParser: 'regexParser',
+  JsonParser: 'jsonParser',
+  UrlParser: 'urlParser',
 };
 
 const FaultBehavior = {
@@ -92,7 +92,7 @@ class ParseColumn extends Component {
         return;
       }
       parseType = steps.parseType;
-      if(parseType === 'SPLIT_PARSER'||parseType === 'REGEX_PARSER'){
+      if(parseType === 'splitParser'||parseType === 'regexParser'){
         steps.parsedColumns = this[parseType](kafkaRawData, steps.stepParameter);
       }else{
           steps.parsedColumns = this[parseType](kafkaRawData);
@@ -105,7 +105,7 @@ class ParseColumn extends Component {
         message.error('未填写步骤名称');
         return;
       }
-      if(parseType === 'SPLIT_PARSER'||parseType === 'REGEX_PARSER'){
+      if(parseType === 'splitParser'||parseType === 'regexParser'){
         kafkaValueParseStep.parsedColumns = this[parseType](kafkaRawData, stepParameter);
       }else{
       kafkaValueParseStep.parsedColumns = this[parseType](kafkaRawData);
@@ -371,7 +371,7 @@ class ParseColumn extends Component {
 
 
     return (
-      <div className="parse-section" >
+      <div className="parse-section">
         <Card  className="parse-data">
             数据源单条记录示例：<p style={{ wordBreak: 'break-all' }}>{kafkaRawData}</p>
         </Card>
@@ -387,7 +387,7 @@ class ParseColumn extends Component {
               {$parserOptions}
             </Select>
           </Col>
-          {(kafkaValueParseStep.parseType === 'SPLIT_PARSER' || kafkaValueParseStep.parseType === 'REGEX_PARSER') ?
+          {(kafkaValueParseStep.parseType === 'splitParser' || kafkaValueParseStep.parseType === 'regexParser') ?
             <Col span={6}>
               <div>
                 <Input

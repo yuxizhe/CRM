@@ -41,7 +41,7 @@ export default class Store {
     finalDestColumns: [],
     finalTimeColumn: {},
     dest: '',
-    enableEventTime: true,
+    // enableEventTime: true,
   }
 
   @observable kafkaValueParseStep = {
