@@ -135,7 +135,7 @@ module.exports = (app) => {
 
     // 用户登录接口
     router.post("/xq/report/auth/login.json", (ctx) => {
-      const token = `${req.body.username}-${req.body.password}`;
+      const token = `${ctx.request.body.username}-${ctx.request.body.password}`;
       resjson(ctx, {
         data: {
           xq_crm_token: token
