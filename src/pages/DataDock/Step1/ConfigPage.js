@@ -66,7 +66,7 @@ class ConfigPage extends Component {
           mapsKey: [],
           mapsValue: [],
           mapsMessage: '',
-          maps: {},
+          maps: [],
         })
       })
 

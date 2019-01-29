@@ -20,14 +20,6 @@ const ColumnsType = {
 @inject('dataDockStore')
 @observer
 class TimeColumn extends Component {
-  
-  constructor(props) {
-    super(props);
-    this.state = {
-      timeColumnSelectedRowKeys: [],
-      timeColumnSelectedRows: [],
-    };
-  }
     
   store = this.props.dataDockStore;
 
@@ -61,11 +53,12 @@ class TimeColumn extends Component {
 
   //创建finalTimeCloumn
   createFinalTimeColumn = () => {
-    if (this.state.timeColumnSelectedRows.length === 0) {
+    const {finalData} =this.store
+    if (this.store.timeColumnSelectedRows.length === 0) {
       message.error('未选择destColumns');
       return;
     }
-    this.state.timeColumnSelectedRows.map((item) => {
+    this.store.timeColumnSelectedRows.map((item) => {
       this.store.finalTimeColumnData.push({
         column: item.column,
         value: item.value,
@@ -75,7 +68,7 @@ class TimeColumn extends Component {
     })
 
      //提交timeColumnData
-     this.state.timeColumnSelectedRows.map((item) => {
+     this.store.timeColumnSelectedRows.map((item) => {
       finalData.transformSpecs[0].timeColumn.column = item.column;
       finalData.transformSpecs[0].timeColumn.columnType = item.columnType;
       finalData.transformSpecs[0].timeColumn.maps = item.maps;
@@ -131,10 +124,7 @@ class TimeColumn extends Component {
     const timeColumnRowSelection = {
         type: 'radio',
         onChange: (timeColumnSelectedRowKeys, timeColumnSelectedRows) => {
-          this.setState({
-            timeColumnSelectedRowKeys: timeColumnSelectedRowKeys,
-            timeColumnSelectedRows: timeColumnSelectedRows,
-          })
+            this.store.timeColumnSelectedRows= timeColumnSelectedRows;
         },
       };
 
@@ -155,6 +145,7 @@ class TimeColumn extends Component {
                 <Input
                   addonBefore="timeColumnFormatStr"
                   style={{ width: 300 }}
+                  defaultValue=""
                   onChange={e => { this.saveTimeColumnFormatStr(e) }} />
               </Col>
               <Col span={12}>

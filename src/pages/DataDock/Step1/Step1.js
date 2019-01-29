@@ -170,7 +170,7 @@ class Step1 extends Component {
               Kafka Server:{this.store.finalData.transformSpecs[0].source.bootstrapServers}
             </li>
             <li>
-              Kafka Topic:{this.store.finalData.transformSpecs[0].source.topicName}
+              Kafka Topic:{this.store.finalData.transformSpecs[0].source.topic}
             </li>
             <li>
               消费组信息:{this.store.finalData.transformSpecs[0].source.consumerGroupId}

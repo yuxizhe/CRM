@@ -33,14 +33,6 @@ const ColumnsType = {
 @inject('dataDockStore')
 @observer
 class DestColumns extends Component {
- 
-  constructor(props) {
-    super(props);
-    this.state = {
-      destColumnsSelectedRowKeys: [],
-      destColumnsSelectedRows: [],
-    };
-  }
 
   store = this.props.dataDockStore;
   
@@ -53,14 +45,14 @@ class DestColumns extends Component {
   //创建finalDestColumns
   createFinalDestColumns = () => {
     //未选择就无法提交
-    if (this.state.destColumnsSelectedRows.length === 0) {
+    if (this.store.destColumnsSelectedRows.length === 0) {
       message.error('未选择destColumns');
       return;
     }
 
     //提交destColumnsData
-    this.state.destColumnsSelectedRows.map((item) => {
-      finalData.transformSpecs[0].destColumns.push({
+    this.store.destColumnsSelectedRows.map((item) => {
+      this.store.finalData.transformSpecs[0].destColumns.push({
         column: item.column,
         columnType: item.columnType,
         maps: item.maps,
@@ -68,7 +60,7 @@ class DestColumns extends Component {
     })
 
     //finalDestColumns
-    this.state.destColumnsSelectedRows.map((item) => {
+    this.store.destColumnsSelectedRows.map((item) => {
       this.store.finalDestColumnsData.push({
         column: item.column,
         value: item.value,
@@ -78,18 +70,18 @@ class DestColumns extends Component {
       })
     })
 
-    //mapsMassage
-    this.store.finalDestColumnsData.map((items) => {
-      Object.entries(items.maps).map(([key, value]) => {
-        items.mapsMessage = `${items.mapsMessage} 本条maps:${value}映射为${key}; `
-      })
-    })
+    // //mapsMassage
+    // this.store.finalDestColumnsData.map((items) => {
+    //   Object.entries(items.maps).map(([key, value]) => {
+    //     items.mapsMessage = `${items.mapsMessage} 本条maps:${value}映射为${key}; `
+    //   })
+    // })
 
-    this.store.parsedColumnsData.map((items) => {
-      Object.entries(items.maps).map(([key, value]) => {
-        items.mapsMessage = `${items.mapsMessage} 本条maps:${value}映射为${key}; `
-      })
-    })
+    // this.store.parsedColumnsData.map((items) => {
+    //   Object.entries(items.maps).map(([key, value]) => {
+    //     items.mapsMessage = `${items.mapsMessage} 本条maps:${value}映射为${key}; `
+    //   })
+    // })
   }
 
   // destColumns和timeColumn的columnType的保存
@@ -106,10 +98,7 @@ class DestColumns extends Component {
 
     const destColumnsRowSelection = {
       onChange: (destColumnsSelectedRowKeys, destColumnsSelectedRows) => {
-        this.setState({
-          destColumnsSelectedRowKeys: destColumnsSelectedRowKeys,
-          destColumnsSelectedRows: destColumnsSelectedRows,
-        })
+          this.store.destColumnsSelectedRows= destColumnsSelectedRows;
       },
     };
 

@@ -1,259 +1,425 @@
 import React, { Component } from 'react';
-import { observer } from "mobx-react";
-import { Form, Button, Row, Col, Select, Table, Modal, Drawer } from 'antd';
-import DataDockStepWrapper from './DataDockStepWrapper';
-import './style.scss';
-import store from '../../stores/dataDockStore';
+import { inject, observer } from "mobx-react";
+import { Form, Input, Button, Row, Col, Card, Table, Icon, Divider, } from 'antd';
+import ReactJson from 'react-json-view';
+import './style.scss'
 
 
-
-
-
-const tableData = [{
-  key: '1',
-  selectedPart: '0',
-  value: 32,
-
-}, {
-  key: '2',
-  selectedPart: '1',
-  value: 42,
-
-}, {
-  key: '3',
-  selectedPart: '2',
-  value: 32,
-
-}, {
-  key: '4',
-  selectedPart: '3',
-  value: 99,
-}];
-
-const currentParsedDataColumns = [{
-  title: 'Name',
-  dataIndex: 'name',
-  key: 'name',
-  width: 300,
-}, {
-  title: 'Value',
-  dataIndex: 'value',
-  key: 'value',
-  width: 300,
-}, {
-  title: 'Default',
-  dataIndex: 'default',
-  key: 'default',
-  width: 300,
-}
-]
-
-
-
-
-const rowSelection = {
-  onChange: (selectedRowKeys, selectedRows) => {
-    console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-  },
-};
-
-
-@Form.create()
+@inject('dataDockStore')
 @observer
 class Step2 extends Component {
-  store = store;
-  constructor(props) {
-    super(props);
-    const { form } = this.props;
-    this.columns = [{
-      title: 'SelectedPart',
-      dataIndex: 'selectedPart',
-      key: 'selectedPart',
-      width: 100,
-    }, {
-      title: 'Value',
-      dataIndex: 'value',
-      key: 'value',
-      width: 100,
-    }, {
-      title: 'ParseRules',
-      dataIndex: 'parserules',
-      key: 'parserules',
-      width: 100,
-      render: (text, record) => (
-        <Form>
-          <Form.Item style={{ mergin: 0 }}>
-            {form.getFieldDecorator(`parseRules${record.key}`, {
-              rules: [{
-                message: '请选择解析规则'
-              }],
-            })(
-              <Select
-                onchange={this.selectChange}>
-                <Select.Option key={1} value="SplitParser">SplitParser</Select.Option>
-                <Select.Option key={2} value="RegerParser">RegerParser</Select.Option>
-                <Select.Option key={3} value="JsonParser">JsonParser</Select.Option>
-                <Select.Option key={4} value="UrlParser">UrlParser</Select.Option>
-              </Select>
-            )}
-          </Form.Item>
-        </Form>
-      )
-    }, {
-      title: "操作",
-      key: "operation",
-      width: 100,
-      render: (text, record) => (
-        <div>
-          <span>
-            <a onClick={() => this.showModal(record)}>确定解析</a>
-          </span>
-          <Modal
-            title="Basic Modal"
-            visible={this.state.modalVisible}
-            onOk={this.handleOk}
-            onCancel={this.handleCancel}
-            mask={false}
-          
-          >
-            <Table rowSelection={rowSelection} columns={this.subColumns} dataSource={this.store.subTableData} />
-          </Modal>
-        </div>
-      )
-    }
-    ];
-  }
 
-  selectChange = value => {
-    this.store.getList(value);
-  };
+    store = this.props.dataDockStore;
 
-  subColumns = [{
-    title: 'partName',
-    dataIndex: 'partName',
-  }, {
-    title: 'Value',
-    dataIndex: 'value',
-  }]
+   
 
-  state = {
-    modalVisible: false,
-    drawerVisible: false,
-    confirmLoading: false,
-    key: 1,
-  }
-  // componentDidMount () {
-  //   this.store.getList();
-
-  // }
-  showModal = record => {
-    this.setState({
-      modalVisible: true,
-      key: record.key,
-    });
-    console.log(this.state.key);
-  }
-
-  handleOk = () => {
-    this.setState({
-      ModalText: 'The modal will be closed after two seconds',
-      confirmLoading: true,
-    });
-
-    setTimeout(() => {
-      this.setState({
-        modalVisible: false,
-        confirmLoading: false,
-      });
-    }, 2000);
-  }
-
-  handleCancel = () => {
-    this.setState({
-      modalVisible: false,
-    });
-  }
-
-
-
-  showDrawer = () => {
-    this.setState({
-      drawerVisible: true,
-    });
-  };
-
-  onClose = () => {
-    this.setState({
-      drawerVisible: false,
-    });
-  };
-
-  render() {
-    const { form, history } = this.props;
-    const { getFieldDecorator, validateFields } = form;
-    const onPrev = () => {
-      history.push('/datadock/step1');
-    };
-    const onNext = () => {
-      history.push('/datadock/step2');
-    };
-    const onValidateForm = e => {
-      e.preventDefault();
-      validateFields((err, values) => {
-        console.log('values', values)
-        if (!err) {
-          // TODO send data
-          console.log(values);
-          history.push('/datadock/step3');
+    changeConfig = () =>{
+        const testData ={
+            "jobName": "use_behavior",
+            "transformSpecs": [
+                {
+                    "source": {
+                        "bootstrapServers": "10.10.22.7:9092",
+                        "topic": "user_behavior",
+                        "consumerGroupId": "flink_user_behavior"
+                    },
+                    "kafkaKeyParseStep": {
+                        "stepName": "keyRootParseStep",
+                        "parseType": "DONOTHING_PARSER",
+                        "stepParameter": null,
+                        "parsedColumns": [
+                            {
+                                "column": "key_time",
+                                "extractParam": "0",
+                                "defaultValue": "",
+                                "faultBehavior": "ERROR"
+                            }
+                        ],
+                        "subParseSteps": {}
+                    },
+                    "kafkaValueParseStep": {
+                        "stepName": "root",
+                        "parseType": "SPLIT_PARSER",
+                        "stepParameter": "\\|",
+                        "parsedColumns": [
+                            {
+                                "column": "uid",
+                                "extractParam": "0",
+                                "defaultValue": "",
+                                "faultBehavior": "FILTER_ROW"
+                            },
+                            {
+                                "column": "version_raw",
+                                "extractParam": "1",
+                                "defaultValue": "",
+                                "faultBehavior": "FILTER_ROW"
+                            },
+                            {
+                                "column": "log_time",
+                                "extractParam": "2",
+                                "defaultValue": "",
+                                "faultBehavior": "FILTER_ROW"
+                            },
+                            {
+                                "column": "page_id",
+                                "extractParam": "3",
+                                "defaultValue": "",
+                                "faultBehavior": "FILTER_ROW"
+                            },
+                            {
+                                "column": "component_type",
+                                "extractParam": "4",
+                                "defaultValue": "",
+                                "faultBehavior": "FILTER_ROW"
+                            },
+                            {
+                                "column": "extend0",
+                                "extractParam": "6",
+                                "defaultValue": "",
+                                "faultBehavior": "FILTER_ROW"
+                            }
+                        ],
+                        "subParseSteps": {
+                            "version_raw": {
+                                "stepName": "version_raw",
+                                "parseType": "SPLIT_PARSER",
+                                "stepParameter": "\\s+",
+                                "parsedColumns": [
+                                    {
+                                        "column": "plat",
+                                        "extractParam": "1",
+                                        "defaultValue": "-",
+                                        "faultBehavior": "FILL_WITH_DEFAULT_VALUE"
+                                    },
+                                    {
+                                        "column": "version",
+                                        "extractParam": "2",
+                                        "defaultValue": "-",
+                                        "faultBehavior": "FILL_WITH_DEFAULT_VALUE"
+                                    },
+                                    {
+                                        "column": "net_op",
+                                        "extractParam": "3",
+                                        "defaultValue": "-",
+                                        "faultBehavior": "FILL_WITH_DEFAULT_VALUE"
+                                    },
+                                    {
+                                        "column": "net_type",
+                                        "extractParam": "4",
+                                        "defaultValue": "-",
+                                        "faultBehavior": "FILL_WITH_DEFAULT_VALUE"
+                                    },
+                                    {
+                                        "column": "device",
+                                        "extractParam": "5",
+                                        "defaultValue": "-",
+                                        "faultBehavior": "FILL_WITH_DEFAULT_VALUE"
+                                    }
+                                ],
+                                "subParseSteps": {}
+                            },
+                            "extend0": {
+                                "stepName": "extend0",
+                                "parseType": "JSON_PARSER",
+                                "stepParameter": null,
+                                "parsedColumns": [
+                                    {
+                                        "column": "status_id",
+                                        "extractParam": "status_id",
+                                        "defaultValue": "-",
+                                        "faultBehavior": "FILL_WITH_DEFAULT_VALUE"
+                                    },
+                                    {
+                                        "column": "target_id",
+                                        "extractParam": "user_id",
+                                        "defaultValue": "-",
+                                        "faultBehavior": "FILL_WITH_DEFAULT_VALUE"
+                                    },
+                                    {
+                                        "column": "symbol",
+                                        "extractParam": "symbol",
+                                        "defaultValue": "-",
+                                        "faultBehavior": "FILL_WITH_DEFAULT_VALUE"
+                                    },
+                                    {
+                                        "column": "name",
+                                        "extractParam": "name",
+                                        "defaultValue": "-",
+                                        "faultBehavior": "FILL_WITH_DEFAULT_VALUE"
+                                    },
+                                    {
+                                        "column": "duration",
+                                        "extractParam": "duration",
+                                        "defaultValue": "0",
+                                        "faultBehavior": "FILL_WITH_DEFAULT_VALUE"
+                                    }
+                                ],
+                                "subParseSteps": {}
+                            }
+                        }
+                    },
+                    "destColumns": [
+                        {
+                            "column": "uid",
+                            "columnType": "LONG",
+                            "maps": []
+                        },
+                        {
+                            "column": "plat",
+                            "columnType": "STRING",
+                            "maps": [
+                                {
+                                    "ipad": "ios",
+                                    "iphone": "ios"
+                                }
+                            ]
+                        },
+                        {
+                            "column": "version",
+                            "columnType": "STRING",
+                            "maps": []
+                        },
+                        {
+                            "column": "net_op",
+                            "columnType": "STRING",
+                            "maps": []
+                        },
+                        {
+                            "column": "net_type",
+                            "columnType": "STRING",
+                            "maps": []
+                        },
+                        {
+                            "column": "device",
+                            "columnType": "STRING",
+                            "maps": []
+                        },
+                        {
+                            "column": "log_time",
+                            "columnType": "LONG",
+                            "maps": []
+                        },
+                        {
+                            "column": "page_id",
+                            "columnType": "LONG",
+                            "maps": []
+                        },
+                        {
+                            "column": "component_type",
+                            "columnType": "LONG",
+                            "maps": []
+                        },
+                        {
+                            "column": "status_id",
+                            "columnType": "STRING",
+                            "maps": []
+                        },
+                        {
+                            "column": "target_id",
+                            "columnType": "STRING",
+                            "maps": []
+                        },
+                        {
+                            "column": "symbol",
+                            "columnType": "STRING",
+                            "maps": []
+                        },
+                        {
+                            "column": "name",
+                            "columnType": "STRING",
+                            "maps": []
+                        },
+                        {
+                            "column": "duration",
+                            "columnType": "DOUBLE",
+                            "maps": []
+                        },
+                        {
+                            "column": "key_time",
+                            "columnType": "STRING",
+                            "maps": []
+                        }
+                    ],
+                    "timeColumn": {
+                        "column": "key_time",
+                        "columnType": "STRING",
+                        "maps": []
+                    },
+                    "timeColumnFormatStr": "",
+                    "maxOutOfOrders": 10000,
+                    "maxErrorRowsLimitPerHour": 100,
+                    "hourlyCounter": {
+                        "hourlyCount": 0
+                    }
+                }
+            ],
+            "sql": "",
+            "finalDestColumns": [
+                {
+                    "column": "uid",
+                    "columnType": "LONG",
+                    "maps": []
+                },
+                {
+                    "column": "plat",
+                    "columnType": "STRING",
+                    "maps": [
+                        {
+                            "ipad": "ios",
+                            "iphone": "ios"
+                        }
+                    ]
+                },
+                {
+                    "column": "version",
+                    "columnType": "STRING",
+                    "maps": []
+                },
+                {
+                    "column": "net_op",
+                    "columnType": "STRING",
+                    "maps": []
+                },
+                {
+                    "column": "net_type",
+                    "columnType": "STRING",
+                    "maps": []
+                },
+                {
+                    "column": "device",
+                    "columnType": "STRING",
+                    "maps": []
+                },
+                {
+                    "column": "log_time",
+                    "columnType": "LONG",
+                    "maps": []
+                },
+                {
+                    "column": "page_id",
+                    "columnType": "LONG",
+                    "maps": []
+                },
+                {
+                    "column": "component_type",
+                    "columnType": "LONG",
+                    "maps": []
+                },
+                {
+                    "column": "status_id",
+                    "columnType": "STRING",
+                    "maps": []
+                },
+                {
+                    "column": "target_id",
+                    "columnType": "STRING",
+                    "maps": []
+                },
+                {
+                    "column": "symbol",
+                    "columnType": "STRING",
+                    "maps": []
+                },
+                {
+                    "column": "name",
+                    "columnType": "STRING",
+                    "maps": []
+                },
+                {
+                    "column": "duration",
+                    "columnType": "DOUBLE",
+                    "maps": []
+                },
+                {
+                    "column": "key_time",
+                    "columnType": "STRING",
+                    "maps": []
+                }
+            ],
+            "finalTimeColumn": {
+                "column": "key_time",
+                "columnType": "STRING",
+                "maps": []
+            },
+            "finalTimeColumnFormatStr": "yyyy-MM-dd HH:mm:ss.S",
+            "dest": {
+                "bootstrapServers": "10.10.53.4:9092,10.10.54.5:9092",
+                "topic": "user_behavior_etl2",
+                "consumerGroupId": ""
+            },
+            "enableEventTime": false
         }
-      });
-    };
+        this.store.finalDestColumnsData = testData.transformSpecs[0].destColumns
+        this.store.parsedColumnsData = testData.transformSpecs[0].destColumns
+    }
 
-    return (
-      <DataDockStepWrapper step={1}>
-        <Row type="flex" justify="center">
-          <Col span={18}>
-            <Table columns={this.columns} dataSource={tableData} />
-          </Col>
-        </Row>
+    columns = () => {
+        return [{
+            title: '序号',
+            dataIndex: 'number',
+            width: 50,
+        }, {
+            title: '数据名',
+            dataIndex: 'jobName',
+            width: 100,
+        }, {
+            title: 'JSON数据',
+            dataIndex: 'json',
+            className: 'json',
+            width: 250,
+            render: (text, record) => (
+                <span>
+                    <ReactJson src={text} collapsed={true}/>
+                </span>
+            ),
+        }, {
+            title: '操作',
+            dataIndex: 'action',
+            width: 200,
+            render: (text, record) => (
+                <span>
+                    <Button >job启动</Button>
+                    <Divider type="vertical"/>
+                    <Button onClick={this.changeConfig}>更改配置</Button>
+                    <Divider type="vertical"/>
+                    <Button >重启job</Button>
+                </span>
+                
+            ),
+        }]
+    }
 
-        <Row >
-          <Col span={4} />
-          <Col span={4}>
-            <Button onClick={onPrev} style={{ marginLeft: 8 }}>
-              上一步
-              </Button>
-          </Col>
-          <Col span={4}>
-            <Button onClick={this.showDrawer} style={{ marginLeft: 8 }}>
-              查看
-              </Button>
-            <Drawer
-              title="已选配置"
-              placement="right"
-              closable={false}
-              onClose={this.onClose}
-              visible={this.state.drawerVisible}
-              key={this.state.key}
-            >
-              <Table columns={currentParsedDataColumns} dataSource={this.store.currentParsedData} bordered />
-            </Drawer>
-          </Col>
-          <Col span={4}>
-            <Button onClick={onNext} style={{ marginLeft: 8 }}>
-              继续下一轮
-              </Button>
-          </Col>
-          <Col span={4}>
-            <Button type="primary" onClick={onValidateForm}>
-              提交
-              </Button>
-          </Col>
-          <Col span={4} />
-        </Row>
-      </DataDockStepWrapper>
-    );
-  }
+    render() {
+        return (
+            <div>
+                <Row>
+                    <Col>
+                        <Card>
+                            <Table
+                                columns={this.columns()}
+                                dataSource={this.store.step2Data}
+                                bordered
+                                pagination={false}
+                                title={() => '上一步配置的数据'}
+                            />
+                        </Card>
+                    </Col>
+                </Row>
+                {/* <Row>
+                    <Col span={4} />
+                    <Col span={12}>
+                        <Button>返回上一页并配置下一条数据</Button>
+                    </Col>
+                    <Col span={4}>
+                        <Button>下一页</Button>
+                    </Col>
+                    <Col span={4} />
+                </Row> */}
+            </div>
+        )
+    }
+
+
 }
 
 export default Step2;

@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import {
   Input,
   Button,
-  Row,
-  Col,
   Select,
   Divider,
   message,
@@ -15,18 +13,11 @@ import './style.scss';
 @inject('dataDockStore')
 @observer
 class Maps extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-
-    }
-  }
 
   store = this.props.dataDockStore;
   //destColumns的maps保存
   //maps的key保存
   saveMapsKey = (e, column) => {
-
     this.store.parsedColumnsData.map((item) => {
       if (item.column === column) {
         item.mapsKey.push(e.target.value)
@@ -36,7 +27,6 @@ class Maps extends Component {
 
   //maps的value保存
   saveMapsValue = (e, column) => {
-
     this.store.parsedColumnsData.map((item) => {
       if (item.column === column) {
         item.mapsValue.push(e)
@@ -49,8 +39,16 @@ class Maps extends Component {
     const { parsedColumnsData } = this.store
     parsedColumnsData.map((item) => {
       if (item.column === column) {
-        item.maps[item.mapsKey[item.mapsKey.length - 1]] = item.mapsValue[item.mapsValue.length - 1]
+        let midMap = {}
+        
+        item.mapsValue[item.mapsValue.length - 1].map((items)=>{
+          midMap[items]=item.mapsKey[item.mapsKey.length - 1]
+        })
+        item.maps.push(midMap)
+        // item.maps[item.mapsKey[item.mapsKey.length - 1]] = item.mapsValue[item.mapsValue.length - 1]
         message.success("本条map记录完成")
+        item.mapsMessage = `${item.mapsMessage} 本条maps:${item.mapsValue[item.mapsValue.length - 1]}映射为${item.mapsKey[item.mapsKey.length - 1]}; `
+        console.log(item.maps)
       }
     })
   }
@@ -83,14 +81,14 @@ class Maps extends Component {
       <span key={index}>
         <Input
           style={{ width: 80 }}
-          placeholder="父类"
+          placeholder="映射类"
           onChange={e => { this.saveMapsKey(e, column) }}
         />
         <Divider type="vertical" />
         <Select
           mode="tags"
           style={{ width: 150 }}
-          placeholder="子类"
+          placeholder="被映射类"
           onChange={e => { this.saveMapsValue(e, column) }}
         />
         <Divider type="vertical" />

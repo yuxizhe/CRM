@@ -15,22 +15,14 @@ import './style.scss'
 @observer
 class Summary extends Component {
     
-    constructor(props) {
-        super(props);
-    
-        this.state = {
-          dataNumber: 1,//第几条数据          
-        };
-      }
+   
       
   store = this.props.dataDockStore;
 
   //showpage的确定键，跳转到数据监控页
   gotoNextPage = () => {
     this.resetData()
-    this.setState({
-      dataNumber: `${(this.state.dataNumber - 0 + 1)}`
-    })
+    
   }
 
   //最后初始化所有中间数据,包括kafkaRawData,kafkaData,kafkaValueParseStep,finalData,recordData,parsedColumnsData,mapsData,finalDestColumnsData,finalTimeColumnData
@@ -142,7 +134,7 @@ class Summary extends Component {
             Kafka Server:{this.store.finalData.transformSpecs[0].source.bootstrapServers}
           </li>
           <li>
-            Kafka Topic:{this.store.finalData.transformSpecs[0].source.topicName}
+            Kafka Topic:{this.store.finalData.transformSpecs[0].source.topic}
           </li>
           <li>
             消费组信息:{this.store.finalData.transformSpecs[0].source.consumerGroupId}
@@ -169,7 +161,7 @@ class Summary extends Component {
       <Divider />
       <Table
         columns={finalColumns}
-        dataSource={this.state.destColumnsSelectedRows}
+        dataSource={this.store.destColumnsSelectedRows}
         bordered
         pagination={false}
         title={() => 'destColumns选择'}
@@ -177,7 +169,7 @@ class Summary extends Component {
       <Divider />
       <Table
         columns={finalColumns}
-        dataSource={this.state.timeColumnSelectedRows}
+        dataSource={this.store.timeColumnSelectedRows}
         bordered
         pagination={false}
         title={() => 'destColumns选择'}
@@ -202,7 +194,7 @@ class Summary extends Component {
       <Divider />
       <Table
         columns={finalColumns}
-        dataSource={this.state.finalDestColumnsSelectedRows}
+        dataSource={this.store.finalDestColumnsSelectedRows}
         bordered
         pagination={false}
         title={() => 'finalDestColumns选择'}
@@ -214,7 +206,7 @@ class Summary extends Component {
       <Divider />
       <Table
         columns={finalColumns}
-        dataSource={this.state.finalTimeColumnSelectedRows}
+        dataSource={this.store.finalTimeColumnSelectedRows}
         bordered
         pagination={false}
         title={() => 'finalTimeColumn选择'}

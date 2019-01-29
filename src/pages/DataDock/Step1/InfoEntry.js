@@ -34,14 +34,14 @@ class InfoEntry extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const { form: { validateFields } } = this.props;
-    validateFields(['bootstrapServers', 'topicName', 'consumerGroupId', 'msgCount', 'timeOutSeconds', 'zookeeperServers'],  (err, values) => {
+    validateFields(['bootstrapServers', 'topic', 'consumerGroupId', 'msgCount', 'timeOutSeconds', 'zookeeperServers'],  (err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
         const source = {
           bootstrapServers: values.bootstrapServers,
-          topicName: values.topicName,
+          topic: values.topic,
           consumerGroupId: values.consumerGroupId,
-          MsgCount: values.msgCount,
+          msgCount: values.msgCount,
           timeOutSeconds: values.timeOutSeconds,
           zookeeperServers: values.zookeeperServers,
         };
@@ -50,7 +50,7 @@ class InfoEntry extends Component {
         this.props.history.push('/dataDock/step1/configPage');
         const trueSource = {
           bootstrapServers: values.bootstrapServers,
-          topicName: values.topicName,
+          topic: values.topic,
           consumerGroupId: values.consumerGroupId,
           zookeeperServers: values.zookeeperServers,
         };
@@ -82,7 +82,7 @@ class InfoEntry extends Component {
               {...formItemLayout}
               label="Kafka Topic"
             >
-              {getFieldDecorator('topicName', {
+              {getFieldDecorator('topic', {
                 initialValue: 'user_behavior',
                 rules: [{
                   required: true, message: '请输入 Kafka Topic!',
@@ -96,7 +96,7 @@ class InfoEntry extends Component {
               label="消费组信息"
             >
               {getFieldDecorator('consumerGroupId', {
-                initialValue: 'ctr',
+                initialValue: 'flink_user_behavior',
                 rules: [{
                   required: true, message: '请输入 消费组信息!',
                 }],

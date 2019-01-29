@@ -30,7 +30,7 @@ class HttpClient {
 
   handleSuccessResponse(res) {
     res = res.data;
-    if (res && res.error_code === 100000) {
+    if (res) {
       return res;
     } else if (res.error_code === "400016" || res.error_code === "79003") {
       if (process.env.NODE_ENV === "development") {
