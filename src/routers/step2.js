@@ -8,7 +8,7 @@ const DataDockStep2 = Loadable({
 
   const step2Routes = [
     {
-        path: "/datadock/step2",
+        path: "/realtime/platform/step2",
         component: DataDockStep2
       },
   ]
