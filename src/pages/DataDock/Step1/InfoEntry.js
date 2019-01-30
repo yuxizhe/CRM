@@ -47,7 +47,7 @@ class InfoEntry extends Component {
         };
 
         this.store.getKafkaMessage(source)
-        this.props.history.push('/dataDock/step1/configPage');
+        this.props.history.push('/realtime/platform/step1/configPage');
         const trueSource = {
           bootstrapServers: values.bootstrapServers,
           topic: values.topic,
