@@ -351,7 +351,7 @@ class MoreInfo extends Component {
           <Col span={6} />
           <Col span={6}>
             <Button onClick={this.rechangeTimeColumnData}>
-              <Link to='/dataDock/step1/timeColumn'>上一页</Link>
+              <Link to='/realtime/platform/step1/timeColumn'>上一页</Link>
             </Button>
           </Col>
           <Col span={6}>
@@ -360,7 +360,7 @@ class MoreInfo extends Component {
               type="primary"
             >
 
-              <Link to='/dataDock/step1/summary'>下一页</Link>
+              <Link to='/realtime/platform/step1/summary'>下一页</Link>
             </Button>
             {/* <Button onClick={this.test}>test</Button> */}
           </Col>

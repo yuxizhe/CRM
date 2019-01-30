@@ -135,12 +135,12 @@ class ConfigPage extends Component {
           <Col span={8} />
           <Col span={4}>
             <Button >
-            <Link to='/dataDock/step1/infoEntry'>上一页</Link>             
+            <Link to='/realtime/platform/step1/infoEntry'>上一页</Link>             
             </Button>
           </Col>
           <Col span={4}>
             <Button type={"primary"} onClick={this.handleClick}>
-            <Link to='/dataDock/step1/destColumns'>解析完成</Link>   
+            <Link to='/realtime/platform/step1/destColumns'>解析完成</Link>   
             </Button>
           </Col>
           <Col span={8} />

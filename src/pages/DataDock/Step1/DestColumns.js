@@ -189,12 +189,12 @@ class DestColumns extends Component {
             <Col span={8} />
             <Col span={4}>
               <Button onClick={this.returnToParse}>
-              <Link to='/dataDock/step1/configPage'>上一页</Link>
+              <Link to='/realtime/platform/step1/configPage'>上一页</Link>
               </Button>
             </Col>
             <Col span={4}>
               <Button type={"primary"} onClick={this.createFinalDestColumns}>
-              <Link to='/dataDock/step1/timeColumn'>确定</Link>
+              <Link to='/realtime/platform/step1/timeColumn'>确定</Link>
               </Button>
             </Col>
             <Col span={8} />

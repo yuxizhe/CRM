@@ -27,7 +27,7 @@ class Summary extends Component {
 
   getAllConf = () =>{
     this.store.getAllConf().then(res=>{
-      this.props.history.push('/dataDock/step2');
+      this.props.history.push('/realtime/platform/step2');
     })
   }
 

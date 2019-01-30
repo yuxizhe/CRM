@@ -50,7 +50,7 @@ class Step3 extends Component {
     getJobList = () => {
         const num = { num: 50 };
         this.store.getJobList(num).then(res => {
-            this.props.history.push('/dataDock/step3');
+            this.props.history.push('/realtime/platform/step3');
         }
         )
     }

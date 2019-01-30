@@ -53,10 +53,10 @@ class Step2 extends Component {
 
   getAllConf = () => {
     this.store.getAllConf().then(res => {
-      this.props.history.push('/dataDock/step2');
+      this.props.history.push('/realtime/platform/step2');
     })
     this.test(record).then(res => {
-      this.props.history.push('/dataDock/step2');
+      this.props.history.push('/realtime/platform/step2');
     })
   }
 

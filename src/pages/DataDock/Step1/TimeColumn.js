@@ -177,12 +177,12 @@ class TimeColumn extends Component {
             <Col span={8} />
             <Col span={4}>
               <Button onClick={this.rechangeDestColumnsData}>
-              <Link to='/dataDock/step1/destColumns'>上一页</Link>
+              <Link to='/realtime/platform/step1/destColumns'>上一页</Link>
               </Button>
             </Col>
             <Col span={4}>
               <Button type={"primary"} onClick={this.createFinalTimeColumn}>
-              <Link to='/dataDock/step1/moreInfo'>提交</Link>
+              <Link to='/realtime/platform/step1/moreInfo'>提交</Link>
               </Button>
             </Col>
             <Col span={8} />
