@@ -1,6 +1,7 @@
 import { observable, action, toJS } from "mobx";
 import { message } from "antd";
 import HttpClient from '../utils/httpclient';
+import Qs from 'qs'
 // import { subnetMatch } from "ipaddr.js";
 
 export default class Store {
@@ -14,15 +15,15 @@ export default class Store {
         "parseType": "DONOTHING_PARSER",
         "stepParameter": null,
         "parsedColumns": [
-            {
-                "column": "key_time",
-                "extractParam": "0",
-                "defaultValue": "",
-                "faultBehavior": "ERROR"
-            }
+          {
+            "column": "key_time",
+            "extractParam": "0",
+            "defaultValue": "",
+            "faultBehavior": "ERROR"
+          }
         ],
         "subParseSteps": {}
-    },
+      },
       kafkaValueParseStep: {},
       destColumns: [],
       timeColumn: {
@@ -30,7 +31,7 @@ export default class Store {
         // columnType: null,
         // maps: {},
       },
-      timeColumnFormatStr:"",
+      timeColumnFormatStr: "",
       maxOutOfOrders: 10000,
       maxErrorRowsLimitPerHour: 100,
       hourlyCounter: {
@@ -60,22 +61,24 @@ export default class Store {
 
   @observable parsedColumnsData = [];//destColumns的数据源
 
-  @observable mapsData = [1]
+  @observable mapsData = [1];
 
   @observable finalDestColumnsData = [];//作为finalDestColumns表格的数据源
 
   @observable finalTimeColumnData = [];//作为finalTimeColumn表格的数据源
 
-  @observable step2Data =[]//数据监控表格的datasource
-
-  @observable destColumnsSelectedRows=[]//destColumns表格的点选
-
-  @observable timeColumnSelectedRows=[]//timeColumn表格的点选
-
-  @observable finalDestColumnsSelectedRows=[]//finalDestColumns表格的点选
-
-  @observable finalTimeColumnSelectedRows=[]//finalTimeColumn表格的点选
+  @observable step2Data = [];//配置列表表格的datasource
   
+  @observable step3Data = [];//任务列表表格的datasource
+
+  @observable destColumnsSelectedRows = []//destColumns表格的点选
+
+  @observable timeColumnSelectedRows = []//timeColumn表格的点选
+
+  @observable finalDestColumnsSelectedRows = []//finalDestColumns表格的点选
+
+  @observable finalTimeColumnSelectedRows = []//finalTimeColumn表格的点选
+
 
   //数据配置页的请求kafka数据接口
   @action
@@ -83,26 +86,60 @@ export default class Store {
     HttpClient.get("/kafka/transSpec/source/kafka/message", kafkaModel)
       .then(
         action((res) => {
-          this.kafkaRawData = JSON.parse(res.data[0]).value;          
+          this.kafkaRawData = JSON.parse(res.data[0]).value;
         })
       )
   }
 
-  //数据配置页的kafka输出数据接口
+  // 数据配置页的kafka输出数据接口
   @action
   returnKafkaMessage(returnData) {
-    HttpClient.post(`/kafka/apollo/create/conf`, returnData,{
-      'headers':{
-        'Content-Type':'text/plain'
+    HttpClient.post(`/kafka/apollo/create/conf`, returnData, {
+      'headers': {
+        'Content-Type': 'text/plain'
       }
     })
-    //http://10.10.212.14:8080/apollo/create/conf
+      //http://10.10.212.14:8080/apollo/create/conf
       .then(
         action((res) => {
           console.log(res)
         }),
       );
   }
+
+  // 配置列表页的getAllConf接口
+  @action
+  getAllConf(source) {
+    return HttpClient.get(`/kafka/apollo/getAllConf`)
+      // http://10.10.212.14:8080/apollo/getAllConf
+      .then(
+        action((res) => {
+          console.log(Object.entries(res.data));
+          Object.entries(res.data).map(([key, value],index) => {
+            source.push({
+              number:index+1,
+              keyName:key,
+              value:value,            
+            })
+          });
+          console.log(source)
+        }),
+      );
+  }
+
+// 配置列表页的createJob接口
+  createJob(params){
+    // const data = JSON.stringify(params)
+    HttpClient.post(`/kafka/apollo/create/job`, params
+    )
+      //http://10.10.212.14:8080/apollo/create/job
+      .then(
+        action((res) => {
+          console.log(res)
+        }),
+      );
+  }
+
 
   @action
   changeKafkaValueParseStep(stepData) {

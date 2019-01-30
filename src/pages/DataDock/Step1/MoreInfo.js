@@ -30,14 +30,6 @@ const formItemLayout = {
 @observer
 class MoreInfo extends Component {
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      dataNumber: 1,//第几条数据          
-    };
-  }
-
   store = this.props.dataDockStore;
 
   // sql
@@ -50,15 +42,6 @@ class MoreInfo extends Component {
   rechangeTimeColumnData = () => {
     this.store.finalTimeColumnData.length = 0;
     this.previousPage()
-  }
-
-  //创建监控数据
-  createStep2Data = () => {
-    this.store.step2Data.push({
-      number: 1,
-      jobName: this.store.finalData.jobName,
-      json: this.store.finalData,
-    })
   }
 
   //创建符合最终格式的kafka数据
@@ -80,11 +63,6 @@ class MoreInfo extends Component {
   //提交所有数据,包括kafkaKeyParseStep,finalDestColumnsData,finalTimeColumnData
   submitAllData = () => {
     const { finalData, finalTimeColumnSelectedRows } = this.store
-
-    //创建监控页数据的编号
-    this.setState({
-      dataNumber: `${(this.state.dataNumber - 0 + 1)}`
-    })
 
     //kafkaKeyParseStep
     this.createTrueKafkaValueParseStep(this.store.kafkaValueParseStep);
@@ -115,7 +93,6 @@ class MoreInfo extends Component {
 
     message.success('传送成功')
     console.log(finalData)
-    this.createStep2Data()
   }
 
   // test =()=>{

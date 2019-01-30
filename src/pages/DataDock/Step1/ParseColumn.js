@@ -119,9 +119,9 @@ class ParseColumn extends Component {
     const testedData = data.toString().split(stepParameter);
     return testedData.map((item,index) => {
       return {
-        extractParam: index,
-        value: item,
         column: '',
+        extractParam: index,
+        value: item,        
         defaultValue: '',
         faultBehavior: 'FILTER_ROW'
       };
@@ -144,11 +144,11 @@ class ParseColumn extends Component {
 
     return urlPartValue.map((item, index) => {
       return {
-        extractParam: urlPartName[index],
-        value: urlPartValue[index],
         column: '',
+        extractParam: urlPartName[index],
+        value: urlPartValue[index],       
         faultBehavior: 'FILTER_ROW',
-        defaultValue: ''
+        defaultValue: '',
       };
     });
   }
@@ -160,11 +160,11 @@ class ParseColumn extends Component {
             value = value.toString()
         }
       return {
+        column: key,
         extractParam: key,
         value: value,
-        column: key,
         faultBehavior: 'FILTER_ROW',
-        defaultValue: ''
+        defaultValue: '',
       };
     });
   }
@@ -173,11 +173,11 @@ class ParseColumn extends Component {
     const regexParams = data.toString().match(stepParameter);
     return regexParams.map((item, index) => {
       return {
+        column: '',
         extractParam: index,
         value: item,
-        column: '',
         faultBehavior: 'FILTER_ROW',
-        defaultValue: ''
+        defaultValue: '',
       };
     });
   }

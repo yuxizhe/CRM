@@ -6,6 +6,6 @@ const proxy = require('./proxy');
 const mock = require('./mock');
 
 module.exports = (app) => {
-  mock(app);
+  // mock(app);
   proxy(app);
 };

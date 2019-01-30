@@ -21,6 +21,10 @@ const proxyTable = {
 };
 
 module.exports = (app) => {
+  app.use(async (ctx,next)=>{
+    console.log(ctx.request);
+    await next();
+  })
   // proxy api requests
   Object.keys(proxyTable).forEach((context) => {
     let options = proxyTable[context];

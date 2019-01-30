@@ -25,6 +25,12 @@ class Summary extends Component {
     
   }
 
+  getAllConf = (source) =>{
+    this.store.getAllConf(source).then(res=>{
+      this.props.history.push('/dataDock/step2');
+    })
+  }
+
   //最后初始化所有中间数据,包括kafkaRawData,kafkaData,kafkaValueParseStep,finalData,recordData,parsedColumnsData,mapsData,finalDestColumnsData,finalTimeColumnData
   resetData = () => {
     this.store.finalData = {
@@ -215,9 +221,12 @@ class Summary extends Component {
       <Row>
         <Col span={11} />
         <Col span={13}>
-          <Button type="primary" onClick={this.gotoNextPage}>
-            <Link to='/dataDock/step2'>进入监控页</Link>
+          {/* <Button type="primary" onClick={this.gotoNextPage}> */}
+          <Button onClick={()=>this.getAllConf(this.store.step2Data)}>
+          获取信息
           </Button>
+           
+          {/* </Button> */}
 
         </Col>
       </Row>
