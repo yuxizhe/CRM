@@ -5,6 +5,7 @@ const { ReactLoadablePlugin } = require('react-loadable/webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WebpackBar = require('webpackbar');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 function resolve(dir) {
   return path.join(__dirname, dir);
@@ -75,6 +76,9 @@ module.exports = {
     // HMR
     new webpack.HotModuleReplacementPlugin(),
     new CleanWebpackPlugin(['public']),
+    new CopyWebpackPlugin([{
+      from: './src/assets',
+    }]),
     new ReactLoadablePlugin({
       filename: './public/react-loadable.json',
     }),

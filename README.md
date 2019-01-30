@@ -134,6 +134,23 @@ UI 风格参考 AntDesignPro
 
 > http://docs.snowballfinance.com/pages/viewpage.action?pageId=38803598
 
+## 日志
+node日志统一采用 ctx.logger 记录
+- ctx.logger.debug  调试信息 只有开发模式可以看到
+- ctx.logger.info   常规信息
+- ctx.logger.error  报错信息
+
+#### 日志解析：
+log4js打日志,pm2收集并写到log文件，SRE通过fluentd解析导入ELK(Elasticsearch, Logstash, Kibana)，如果有增加需要通知SRE同步解析配置
+
+fluentd解析格式：
+
+format csv
+keys date,level,type,method,path,referer,ip,UA,time,message,uid
+
+
+由于要保证格式 所以删除了 PM2 配置中的 "log_date_format": "YYYY-MM-DD HH:mm Z",
+
 ## 数据 store 配置
 
 分为`全局store` 和 `局部store`

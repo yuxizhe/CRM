@@ -1,32 +1,27 @@
 const proxyMiddleware = require('http-proxy-middleware');
 const k2c = require('koa2-connect');
 
-const proxyTable = {
-  '/xq': {
-    target: 'https://api.xueqiu.com/',
-    changeOrigin: true,
-    pathRewrite: path => path.replace('/xq', ''),
-  },
-  '/getData': {
-    target: 'http://10.10.51.13:8080',
-    changeOrigin: true,
-    pathRewrite: path => path.replace('/getData', ''),
-  },
-  '/kafka': {
-    target: 'http://10.10.212.14:8080',
-    changeOrigin: true,
-    pathRewrite: path => path.replace('/kafka', ''),
-  },
-
-};
-
 module.exports = (app) => {
-  // proxy api requests
-  Object.keys(proxyTable).forEach((context) => {
-    let options = proxyTable[context];
-    if (typeof options === 'string') {
-      options = { target: options };
+  app.use(async (ctx, next) => {
+    if (ctx.url.startsWith('/getData') || ctx.url.startsWith('/kafka') || ctx.url.startsWith('/xq')) {
+      ctx.respond = false;
+      console.log(ctx.request.body);
+      await k2c(proxyMiddleware({
+        target: '/xq',
+        changeOrigin: true,
+        secure: false,
+        pathRewrite: {
+          '^/xq': '',
+          '^/getData': '',
+          '^/kafka': '',
+        },
+        router: {
+          '/xq': 'https://api.xueqiu.com',
+          '/getData': 'http://10.10.51.13:8080',
+          '/kafka': 'http://10.10.212.14:8080',
+        },
+      }))(ctx, next);
     }
-    app.use(k2c(proxyMiddleware(options.filter || context, options)));
+    await next();
   });
 };
