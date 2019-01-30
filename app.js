@@ -2,9 +2,7 @@ const Koa = require('koa');
 const router = require('koa-router')();
 const path = require('path');
 const fs = require('fs');
-const koaBody = require('koa-body');
-const json = require('koa-json');
-const convert = require('koa-convert');
+const bodyParse = require('koa-bodyparser');
 const staticCache = require('koa-static-cache');
 
 const middleware = require('./middlewares');
@@ -17,13 +15,9 @@ app.use(staticCache('public'), {
   gzip: true,
 });
 
-app.use(koaBody({
-  jsonLimit: '10mb',
-  formLimit: '10mb',
-  textLimit: '10mb'
+app.use(bodyParse({
+  formLimit: '50mb',
 }));
-app.use(convert(json()));
-
 
 middleware(app);
 
