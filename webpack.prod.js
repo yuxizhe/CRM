@@ -4,6 +4,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackBar = require('webpackbar');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 function resolve(dir) {
   return path.join(__dirname, dir);
@@ -87,6 +88,9 @@ module.exports = {
       },
     }),
     new CleanWebpackPlugin(['public']),
+    new CopyWebpackPlugin([{
+      from: './src/assets',
+    }]),
     new MiniCssExtractPlugin({
       filename: 'vender.[chunkhash].css',
       chunkFilename: '[name].[chunkhash].css',
