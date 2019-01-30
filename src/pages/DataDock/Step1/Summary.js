@@ -25,8 +25,8 @@ class Summary extends Component {
     
   }
 
-  getAllConf = (source) =>{
-    this.store.getAllConf(source).then(res=>{
+  getAllConf = () =>{
+    this.store.getAllConf().then(res=>{
       this.props.history.push('/dataDock/step2');
     })
   }
@@ -222,8 +222,8 @@ class Summary extends Component {
         <Col span={11} />
         <Col span={13}>
           {/* <Button type="primary" onClick={this.gotoNextPage}> */}
-          <Button onClick={()=>this.getAllConf(this.store.step2Data)}>
-          获取信息
+          <Button onClick={()=>this.getAllConf()}>
+          进入配置列表页
           </Button>
            
           {/* </Button> */}

@@ -39,27 +39,27 @@ const DataDockSummary = Loadable({
 
 const step1Routes = [  
   {
-    path: "/datadock/step1/infoEntry",
+    path: "/realtime/platform/step1/infoEntry",
     component: DataDockInfoEntry
   },  
   {
-    path: "/datadock/step1/configPage",
+    path: "/realtime/platform/step1/configPage",
     component: DataDockConfigPage
   },
   {
-    path: "/datadock/step1/destColumns",
+    path: "/realtime/platform/step1/destColumns",
     component: DataDockDestColumns
   },
   {
-    path: "/datadock/step1/timeColumn",
+    path: "/realtime/platform/step1/timeColumn",
     component: DataDockTimeColumn
   },
   {
-    path: "/datadock/step1/moreInfo",
+    path: "/realtime/platform/step1/moreInfo",
     component: DataDockMoreInfo
   },
   {
-    path: "/datadock/step1/summary",
+    path: "/realtime/platform/step1/summary",
     component: DataDockSummary
   },
 ];

@@ -67,6 +67,8 @@ export default class Store {
 
   @observable step2Data = [];// 配置列表表格的datasource
 
+  @observable button=[]
+
   @observable step3Data = [];// 任务列表表格的datasource
 
   @observable destColumnsSelectedRows = []// destColumns表格的点选
@@ -97,7 +99,6 @@ export default class Store {
         'Content-Type': 'text/plain',
       },
     })
-      // http://10.10.212.14:8080/apollo/create/conf
       .then(
         action((res) => {
           console.log(res);
@@ -107,52 +108,49 @@ export default class Store {
 
   // 配置列表页的getAllConf接口
   @action
-  getAllConf(source) {
+  getAllConf() {
     return HttpClient.get('/kafka/apollo/getAllConf')
-      // http://10.10.212.14:8080/apollo/getAllConf
       .then(
         action((res) => {
           console.log(Object.entries(res.data));
           Object.entries(res.data).map(([key, value], index) => {
-            source.push({
+            this.button.push(false)
+            this.step2Data.push({
               number: index + 1,
               keyName: key,
-              value,
+              value:value,
             });
+            
           });
-          console.log(source);
         }),
       );
   }
 
   // 配置列表页的createJob接口
+  @action
   createJob(params) {
-    // const data = JSON.stringify(params)
     HttpClient.post('/kafka/apollo/create/job', params)
-      // http://10.10.212.14:8080/apollo/create/job
       .then(
         action((res) => {
-          console.log(res);
+          message.success("本条创建job成功");
         }),
       );
   }
 
   //任务列表页的jobList接口
   @action
-  getAllConf() {
-    return HttpClient.get(`/kafka/job/list`,100)
-      // http://10.10.212.14:8080/job/list
+  getJobList(num) {
+    return HttpClient.get(`/kafka/job/list`, num)
       .then(
         action((res) => {
           console.log(res.data);
           res.data.map((item,index) => {
             this.step3Data.push({
               number:index+1,
-              jobName:item.name,
+              jobKey:item.name,
               value:item,            
             })
-          });
-          
+          });         
         }),
       );
   }
@@ -160,41 +158,32 @@ export default class Store {
   //任务列表页的job启动接口
   @action
   jobStart(params){
-    // const data = JSON.stringify(params)
-    HttpClient.post(`/kafka/apollo/job/start`, params
-    )
-      //http://10.10.212.14:8080/apollo/job/start
+    HttpClient.post(`/kafka/job/start`, params)
       .then(
         action((res) => {
-          console.log(res)
+          message.success("本条配置的job启动成功");
         }),
       );
   }
 
   //任务列表页的job停止接口
   @action
-  jobStart(params){
-    // const data = JSON.stringify(params)
-    HttpClient.post(`/kafka/apollo/job/terminal/cancel`, params
-    )
-      //http://10.10.212.14:8080/apollo/job/terminal/cancel
+  jobCancel(params){
+    HttpClient.post(`/kafka/job/terminate/cancel`, params)
       .then(
         action((res) => {
-          console.log(res)
+          message.success("本条配置的job暂停成功");
         }),
       );
   }
 
   //任务列表页的job重启接口
   @action
-  jobStart(params){
-    // const data = JSON.stringify(params)
-    HttpClient.post(`/kafka/apollo/job/restart`, params
-    )
-      //http://10.10.212.14:8080/apollo/job/restart
+  jobRestart(params){
+    HttpClient.post(`/kafka/job/restart`, params)
       .then(
         action((res) => {
-          console.log(res)
+          message.success("本条配置的job重启成功");
         }),
       );
   }

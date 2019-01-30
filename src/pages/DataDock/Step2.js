@@ -38,7 +38,7 @@ class Step2 extends Component {
       <span>
         <Button onClick={() => this.createJob(record.keyName)}>job创建</Button>
         <Divider type="vertical" />
-        <Button onClick={this.changeConfig}>更改配置</Button>
+        <Button onClick={()=>this.test(record)} disabled={this.store.button[record.number-1]}>更改配置</Button>
       </span>
 
     ),
@@ -49,7 +49,19 @@ class Step2 extends Component {
     params.key = key;
     params.user = "luqi";
     this.store.createJob(params);
-    message.success("创建job成功");
+  }
+
+  getAllConf = () => {
+    this.store.getAllConf().then(res => {
+      this.props.history.push('/dataDock/step2');
+    })
+    this.test(record).then(res => {
+      this.props.history.push('/dataDock/step2');
+    })
+  }
+
+  test = (record)=>{
+    this.store.button[record.number-1]=true;
   }
 
   render() {
@@ -58,7 +70,7 @@ class Step2 extends Component {
         <Row>
           <Col>
             <Card>
-              {/* <Button onClick={()=>this.store.getAllConf(this.store.step2Data)}>获取信息</Button> */}
+              <Button onClick={() => this.getAllConf(this.store.step2Data)}>获取信息</Button>
               <Table
                 columns={this.columns()}
                 dataSource={this.store.step2Data}
