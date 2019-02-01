@@ -8,12 +8,16 @@ import './style.scss';
 const { Header, Sider } = Layout;
 const { SubMenu } = Menu;
 
-@inject('sideBar', 'loginStore')
+@inject('sideBar', 'loginStore', 
+// 'dateDockStore'
+)
 @observer
 class SideBar extends Component {
   sideBar = this.props.sideBar;
 
   loginStore = this.props.loginStore;
+
+  // dataDockStore = this.props.dataDockStore;
 
   componentDidMount() {
     if (!this.loginStore.isLogged && window.location.pathname !== '/login') {
@@ -30,6 +34,16 @@ class SideBar extends Component {
     this.sideBar.logout();
   }
 
+  getAllConf() {
+    this.store.step2Data.length=0;
+    this.dataDockStore.getAllConf()
+
+    this.store.step3Data.length = 0;
+    const num = { num: 50 };
+    this.store.getJobList(num)
+
+  }
+
   _formatMenuTree(resources) {
     return resources.map((item) => {
       if (item.children && item.children.length) {
@@ -42,6 +56,7 @@ class SideBar extends Component {
                 <span>{item.name}</span>
               </span>
             )}
+            // onClick={this.getAllConf}
           >
             {this._formatMenuTree(item.children)}
           </SubMenu>
@@ -50,8 +65,9 @@ class SideBar extends Component {
       return (
         <Menu.Item
           key={
-              item.location || `#${item.resource_id}-${item.resource_pid}`
-            }
+            item.location || `#${item.resource_id}-${item.resource_pid}`
+          }
+          // onClick={this.getAllConf}
         >
           <Link to={item.location}>
             <Icon type={item.icon ? item.icon : 'file'} />

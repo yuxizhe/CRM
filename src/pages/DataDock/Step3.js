@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { inject, observer } from "mobx-react";
 import {
-    Button, Row, Col, Card, Table, Divider, message
+    Button, Row, Col, Card, Table, Divider, message, Modal
 } from 'antd';
 import ReactJson from 'react-json-view';
 import './style.scss'
@@ -26,7 +26,7 @@ class Step3 extends Component {
         width: 250,
         render: (text, record) => (
             <span>
-                <ReactJson src={text} collapsed />
+                <ReactJson src={text} collapsed enableClipboard={false} displayDataTypes={false}  displayObjectSize={false}/>
             </span>
         ),
     }, {
@@ -41,19 +41,12 @@ class Step3 extends Component {
                 <Divider type="vertical" />
                 <Button onClick={() => this.jobRestart(record.jobKey)}>重启</Button>
                 <Divider type="vertical" />
-                <Button onClick={() => this.deleteJob(record.jobKey)}>删除</Button>
+                <Button onClick={() => this.jobDelete(record.jobKey)}>删除</Button>
             </span>
 
         ),
     }]
 
-    getJobList = () => {
-        const num = { num: 50 };
-        this.store.getJobList(num).then(res => {
-            this.props.history.push('/realtime/platform/step3');
-        }
-        )
-    }
 
     jobStart = (jobKey) => {
         const params = {};
@@ -65,7 +58,7 @@ class Step3 extends Component {
     jobCancel = (jobKey) => {
         const params = {};
         params.jobKey = jobKey;
-        params.method='cancel';
+        params.method = 'cancel';
         params.user = 'luqi';
         this.store.jobCancel(params);
     }
@@ -77,14 +70,34 @@ class Step3 extends Component {
         this.store.jobRestart(params);
     }
 
+    jobDelete = (jobKey) => { 
+          
+        this.store.step3Data.map((item,index)=>{
+            if(item.jobKey === jobKey){
+                this.store.step3Data.splice(index,1); 
+            }             
+        })       
+        let params={key:jobKey,user:'luqi'}
+        this.store.jobDelete(params).then(res=>{
+            this.props.history.push('/realtime/platform/step3');
+        })              
+        
+    }
+
+    
+
+    
+
     render() {
+
         return (
             <div>
                 <Card>
-                    <Button onClick={this.getJobList}>获取job信息</Button>
+                    {/* <Button onClick={this.getJobList}>获取job信息</Button> */}
                     <Table
                         columns={this.columns()}
                         dataSource={this.store.step3Data}
+                        // dataSource={this.store.test}
                         bordered
                         pagination={false}
                         title={() => '任务列表'}

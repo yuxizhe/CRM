@@ -3,7 +3,7 @@ import { message } from 'antd';
 import HttpClient from '../utils/httpclient';
 // import { subnetMatch } from "ipaddr.js";
 
-export default class Store {
+export default class DataDockStore {
   @observable finalData = {
     jobName: '',
     transformSpecs: [{
@@ -67,7 +67,7 @@ export default class Store {
 
   @observable step2Data = [];// 配置列表表格的datasource
 
-  @observable button=[]
+  @observable jobButton = []//配置列表页的job创建按钮变灰设置
 
   @observable step3Data = [];// 任务列表表格的datasource
 
@@ -78,6 +78,7 @@ export default class Store {
   @observable finalDestColumnsSelectedRows = []// finalDestColumns表格的点选
 
   @observable finalTimeColumnSelectedRows = []// finalTimeColumn表格的点选
+
 
 
   // 数据配置页的请求kafka数据接口
@@ -112,15 +113,26 @@ export default class Store {
     return HttpClient.get('/kafka/apollo/getAllConf')
       .then(
         action((res) => {
-          console.log(Object.entries(res.data));
-          Object.entries(res.data).map(([key, value], index) => {
-            this.button.push(false)
+          let data = Object.entries(res.data)
+          
+          data.map(([key, value], index) => {
+            if (key === "TaskManagerUrl") {
+              data.splice(index, 1)
+            }        
+          });
+          data.map(([key, value], index) => {            
+            if (key === "ManagerTest") {
+              data.splice(index, 1)
+            }
+          });
+
+          data.map(([key, value], index) => {
+            this.jobButton.push(false)
             this.step2Data.push({
               number: index + 1,
               keyName: key,
-              value:value,
+              value: JSON.parse(value.replace(/\n/g, '').replace(/\s/g, '')),
             });
-            
           });
         }),
       );
@@ -129,7 +141,7 @@ export default class Store {
   // 配置列表页的createJob接口
   @action
   createJob(params) {
-    HttpClient.post('/kafka/apollo/create/job', params)
+    return HttpClient.post('/kafka/apollo/create/job', params)
       .then(
         action((res) => {
           message.success("本条创建job成功");
@@ -144,20 +156,20 @@ export default class Store {
       .then(
         action((res) => {
           console.log(res.data);
-          res.data.map((item,index) => {
+          res.data.map((item, index) => {
             this.step3Data.push({
-              number:index+1,
-              jobKey:item.name,
-              value:item,            
+              number: index + 1,
+              jobKey: item.name,
+              value: item,
             })
-          });         
+          });
         }),
       );
   }
 
   //任务列表页的job启动接口
   @action
-  jobStart(params){
+  jobStart(params) {
     HttpClient.post(`/kafka/job/start`, params)
       .then(
         action((res) => {
@@ -168,7 +180,7 @@ export default class Store {
 
   //任务列表页的job停止接口
   @action
-  jobCancel(params){
+  jobCancel(params) {
     HttpClient.post(`/kafka/job/terminate/cancel`, params)
       .then(
         action((res) => {
@@ -179,7 +191,7 @@ export default class Store {
 
   //任务列表页的job重启接口
   @action
-  jobRestart(params){
+  jobRestart(params) {
     HttpClient.post(`/kafka/job/restart`, params)
       .then(
         action((res) => {
@@ -188,6 +200,16 @@ export default class Store {
       );
   }
 
+  //任务列表页的job删除接口
+  @action
+  jobDelete(params) {
+    HttpClient.post(`/kafka/job/delete`, params)
+      .then(
+        action((res) => {
+          message.success("本条配置的job删除成功");
+        }),
+      );
+  }
 
   @action
   changeKafkaValueParseStep(stepData) {

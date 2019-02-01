@@ -26,6 +26,7 @@ class Summary extends Component {
   }
 
   getAllConf = () =>{
+    this.store.step2Data.length=0;
     this.store.getAllConf().then(res=>{
       this.props.history.push('/realtime/platform/step2');
     })
@@ -178,7 +179,7 @@ class Summary extends Component {
         dataSource={this.store.timeColumnSelectedRows}
         bordered
         pagination={false}
-        title={() => 'destColumns选择'}
+        title={() => 'tomeColumn选择'}
       />
       <Card>
         <ol>
