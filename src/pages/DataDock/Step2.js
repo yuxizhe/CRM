@@ -27,7 +27,7 @@ class Step2 extends Component {
     width: 250,
     render: (text, record) => (
       <span>
-        <ReactJson src={text} collapsed />
+        <ReactJson src={text} collapsed enableClipboard={false} displayDataTypes={false}  displayObjectSize={false}/>
       </span>
     ),
   }, {
@@ -36,41 +36,53 @@ class Step2 extends Component {
     width: 200,
     render: (text, record) => (
       <span>
-        <Button onClick={() => this.createJob(record.keyName)}>job创建</Button>
+        <Button onClick={() => this.createJob(record.keyName, record.number)} disabled={this.store.jobButton[record.number-1]}>job创建</Button>
         <Divider type="vertical" />
-        <Button onClick={()=>this.test(record)} disabled={this.store.button[record.number-1]}>更改配置</Button>
+        <Button onClick={()=> this.changeConfig(record.keyName, record.value)}>更改配置</Button>
       </span>
 
     ),
   }]
 
-  createJob = (key) => {
+  createJob = (key, number) => {
     const params = {}
     params.key = key;
     params.user = "luqi";
-    this.store.createJob(params);
-  }
-
-  getAllConf = () => {
-    this.store.getAllConf().then(res => {
+    this.store.jobButton[number-1]=true;
+    this.store.createJob(params).then(res=>{
       this.props.history.push('/realtime/platform/step2');
-    })
-    this.test(record).then(res => {
-      this.props.history.push('/realtime/platform/step2');
-    })
+    })   
   }
 
-  test = (record)=>{
-    this.store.button[record.number-1]=true;
+  changeConfig =(keyName, value)=>{
+    // this.store.parsedColumnsData = value.transformSpecs[0].
   }
 
+  //回到配置页配置下一条kafka数据
+  startNextconf =()=>{
+    this.store.step2Data.length = 0;
+    this.store.jobButton.length = 0;
+    this.props.history.push('/realtime/platform/step1/infoEntry');
+  }
+
+  //到任务列表页
+  nextPage =()=>{
+    this.store.step3Data.length=0;
+    const num = { num: 50 };
+        this.store.getJobList(num).then(res => {
+            this.props.history.push('/realtime/platform/step3');
+        }
+        )
+  }
+
+  
   render() {
     return (
       <div>
         <Row>
           <Col>
             <Card>
-              <Button onClick={() => this.getAllConf(this.store.step2Data)}>获取信息</Button>
+              {/* <Button onClick={() => this.getAllConf(this.store.step2Data)}>获取信息</Button> */}
               <Table
                 columns={this.columns()}
                 dataSource={this.store.step2Data}
@@ -84,10 +96,10 @@ class Step2 extends Component {
         <Row>
           <Col span={4} />
           <Col span={12}>
-            <Button>返回上一页并配置新数据</Button>
+            <Button onClick={this.startNextconf}>返回数据配置页并配置新数据</Button>
           </Col>
           <Col span={4}>
-            <Button>下一页</Button>
+            <Button onClick={this.nextPage}>下一页</Button>
           </Col>
           <Col span={4} />
         </Row>
