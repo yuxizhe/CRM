@@ -65,11 +65,13 @@ export default class DataDockStore {
 
   @observable finalTimeColumnData = [];// 作为finalTimeColumn表格的数据源
 
-  @observable step2Data = [];// 配置列表表格的datasource
+  @observable configListData = [];// 配置列表表格的datasource
 
-  @observable jobButton = []//配置列表页的job创建按钮变灰设置
+  @observable jobButton = [];// 配置列表页的job创建按钮变灰设置
 
-  @observable step3Data = [];// 任务列表表格的datasource
+  @observable jobListData = [];// job列表表格的datasource
+
+  // jobListData = [{key:1,druidStatus:'success'},{key:2,druidStatus:'default'}];
 
   @observable destColumnsSelectedRows = []// destColumns表格的点选
 
@@ -79,9 +81,9 @@ export default class DataDockStore {
 
   @observable finalTimeColumnSelectedRows = []// finalTimeColumn表格的点选
 
+  @observable test = 0;
 
-
-  // 数据配置页的请求kafka数据接口
+  // 新数据配置页的请求kafka数据接口
   @action
   getKafkaMessage(kafkaModel) {
     HttpClient.get('/kafka/transSpec/source/kafka/message', kafkaModel)
@@ -92,7 +94,7 @@ export default class DataDockStore {
       );
   }
 
-  // 数据配置页的kafka输出数据接口
+  // 新数据配置页的kafka输出数据接口
   @action
   returnKafkaMessage(returnData) {
     HttpClient.post('/kafka/apollo/create/conf', returnData, {
@@ -113,22 +115,21 @@ export default class DataDockStore {
     return HttpClient.get('/kafka/apollo/getAllConf')
       .then(
         action((res) => {
-          let data = Object.entries(res.data)
-          
-          data.map(([key, value], index) => {
-            if (key === "TaskManagerUrl") {
-              data.splice(index, 1)
-            }        
+          const data = Object.entries(res.data);
+          data.map(([key], index) => {
+            if (key === 'TaskManagerUrl') {
+              data.splice(index, 1);
+            }
           });
-          data.map(([key, value], index) => {            
-            if (key === "ManagerTest") {
-              data.splice(index, 1)
+          data.map(([key], index) => {
+            if (key === 'ManagerTest') {
+              data.splice(index, 1);
             }
           });
 
           data.map(([key, value], index) => {
-            this.jobButton.push(false)
-            this.step2Data.push({
+            this.jobButton.push(false);
+            this.configListData.push({
               number: index + 1,
               keyName: key,
               value: JSON.parse(value.replace(/\n/g, '').replace(/\s/g, '')),
@@ -143,70 +144,192 @@ export default class DataDockStore {
   createJob(params) {
     return HttpClient.post('/kafka/apollo/create/job', params)
       .then(
-        action((res) => {
-          message.success("本条创建job成功");
+        action(() => {
+          message.success('本条创建job成功');
         }),
       );
   }
 
-  //任务列表页的jobList接口
+  // job列表页的jobList接口
   @action
   getJobList(num) {
-    return HttpClient.get(`/kafka/job/list`, num)
+    return HttpClient.get('/kafka/job/list')
       .then(
-        action((res) => {
-          console.log(res.data);
+        action((res) => {         
           res.data.map((item, index) => {
-            this.step3Data.push({
+            this.jobListData.push({
               number: index + 1,
-              jobKey: item.name,
+              key: item.name,
               value: item,
-            })
+              druidStatus: item.druidJob.status,
+              flinkStatus: item.flinkJob.status,
+            });
+            if(item.druidJob.status === 'RUNNING') {
+              this.jobListData[index].druidBadge = 'success';
+            } else if(item.druidJob.status === 'STOPPED') {
+              this.jobListData[index].druidBadge = 'default';
+            } else if(item.druidJob.status === 'FAILED') {
+              this.jobListData[index].druidBadge = 'error';
+            } else {
+              this.jobListData[index].druidBadge = 'processing';
+            }
+
+            if(item.flinkJob.status === 'RUNNING') {
+              this.jobListData[index].flinkBadge = 'success';
+            } else if(item.flinkJob.status === 'STOPPED') {
+              this.jobListData[index].flinkBadge = 'default';
+            } else if(item.flinkJob.status === 'FAILED') {
+              this.jobListData[index].flinkBadge = 'error';
+            } else {
+              this.jobListData[index].flinkBadge = 'processing';
+            }
           });
         }),
       );
   }
 
-  //任务列表页的job启动接口
+  // job列表页的jobFlink启动接口
   @action
-  jobStart(params) {
-    HttpClient.post(`/kafka/job/start`, params)
+  jobStartFlink(params) {
+    return HttpClient.post('/kafka/job/start/flink', params)
       .then(
         action((res) => {
-          message.success("本条配置的job启动成功");
+          if(res.error_code === 100000) {
+            message.success('本条配置的jobFlink启动成功');
+          } else {
+            message.error('本条配置的jobFlink启动失败');
+          }        
         }),
       );
   }
 
-  //任务列表页的job停止接口
+  // job列表页的jobFlink停止接口
   @action
-  jobCancel(params) {
-    HttpClient.post(`/kafka/job/terminate/cancel`, params)
+  jobStopFlink(params) {
+    return HttpClient.post('/kafka/job/stop/flink', params)
       .then(
         action((res) => {
-          message.success("本条配置的job暂停成功");
+          if(res.error_code === 100000) {
+            message.success('本条配置的jobFlink暂停成功');
+          } else {
+            message.error('本条配置的jobFlink暂停失败');
+          }
         }),
       );
   }
 
-  //任务列表页的job重启接口
+  // job列表页的jobFlink重启接口
   @action
-  jobRestart(params) {
-    HttpClient.post(`/kafka/job/restart`, params)
+  jobRestartFlink(params) {
+    return HttpClient.post('/kafka/job/restart/flink', params)
       .then(
         action((res) => {
-          message.success("本条配置的job重启成功");
+          if(res.error_code === 100000) {
+            message.success('本条配置的jobFlink重启成功');
+          } else {
+            message.error('本条配置的jobFlink重启失败');
+          } 
         }),
       );
   }
 
-  //任务列表页的job删除接口
+  // job列表页的jobDruid启动接口
+  @action
+  jobStartDruid(params) {
+    return HttpClient.post('/kafka/job/start/druid', params)
+      .then(
+        action((res) => {
+          if(res.error_code === 100000) {
+            message.success('本条配置的jobDruid启动成功');
+          } else {
+            message.error('本条配置的jobDruid启动失败');
+          } 
+        }),
+      );
+  }
+
+  // job列表页的jobDruid停止接口
+  @action
+  jobStopDruid(params) {
+    return HttpClient.post('/kafka/job/stop/druid', params)
+      .then(
+        action((res) => {
+          if(res.error_code === 100000) {
+            message.success('本条配置的jobDruid暂停成功');
+          } else {
+            message.error('本条配置的jobDruid暂停失败');
+          }          
+        }),
+      );
+  }
+
+  // job列表页的jobDruid重启接口
+  @action
+  jobRestartDruid(params) {
+    return HttpClient.post('/kafka/job/restart/druid', params)
+      .then(
+        action((res) => {
+          if(res.error_code === 100000) {
+            message.success('本条配置的jobDruid重启成功');
+          } else {
+            message.error('本条配置的jobDruid重启失败');
+          }  
+        }),
+      );
+  }
+
+  // job列表页的jobAll启动接口
+  @action
+  jobStartAll(params) {
+    return HttpClient.post('/kafka/job/start/all', params)
+      .then(
+        action((res) => {
+          if(res.error_code === 100000) {
+            message.success('本条配置的jobAll启动成功');
+          } else {
+            message.success('本条配置的jobAll启动失败');
+          }         
+        }),
+      );
+  }
+
+  // job列表页的jobAll停止接口
+  @action
+  jobStopAll(params) {
+    return HttpClient.post('/kafka/job/stop/all', params)
+      .then(
+        action((res) => {
+          if(res.error_code === 100000) {
+            message.success('本条配置的jobAll暂停成功');
+          } else {
+            message.success('本条配置的jobAll暂停失败');
+          } 
+        }),
+      );
+  }
+
+  // job列表页的jobAll重启接口
+  @action
+  jobRestartAll(params) {
+    return HttpClient.post('/kafka/job/restart/all', params)
+      .then(
+        action((res) => {
+          if(res.error_code === 100000) {
+            message.success('本条配置的jobAll重启成功');
+          } else {
+            message.success('本条配置的jobAll重启失败');
+          } 
+        }),
+      );
+  }
+
+  // job列表页的job删除接口
   @action
   jobDelete(params) {
-    HttpClient.post(`/kafka/job/delete`, params)
+    return HttpClient.post('/kafka/job/delete', params)
       .then(
-        action((res) => {
-          message.success("本条配置的job删除成功");
+        action(() => {
+          message.success('本条配置的job删除成功');
         }),
       );
   }

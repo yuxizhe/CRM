@@ -25,6 +25,8 @@ const formItemLayout = {
   },
 };
 
+const { TextArea } = Input;
+
 @Form.create()
 @inject('dataDockStore')
 @observer
@@ -95,15 +97,6 @@ class MoreInfo extends Component {
     console.log(finalData)
   }
 
-  // test =()=>{
-  //   const params = {
-  //     key: "test",
-  //     value: 'ok',
-  //     comment: 'yangluqi',
-  //   }
-
-  //   this.store.returnKafkaMessage(params);
-  // }
 
 
   //dest表单提交
@@ -116,7 +109,7 @@ class MoreInfo extends Component {
         const dest = {
           bootstrapServers: values.returnBootstrapServers,
           topic: values.returnTopic,
-          consumerGroupId: values.returnConsumerGroupId,
+          // consumerGroupId: values.returnConsumerGroupId,
           zookeeperServers: values.returnZookeeperServers,
           partitionNumber: values.partitionNumber,
           replicationNumber: values.replicationNumber,
@@ -141,37 +134,37 @@ class MoreInfo extends Component {
       title: 'column',
       dataIndex: 'column',
       key: 'column',
-      width: 200,
+      width: 100,
     }, {
       title: 'value',
       dataIndex: 'value',
       key: 'value',
-      width: 200,
+      width: 220,
     }, {
       title: 'columnType',
       dataIndex: 'columnType',
       key: 'columnType',
-      width: 150,
+      width: 130,
     }, {
       title: 'maps',
       dataIndex: 'mapsMessage',
       key: 'mapsMessage',
-      width: 300,
+      width: 180,
     },
     ];
 
-    const finalDestColumnsRowSelection = {
-      onChange: (finalDestColumnsSelectedRowKeys, finalDestColumnsSelectedRows) => {
-        this.store.finalDestColumnsSelectedRows = finalDestColumnsSelectedRows;
-      },
-    };
+    // const finalDestColumnsRowSelection = {
+    //   onChange: (finalDestColumnsSelectedRowKeys, finalDestColumnsSelectedRows) => {
+    //     this.store.finalDestColumnsSelectedRows = finalDestColumnsSelectedRows;
+    //   },
+    // };
 
-    const finalTimeColumnsRowSelection = {
-      type: 'radio',
-      onChange: (finalTimeColumnSelectedRowKeys, finalTimeColumnSelectedRows) => {
-        this.store.finalTimeColumnSelectedRows = finalTimeColumnSelectedRows;
-      },
-    };
+    // const finalTimeColumnsRowSelection = {
+    //   type: 'radio',
+    //   onChange: (finalTimeColumnSelectedRowKeys, finalTimeColumnSelectedRows) => {
+    //     this.store.finalTimeColumnSelectedRows = finalTimeColumnSelectedRows;
+    //   },
+    // };
 
     //dest设置
     const $destData = (
@@ -203,7 +196,7 @@ class MoreInfo extends Component {
               <Input />
             )}
           </Form.Item>
-          <Form.Item
+          {/* <Form.Item
             {...formItemLayout}
             label="消费组信息"
           >
@@ -213,7 +206,7 @@ class MoreInfo extends Component {
             })(
               <Input />
             )}
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item
             {...formItemLayout}
             label="zk Server信息"
@@ -319,39 +312,45 @@ class MoreInfo extends Component {
 
     const $finalStepPage = (
       <div>
-        <Table
-          rowSelection={finalDestColumnsRowSelection}
-          columns={finalColumns}
-          dataSource={this.store.finalDestColumnsData}
-          bordered
-          pagination={false}
-          title={() => 'finalDestColumns结果页展示'}
-        />
-        <Divider>sql</Divider>
-        <Row>
-          <Col span={8} />
-          <Col span={8}>
-            <Input addonBefore="sql" style={{ width: 300 }} onChange={e => { this.saveSql(e) }} />
+        <Row gutter={16}>
+          <Col span={12}>
+          <Card>
+          <Table
+            // rowSelection={finalDestColumnsRowSelection}
+            columns={finalColumns}
+            dataSource={this.store.finalDestColumnsData}
+            bordered
+            pagination={false}
+            title={() => 'finalDestColumns'}
+          />
+          <Table
+            // rowSelection={finalTimeColumnsRowSelection}
+            columns={finalColumns}
+            dataSource={this.store.finalTimeColumnData}
+            bordered
+            pagination={false}
+            title={() => 'finalTimeColumn'}
+          />
+          </Card>
+          </Col>         
+          <Col span={12}>
+          <Card>
+            <span>
+              sql录入： 
+              <TextArea rows={3} style={{ width: 400 }} onChange={e => { this.saveSql(e) }} />
+            </span>            
+            <Divider>dest录入</Divider>
+            {$destData}
+            </Card>
           </Col>
-          <Col span={8} />
+          
         </Row>
-        <Divider />
-        <Table
-          rowSelection={finalTimeColumnsRowSelection}
-          columns={finalColumns}
-          dataSource={this.store.finalTimeColumnData}
-          bordered
-          pagination={false}
-          title={() => 'finalTimeColumns'}
-        />
-        <Divider>dest录入</Divider>
-        {$destData}
         <Divider />
         <Row gutter={16}>
           <Col span={6} />
           <Col span={6}>
             <Button onClick={this.rechangeTimeColumnData}>
-              <Link to='/realtime/platform/step1/timeColumn'>上一页</Link>
+              <Link to='/realtime/platform/newConfig/timeColumn'>上一页</Link>
             </Button>
           </Col>
           <Col span={6}>
@@ -360,9 +359,8 @@ class MoreInfo extends Component {
               type="primary"
             >
 
-              <Link to='/realtime/platform/step1/summary'>下一页</Link>
+              <Link to='/realtime/platform/newConfig/summary'>下一页</Link>
             </Button>
-            {/* <Button onClick={this.test}>test</Button> */}
           </Col>
           <Col span={6} />
         </Row>
@@ -371,9 +369,9 @@ class MoreInfo extends Component {
 
 
     return (
-      <Card>
+      <div>
         {$finalStepPage}
-      </Card>
+      </div>
     )
   }
 }

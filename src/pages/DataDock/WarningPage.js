@@ -5,7 +5,7 @@ import './style.scss';
 
 @inject('dataDockStore')
 @observer
-class Step4 extends Component {
+class WarningPage extends Component {
     store = this.props.dataDockStore;
 
     render() {
@@ -15,4 +15,4 @@ class Step4 extends Component {
     }
 }
 
-export default Step4;
+export default WarningPage;

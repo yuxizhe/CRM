@@ -1,10 +1,10 @@
 
 import loginRoutes from "./login";
-import step1Routes from "./step1";
-import step2Routes from "./step2";
-import step3Routes from "./step3";
-import step4Routes from "./step4";
+import newConfigRoutes from "./newConfig";
+import configListRoutes from "./configList";
+import jobListRoutes from "./jobList";
+import warningPageRoutes from "./warningPage";
 
 let routes = [];
-routes = routes.concat(loginRoutes,step1Routes,step2Routes,step3Routes,step4Routes);
+routes = routes.concat(loginRoutes,newConfigRoutes,configListRoutes,jobListRoutes,warningPageRoutes);
 export default routes;

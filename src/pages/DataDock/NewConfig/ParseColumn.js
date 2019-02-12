@@ -9,30 +9,34 @@ import {
   Divider,
   message,
 } from 'antd';
+import { Link } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import './style.scss';
 
 const ParseType = {
-  SplitParser: 'splitParser',
-  RegexParser: 'regexParser',
-  JsonParser: 'jsonParser',
-  UrlParser: 'urlParser',
+  SPLIT_PARSER: 'splitParser',
+  REGEX_PARSER: 'regexParser',
+  JSON_PARSER: 'jsonParser',
+  URL_PARSER: 'urlParser',
 };
 
 const FaultBehavior = {
-    FILTER_ROW: 'FILTER_ROW',
-    FILL_WITH_DEFAULT_VALUE: 'FILL_WITH_DEFAULT_VALUE',
-    ERROR: 'ERROR',
+    FILTER_ROW: '丢掉此条记录',
+    FILL_WITH_DEFAULT_VALUE: '填写默认值',
+    ERROR: '报错',
   };
 
 const Option = Select.Option;
-
-const { TextArea } = Input
 
 @inject('dataDockStore')
 @observer
 class ParseColumn extends Component {
   store = this.props.dataDockStore;
+
+  // 保存jobName
+  saveJobName = (e) => {
+    this.store.finalData.jobName = e.target.value;
+  }
 
   onChangeParserType = (value, parentSteps) => {
     let kafkaValueParseStep = this.props.kafkaValueParseStep;
@@ -92,10 +96,14 @@ class ParseColumn extends Component {
         return;
       }
       parseType = steps.parseType;
-      if(parseType === 'splitParser'||parseType === 'regexParser'){
-        steps.parsedColumns = this[parseType](kafkaRawData, steps.stepParameter);
-      }else{
-          steps.parsedColumns = this[parseType](kafkaRawData);
+      if(parseType === 'SPLIT_PARSER'){
+        steps.parsedColumns = this.splitParser(kafkaRawData, steps.stepParameter);
+      }else if(parseType === 'REGEX_PARSER'){
+        steps.parsedColumns = this.regexParser(kafkaRawData, steps.stepParameter);
+      }else if(parseType === 'JSON_PARSER'){
+        steps.parsedColumns = this.jsonParser(kafkaRawData);
+      }else {
+        steps.parsedColumns = this.urlParser(kafkaRawData);
       }
     } else {
       parseType = currentKafkaValueParseStep.parseType;
@@ -105,10 +113,14 @@ class ParseColumn extends Component {
         message.error('未填写步骤名称');
         return;
       }
-      if(parseType === 'splitParser'||parseType === 'regexParser'){
-        kafkaValueParseStep.parsedColumns = this[parseType](kafkaRawData, stepParameter);
-      }else{
-      kafkaValueParseStep.parsedColumns = this[parseType](kafkaRawData);
+      if(parseType === 'SPLIT_PARSER'){
+        kafkaValueParseStep.parsedColumns = this.splitParser(kafkaRawData, stepParameter);
+      }else if(parseType === 'REGEX_PARSER'){
+        kafkaValueParseStep.parsedColumns = this.regexParser(kafkaRawData, stepParameter);
+      }else if(parseType === 'JSON_PARSER'){
+        kafkaValueParseStep.parsedColumns = this.jsonParser(kafkaRawData);
+      }else {
+        kafkaValueParseStep.parsedColumns = this.urlParser(kafkaRawData);
       }
     }
     this.store.changeKafkaValueParseStep(kafkaValueParseStep);
@@ -182,14 +194,16 @@ class ParseColumn extends Component {
     });
   }
 
-  handleAddMoreParse = (key, parentSteps) => {
+  handleAddMoreParse = (key, parentSteps, index) => {
     if (!key) {
-      message.error('请输入改字段最终名称');
+      message.error('请输入该字段最终名称');
       return;
     }
     let kafkaValueParseStep = this.props.kafkaValueParseStep;
+    
     if (parentSteps.length) {
       let steps = kafkaValueParseStep;
+      let name = parentSteps[parentSteps.length-1]
       parentSteps.forEach(step => {
         steps = steps.subParseSteps[step];
       });
@@ -198,17 +212,20 @@ class ParseColumn extends Component {
         parseType: '',
         stepParameter: '',        
         parsedColumns: [],
-        subParseSteps: {}
+        subParseSteps: {},
       };
+      kafkaValueParseStep.subParseSteps[name].parsedColumns[index].collapse = true;
     } else {
       kafkaValueParseStep.subParseSteps[key] = {
         stepName: '',
         parseType: '',
         stepParameter: '',       
         parsedColumns: [],
-        subParseSteps: {}
+        subParseSteps: {},
       };
+      kafkaValueParseStep.parsedColumns[index].collapse = true;
     }
+    
     this.store.changeKafkaValueParseStep(kafkaValueParseStep);
   };
 
@@ -222,20 +239,6 @@ class ParseColumn extends Component {
       steps.parsedColumns[index].extractParam = value;
     } else {
       kafkaValueParseStep.parsedColumns[index].extractParam = value;
-    }
-    this.store.changeKafkaValueParseStep(kafkaValueParseStep);
-  };
-
-  handleParseColumnsValueChange = (value, parentSteps, index) => {
-    let kafkaValueParseStep = this.props.kafkaValueParseStep;
-    if (parentSteps.length) {
-      let steps = kafkaValueParseStep;
-      parentSteps.forEach(step => {
-        steps = steps.subParseSteps[step];
-      });
-      steps.parsedColumns[index].value = value;
-    } else {
-      kafkaValueParseStep.parsedColumns[index].value = value;
     }
     this.store.changeKafkaValueParseStep(kafkaValueParseStep);
   };
@@ -279,6 +282,7 @@ class ParseColumn extends Component {
     } else {
       kafkaValueParseStep.parsedColumns[index].faultBehavior = value;
     }
+    console.log(value)
     this.store.changeKafkaValueParseStep(kafkaValueParseStep);
   };
 
@@ -293,17 +297,28 @@ class ParseColumn extends Component {
       })
   }
 
-  delectBlankData = (e) =>{
+  delectBlankData = (e) => {
     e.pop()
   }
 
+  collapseSubParse = (parentSteps, index) => {
+    
+    let kafkaValueParseStep = this.props.kafkaValueParseStep;
+    let name = parentSteps[parentSteps.length-1]
+    if (parentSteps.length) {
+      kafkaValueParseStep.subParseSteps[name].parsedColumns[index].collapse = false;
+    } else {
+      kafkaValueParseStep.parsedColumns[index].collapse = false;
+    }
+  };
+
   generateKafkaStep (kafkaRawData, kafkaValueParseStep, parentSteps = []) {
     const $parserOptions = Object.entries(ParseType).map(([key, value]) => (
-      <Option key={key} value={value}>{key}</Option>
+      <Option key={key} value={key}>{value}</Option>
     ));
 
     const $faultBehaviorOptions = Object.entries(FaultBehavior).map(([key, value]) => (
-      <Option key={key} value={value}>{value}</Option>
+      <Option key={key} value={key}>{value}</Option>
     ))
 
     const $parsedData = kafkaValueParseStep.parsedColumns.map((data, index) => {
@@ -324,11 +339,7 @@ class ParseColumn extends Component {
                 onChange={(e) => this.handleParseColumnsExtractParamChange(e.target.value, parentSteps, index)} />
             </span>
             <span>
-               解析值：
-               <TextArea
-                style={{ width: 200 }}
-                value={data.value}
-                onChange={(e) => this.handleParseColumnsValueChange(e.target.value, parentSteps, index)} />
+               解析值：{data.value}
            </span>
             <span>
               最终名称：
@@ -349,7 +360,7 @@ class ParseColumn extends Component {
                 {$faultBehaviorOptions}
             </Select>
             </span>
-            {(kafkaValueParseStep.parsedColumns[index].faultBehavior === '填充默认值' ) ?
+            {(kafkaValueParseStep.parsedColumns[index].faultBehavior === 'FILL_WITH_DEFAULT_VALUE' ) ?
             <span>
             <em>默认值：</em>
               <Input
@@ -359,12 +370,16 @@ class ParseColumn extends Component {
             </span> : null}           
             <span>
               <Button
-                onClick={() => this.handleAddMoreParse(data.column, parentSteps, index)}>
+                onClick={() => this.handleAddMoreParse(data.column, parentSteps, index,)}>
                 继续解析
               </Button>
+              <Button 
+                hidden={!kafkaValueParseStep.subParseSteps[data.column]}
+                onClick={() => this.collapseSubParse(parentSteps, index)}
+              >收起</Button>
             </span>
           </div>
-          {$subParse}
+          {(kafkaValueParseStep.parsedColumns[index].collapse !== false) ? $subParse : null}
         </li>
       );
     });
@@ -387,7 +402,7 @@ class ParseColumn extends Component {
               {$parserOptions}
             </Select>
           </Col>
-          {(kafkaValueParseStep.parseType === 'splitParser' || kafkaValueParseStep.parseType === 'regexParser') ?
+          {(kafkaValueParseStep.parseType === 'SPLIT_PARSER' || kafkaValueParseStep.parseType === 'REGEX_PARSER') ?
             <Col span={6}>
               <div>
                 <Input
@@ -400,12 +415,13 @@ class ParseColumn extends Component {
           <Col span={8}>
             <Input
               addonBefore="步骤名称"
+              // defaultValue={}
               style={{ width: 200, marginLeft: 10 }}
               onChange={(e) => this.saveStepName(e.target.value, parentSteps)} />
           </Col>
           <Col span={4}>
             <Button type="primary"
-                    onClick={() => this.handleParseData(kafkaRawData, kafkaValueParseStep, parentSteps)}>开始解析</Button>
+              onClick={() => this.handleParseData(kafkaRawData, kafkaValueParseStep, parentSteps)}>开始解析</Button>
           </Col>
         </Row>
         <Divider hidden={!kafkaValueParseStep.parsedColumns.length}>解析数据展示</Divider>
@@ -415,33 +431,140 @@ class ParseColumn extends Component {
             <Button icon="plus" onClick={() => this.addBlankData(kafkaValueParseStep.parsedColumns)} shape="circle" type='primary' />  
             <Divider type="vertical"/>  
             <Button icon="minus" onClick={() => this.delectBlankData(kafkaValueParseStep.parsedColumns)} shape="circle" />   
-            {/* {$blankData} */}
           </ul>
         </Row>
       </div>
     );
   }
 
-  submitData = () =>{
-    this.store.finalData.transformSpecs[this.store.kafkaDataNumber].kafkaValueParseStep = this.store.kafkaValueParseStep;
-    console.log(this.store.kafkaValueParseStep)
-    console.log(this.store.finalData.transformSpecs[this.store.kafkaDataNumber].kafkaValueParseStep )
+  // 解析完成后的一些操作，包括清除kafka数据的末尾空白项，创建ParsedColumnsData，创建历史数据的第二页表格，判断ParsedColumnsData的ColumnType
+  handleClick = () => {
+    const { kafkaValueParseStep, finalData } = this.store;
+    if (finalData.jobName === '') {
+      message.error('未填写jobName');
+      return;
+    }
+    this.deleteBlankKafkaData(kafkaValueParseStep);
+    this.createParsedColumnsData(kafkaValueParseStep);
+    this.createRecordData(
+      kafkaValueParseStep, kafkaValueParseStep.stepName, kafkaValueParseStep.parseType,
+    );
+    this.identifyColumnType();
   }
+
+  // 除去每轮末尾空白值
+  deleteBlankKafkaData = (source) => {
+    if (source.parsedColumns && source.parsedColumns.length) {
+      if (source.parsedColumns[source.parsedColumns.length - 1].column === '') {
+        source.parsedColumns.pop();
+      }
+
+      if ((Object.keys(source.subParseSteps)).length) {
+        (Object.entries(source.subParseSteps)).map(([value]) => {
+          this.deleteBlankKafkaData(value);
+        });
+      }
+    }
+  }
+
+  // 创建parsedColumnsData
+  createParsedColumnsData = (source) => {
+    if (source.parsedColumns && source.parsedColumns.length) {
+      source.parsedColumns.map((item) => {
+        this.store.parsedColumnsData.push({
+          column: item.column,
+          columnType: null,
+          value: item.value,
+          mapsKey: [],
+          mapsValue: [],
+          mapsMessage: '',
+          maps: [],
+        });
+      });
+
+      if ((Object.keys(source.subParseSteps)).length) {
+        (Object.entries(source.subParseSteps)).map(([value]) => {
+          this.createParsedColumnsData(value);
+        });
+      }
+    }
+  }
+
+  // 创建汇总页的第二页记录
+  createRecordData = (source, name, type) => {
+    if (source.parsedColumns && source.parsedColumns.length) {
+      source.parsedColumns.map((item) => {
+        this.store.recordData.push({
+          column: item.column,
+          value: item.value,
+          faultBehavior: item.faultBehavior,
+          defaultValue: item.defaultValue,
+          parentsName: name,
+          parseType: type,
+        });
+      });
+
+      if ((Object.keys(source.subParseSteps)).length) {
+        (Object.entries(source.subParseSteps)).map(([key, value]) => {
+          this.createRecordData(value, key, value.parseType);
+        });
+      }
+    }
+  }
+
+  // 识别parsedColumnsData里的columnType
+  identifyColumnType = () => {
+    this.store.parsedColumnsData.map((item) => {
+      let num = parseInt(item.value);
+      let k = num.toString();
+      if ((!isNaN(num)) && (k === item.value)) {
+        const m = item.value.toString().split('.');
+        if (m.length === 1) {
+          if (m > 1000000) {
+            item.columnType = 'long';
+          } else {
+            item.columnType = 'int';
+          }
+        } else {
+          item.columnType = 'double';
+        }
+      } else {
+        item.columnType = 'string';
+      }
+    });
+  }
+
 
   render () {
     return this.props.kafkaRawData ? (
       <Card
-        title="解析方式"
+        title="解析配置"
       >
-        <div className="parse-column" 
-        
-        style={{overflow: 'scroll',height:'100vh'}}
+      <span>
+        填写JobName:
+        <Input style={{ width: 300 }} onChange={this.saveJobName} />
+      </span>   
+        <Divider />
+        <div className="parse-column"        
+        style={{overflow: 'scroll',height:'90vh'}}
         >
           {this.generateKafkaStep(this.props.kafkaRawData, this.props.kafkaValueParseStep)}
         </div>
-        {/* <Button hidden={!this.props.kafkaValueParseStep.parsedColumns.length} onClick = {this.submitData}>
-          完成全部解析
-        </Button> */}
+        
+        <Row>
+          <Col span={8} />
+          <Col span={4}>
+            <Button>
+              <Link to="/realtime/platform/newConfig/infoEntry">上一页</Link>             
+            </Button>
+          </Col>
+          <Col span={4}>
+            <Button type="primary" onClick={this.handleClick}>
+              <Link to="/realtime/platform/newConfig/destColumns">解析完成</Link>   
+            </Button>
+          </Col>
+          <Col span={8} />
+        </Row>
       </Card>
     ) : null;
   }

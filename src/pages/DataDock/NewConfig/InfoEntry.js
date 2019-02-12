@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { inject, observer } from "mobx-react";
+import { inject, observer } from 'mobx-react';
 // import { Link } from 'react-router-dom';
 import {
   Form,
@@ -27,7 +27,6 @@ const formItemLayout = {
 @inject('dataDockStore')
 @observer
 class InfoEntry extends Component {
-
   store = this.props.dataDockStore;
 
   // 第一步表单提交
@@ -46,8 +45,8 @@ class InfoEntry extends Component {
           zookeeperServers: values.zookeeperServers,
         };
 
-        this.store.getKafkaMessage(source)
-        this.props.history.push('/realtime/platform/step1/configPage');
+        this.store.getKafkaMessage(source);
+        this.props.history.push('/realtime/platform/newConfig/configPage');
         const trueSource = {
           bootstrapServers: values.bootstrapServers,
           topic: values.topic,
@@ -75,7 +74,7 @@ class InfoEntry extends Component {
                 required: true, message: '请输入 Kafka Server!',
               }],
             })(
-              <Input />
+              <Input />,
             )}
           </Form.Item>
           <Form.Item
@@ -146,20 +145,22 @@ class InfoEntry extends Component {
               <Col span={4}>
                 <Button type="primary" htmlType="submit">
                   提交
-                  </Button>
+                </Button>
               </Col>
               <Col span={5} />
             </Row>
           </Form.Item>
         </Form>
       </div>
-    )
+    );
     return (
-      <Card
-        title="申请kafka数据">
+      <Card 
+      className="get-kafka-message"
+      title="申请kafka数据"
+      >
         {$source}
       </Card>
-    )
+    );
   }
 }
 
