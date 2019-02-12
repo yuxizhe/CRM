@@ -18,10 +18,54 @@
     }
   }
 
+  .container {
+    padding:5px
+  }
+
+  .ant-card-body {
+    padding:5px
+  }
+
+  .ant-divider-horizontal {
+    margin:10px 0
+  }
+
+  .ant-card-head-title {
+    padding: 10px 0;
+  }
+
+  .ant-layout {
+    font-size: small;
+  }
+}
+
+
+
+.destColumns {
+  max-width: 85%;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.timeColumn {
+  max-width: 85%;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.otherParams {
+  max-width: 85%;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.get-kafka-message {
+  max-width: 75%;
+  margin-left:auto;
+  margin-right:auto;
 }
 
 .parse-column {
-
   ul {
     list-style: none;
     padding: 0;

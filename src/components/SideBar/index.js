@@ -8,16 +8,14 @@ import './style.scss';
 const { Header, Sider } = Layout;
 const { SubMenu } = Menu;
 
-@inject('sideBar', 'loginStore', 
-// 'dateDockStore'
-)
+@inject('sideBar', 'loginStore')
 @observer
 class SideBar extends Component {
   sideBar = this.props.sideBar;
 
   loginStore = this.props.loginStore;
 
-  // dataDockStore = this.props.dataDockStore;
+  dataDockStore = this.props.dataDockStore;
 
   componentDidMount() {
     if (!this.loginStore.isLogged && window.location.pathname !== '/login') {
@@ -34,15 +32,15 @@ class SideBar extends Component {
     this.sideBar.logout();
   }
 
-  getAllConf() {
-    this.store.step2Data.length=0;
-    this.dataDockStore.getAllConf()
+  // getAllConf() {
+  //   this.store.configListData.length=0;
+  //   this.dataDockStore.getAllConf()
 
-    this.store.step3Data.length = 0;
-    const num = { num: 50 };
-    this.store.getJobList(num)
+  //   this.store.jobListData.length = 0;
+  //   const num = { num: 50 };
+  //   this.store.getJobList(num)
 
-  }
+  // }
 
   _formatMenuTree(resources) {
     return resources.map((item) => {
@@ -84,9 +82,9 @@ class SideBar extends Component {
       const $tree = this._formatMenuTree(this.sideBar.resourcesTree);
       $navSider = (
         <Sider theme="dark" breakpoint="lg" collapsedWidth="0">
-          {/* <div className="logo">
-            <Link to='/'>雪球CRM</Link>
-          </div> */}
+          <div className="logo">
+            <Link to='/'>DataDock平台</Link>
+          </div>
           <Menu mode="inline" theme="dark" defaultOpenKeys={['5-0']}>
             {$tree}
           </Menu>

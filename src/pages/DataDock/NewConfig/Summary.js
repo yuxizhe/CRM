@@ -26,9 +26,9 @@ class Summary extends Component {
   }
 
   getAllConf = () =>{
-    this.store.step2Data.length=0;
+    this.store.configListData.length=0;
     this.store.getAllConf().then(res=>{
-      this.props.history.push('/realtime/platform/step2');
+      this.props.history.push('/realtime/platform/configList');
     })
   }
 

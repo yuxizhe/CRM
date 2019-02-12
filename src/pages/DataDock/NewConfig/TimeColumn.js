@@ -92,23 +92,23 @@ class TimeColumn extends Component {
         title: 'column',
         dataIndex: 'column',
         key: 'column',
-        width: 200,
+        width: 100,
       }, {
         title: 'value',
         dataIndex: 'value',
         key: 'value',
-        width: 200,
+        width: 250,
       }, {
         title: 'columnType',
         dataIndex: 'columnType',
         key: 'columnType',
-        width: 150,
+        width: 100,
         render: (text, record) =>
           <Select
             name="columnType"
             defaultValue={record.columnType}
             placeholder="请选择ColumnsType"
-            style={{ width: 100 }}
+            style={{ width: 80 }}
             onChange={(value) => this.saveColumnType(value, record.column)}
           >
             {$columnsTypeOptions}
@@ -117,7 +117,7 @@ class TimeColumn extends Component {
         title: 'maps',
         dataIndex: 'mapsMessage',
         key: 'mapsMessage',
-        width: 300,
+        width: 250,
       },
       ];
 
@@ -130,7 +130,7 @@ class TimeColumn extends Component {
 
     const $timeColumn = (
         <div>
-          <Card title="timeColumn">
+          <Card className="timeColumn" title="timeColumn">
             <Table
               rowSelection={timeColumnRowSelection}
               columns={timeColumn}
@@ -139,7 +139,7 @@ class TimeColumn extends Component {
               pagination={false}
             />
           </Card>
-          <Card title="另外参数输入">
+          <Card className="otherParams" title="另外参数输入">
             <Row>
               <Col span={12}>
                 <Input
@@ -177,12 +177,12 @@ class TimeColumn extends Component {
             <Col span={8} />
             <Col span={4}>
               <Button onClick={this.rechangeDestColumnsData}>
-              <Link to='/realtime/platform/step1/destColumns'>上一页</Link>
+              <Link to='/realtime/platform/newConfig/destColumns'>上一页</Link>
               </Button>
             </Col>
             <Col span={4}>
               <Button type={"primary"} onClick={this.createFinalTimeColumn}>
-              <Link to='/realtime/platform/step1/moreInfo'>提交</Link>
+              <Link to='/realtime/platform/newConfig/moreInfo'>提交</Link>
               </Button>
             </Col>
             <Col span={8} />

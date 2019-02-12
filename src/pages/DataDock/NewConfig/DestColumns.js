@@ -69,19 +69,6 @@ class DestColumns extends Component {
         mapsMessage: '',
       })
     })
-
-    // //mapsMassage
-    // this.store.finalDestColumnsData.map((items) => {
-    //   Object.entries(items.maps).map(([key, value]) => {
-    //     items.mapsMessage = `${items.mapsMessage} 本条maps:${value}映射为${key}; `
-    //   })
-    // })
-
-    // this.store.parsedColumnsData.map((items) => {
-    //   Object.entries(items.maps).map(([key, value]) => {
-    //     items.mapsMessage = `${items.mapsMessage} 本条maps:${value}映射为${key}; `
-    //   })
-    // })
   }
 
   // destColumns和timeColumn的columnType的保存
@@ -97,6 +84,7 @@ class DestColumns extends Component {
   render() {
 
     const destColumnsRowSelection = {
+      columnWidth:20,
       onChange: (destColumnsSelectedRowKeys, destColumnsSelectedRows) => {
           this.store.destColumnsSelectedRows= destColumnsSelectedRows;
       },
@@ -113,13 +101,13 @@ class DestColumns extends Component {
             Maps示例：
           </p>
           <p>
-            左边输入：ios
+            映射类输入：ios
           </p>
           <p>
-            右边输入：ipad iphone(每个标签输入后记得回车)
+            被映射类输入：ipad iphone(每个标签输入后记得回车)
           </p>
           <p>
-            输出：ios:[ipad,iphone]
+            输出："ipad": "ios","iphone": "ios"
           </p> 
         </div>
       )
@@ -139,7 +127,7 @@ class DestColumns extends Component {
         title: 'column',
         dataIndex: 'column',
         key: 'column',
-        width: 150,
+        width: 75,
       }, {
         title: 'value',
         dataIndex: 'value',
@@ -149,13 +137,13 @@ class DestColumns extends Component {
         title: 'columnType',
         dataIndex: 'columnType',
         key: 'columnType',
-        width: 150,
+        width: 100,
         render: (text, record) =>
           <Select
             name="columnType"
             placeholder="请选择ColumnsType"
             defaultValue={record.columnType}
-            style={{ width: 100 }}
+            style={{ width: 80 }}
             onChange={(value) => this.saveColumnType(value, record.column)}
           >
             {$columnsTypeOptions}
@@ -175,7 +163,7 @@ class DestColumns extends Component {
       ];
 
       const $destColumns = (
-        <div>
+        <Card className="destColumns">
           <Table
             rowSelection={destColumnsRowSelection}
             columns={destColumns}
@@ -189,17 +177,17 @@ class DestColumns extends Component {
             <Col span={8} />
             <Col span={4}>
               <Button onClick={this.returnToParse}>
-              <Link to='/realtime/platform/step1/configPage'>上一页</Link>
+              <Link to='/realtime/platform/newConfig/configPage'>上一页</Link>
               </Button>
             </Col>
             <Col span={4}>
               <Button type={"primary"} onClick={this.createFinalDestColumns}>
-              <Link to='/realtime/platform/step1/timeColumn'>确定</Link>
+              <Link to='/realtime/platform/newConfig/timeColumn'>确定</Link>
               </Button>
             </Col>
             <Col span={8} />
           </Row>
-        </div>
+        </Card>
       )
   
 
