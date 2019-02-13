@@ -3,7 +3,6 @@
  */
 const Koa = require('koa');
 
-// const bodyParse = require('koa-bodyparser');
 const proxyMiddleware = require('http-proxy-middleware');
 const k2c = require('koa2-connect');
 
@@ -11,10 +10,6 @@ const middleware = require('../middlewares');
 
 const app = new Koa();
 
-//
-// app.use(bodyParse({
-//   formLimit: '50mb',
-// }));
 
 middleware(app);
 

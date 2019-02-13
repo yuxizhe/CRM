@@ -2,7 +2,6 @@ const Koa = require('koa');
 const router = require('koa-router')();
 const path = require('path');
 const fs = require('fs');
-// const bodyParse = require('koa-bodyparser');
 const staticCache = require('koa-static-cache');
 
 const middleware = require('./middlewares');
@@ -14,10 +13,6 @@ app.use(staticCache('public'), {
   dynamic: false,
   gzip: true,
 });
-
-// app.use(bodyParse({
-//   formLimit: '50mb',
-// }));
 
 middleware(app);
 
