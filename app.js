@@ -31,4 +31,5 @@ app.listen(process.env.PORT || 7878, () => {
     'Koa server listening on %d',
     process.env.PORT || 7878,
   );
+  console.log(`server in ${process.env.ENV_TAG} mode`);
 });

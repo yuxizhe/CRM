@@ -10,5 +10,25 @@
   "env": {
     "NODE_ENV": "production",
     "MOCK_ENV": "mock"
+  },
+  "env_sep": {
+    "NODE_ENV": "production",
+    "ENV_TAG": "sep",
+    "MOCK_ENV": "mock"
+  },
+  "env_rc": {
+    "NODE_ENV": "production",
+    "ENV_TAG": "rc",
+    "MOCK_ENV": "mock"
+  },
+  "env_release": {
+    "NODE_ENV": "production",
+    "ENV_TAG": "rel",
+    "MOCK_ENV": "mock"
+  },
+  "env_production": {
+    "NODE_ENV": "production",
+    "ENV_TAG": "master",
+    "MOCK_ENV": "mock"
   }
 }
