@@ -1,3 +1,5 @@
+![](https://xqimg.imedao.com/16ac547ed843e073feefb926.jpg)
+
 # CRM 后台框架
 
 react16 + react-router4 + webpack4 + mobx + HMR 热更新 + 代码分割
