@@ -75,7 +75,7 @@ react16 + react-router4 + webpack4 + mobx + HMR 热更新 + 代码分割
 
 - `npm run dev`
 
-开发入口 http://localhost:3001/
+开发入口 http://localhost:7878/
 
 webpack打包部分 已支持 hot reload 改动即时生效
 
@@ -85,10 +85,10 @@ node 服务端部分 采用nodemon
 
 ### 进程
 
-开发模式会启动两个进程 4001 和 3001
+开发模式会启动两个进程 4001 和 7878
 
 webpack打包部分  启动在4001
-node 服务端 启动在3001 代理4001内容
+node 服务端 启动在7878 代理4001内容
 
 实现改动服务端部分时 只nodemon重启,不重新打包; 改动web端部分能热更新
 

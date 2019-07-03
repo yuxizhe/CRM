@@ -24,4 +24,4 @@ app.use(k2c(proxyMiddleware('/', {
   changeOrigin: true,
 })));
 
-app.listen(3001, () => console.log('server listening on port 3001!'));
+app.listen(7878, () => console.log('server listening on port 7878!'));
